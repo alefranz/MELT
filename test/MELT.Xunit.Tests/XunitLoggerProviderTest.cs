@@ -4,9 +4,11 @@
 using System;
 using System.Text.RegularExpressions;
 using MELT.Xunit;
+using MELT.Xunit.Tests;
+using Microsoft.Extensions.Logging;
 using Xunit;
 
-namespace Microsoft.Extensions.Logging.Testing.Tests
+namespace MELT.Tests
 {
     public class XunitLoggerProviderTest
     {

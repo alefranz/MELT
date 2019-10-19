@@ -2,7 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 
-namespace MELT.Xunit
+namespace MELT.Xunit.Tests
 {
     public static class TestLoggerBuilder
     {

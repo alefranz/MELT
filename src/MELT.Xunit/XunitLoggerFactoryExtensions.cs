@@ -3,10 +3,10 @@
 
 using System;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging.Testing;
+using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
 
-namespace Microsoft.Extensions.Logging
+namespace MELT.Xunit
 {
     public static class XunitLoggerFactoryExtensions
     {

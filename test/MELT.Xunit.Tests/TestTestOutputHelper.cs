@@ -5,7 +5,7 @@ using System;
 using System.Text;
 using Xunit.Abstractions;
 
-namespace Microsoft.Extensions.Logging.Testing.Tests
+namespace MELT.Tests
 {
     public class TestTestOutputHelper : ITestOutputHelper
     {

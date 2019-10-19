@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit.Sdk;
 
-namespace Microsoft.Extensions.Logging.Testing
+namespace MELT.Xunit
 {
     public static class LogValuesAssert
     {
@@ -66,7 +66,7 @@ namespace Microsoft.Extensions.Logging.Testing
         {
             public bool Equals(KeyValuePair<string, object> x, KeyValuePair<string, object> y)
             {
-                return string.Equals(x.Key, y.Key) && object.Equals(x.Value, y.Value);
+                return string.Equals(x.Key, y.Key) && Equals(x.Value, y.Value);
             }
 
             public int GetHashCode(KeyValuePair<string, object> obj)

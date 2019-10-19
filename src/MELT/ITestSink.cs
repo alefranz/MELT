@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 
-namespace Microsoft.Extensions.Logging.Testing
+namespace MELT
 {
     public interface ITestSink
     {
