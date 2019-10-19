@@ -1,27 +1,15 @@
-_Power Pack for Microsoft Extension Logging._
+_Testing Library for Microsoft Extension Logging._
 
-[![Build Status](https://alefranz.visualstudio.com/MELPowerPack/_apis/build/status/alefranz.MELPowerPack?branchName=master)](https://alefranz.visualstudio.com/MELPowerPack/_build/latest?definitionId=1?branchName=master) [![](https://img.shields.io/nuget/v/MELPowerPack.svg)](https://www.nuget.org/packages/MELPowerPack/)
+[![Build Status](https://alefranz.visualstudio.com/MELT/_apis/build/status/alefranz.MELT?branchName=master)](https://alefranz.visualstudio.com/MELT/_build/latest?definitionId=1?branchName=master) [![](https://img.shields.io/nuget/v/MELT.svg)](https://www.nuget.org/packages/MELT/)
 
-## About MELPowerPack
+## About MELT
 
-MELPowerPack is a free, open source, Power Pack for the .NET Standard _Microsoft Extension Logging_ library.
-It is a solution to easily log to files.
+MELT is a free, open source, testing library for the .NET Standard _Microsoft Extension Logging_ library.
+It is a solution to easily test logs.
 
-Key benefits:
+It is a repackaging with some changes of [Microsoft.Extensions.Logging.Testing](https://github.com/aspnet/Extensions/tree/master/src/Logging/Logging.Testing), a library used internally in AspNetCore for testing the logging, given that [there is currently no plan to offer an official package for it](https://github.com/aspnet/Extensions/issues/672#issuecomment-532850535).
 
-- Performant file logger
-- Plays well with the _Microsoft Extension Logging_ `LoggerFactory`:
-  - Doesn't break the integration of other providers (e.g. _Application Insights_, built-in console provider).
-  - Configured alongside the built in providers.
-- Customize logs format
+It is licensed under [Apache License 2.0](https://github.com/alefranz/MELT/blob/master/LICENSE).
+Most of the code is copyrighted by the .NET Foundation as mentioned in the files headers.
 
-It is licensed under [Apache License 2.0](https://github.com/alefranz/HttpClientLab/blob/master/LICENSE).
-
-If you like this project please don't forget to *star* it on [GitHub](https//github.com/alefranz/MELPowerPack) or let me know with a [tweet](https://twitter.com/AleFranz).
-
-## Motivation
-
-Unfortunately the _Microsoft Extension Logging_ library doesn't provide the ability to log to file.
-On the other hand, most of the logging libraries in the .NET ecosystem, although the can be used with _Microsoft Extension Logging_, they replace the built-in logger factory,
-breaking built-in providers like the _Application Insights_ one, as well as replacing the console provider.
-Furthermore, the configuration step are different and do not follow a pure DI approach.
+If you like this project please don't forget to *star* it on [GitHub](https//github.com/alefranz/MELT) or let me know with a [tweet](https://twitter.com/AleFranz).
