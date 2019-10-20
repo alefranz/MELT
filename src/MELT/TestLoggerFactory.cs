@@ -2,7 +2,8 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Microsoft.Extensions.Logging;
-using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MELT
 {
@@ -11,11 +12,18 @@ namespace MELT
         private readonly ITestSink _sink;
         private readonly bool _enabled;
 
+        public TestLoggerFactory() : this(new TestSink(), true)
+        {
+        }
+
         public TestLoggerFactory(ITestSink sink, bool enabled)
         {
             _sink = sink;
             _enabled = enabled;
         }
+
+        public IEnumerable<LogEntry> LogEntries => _sink.Writes.Select(x => new LogEntry(x));
+        public IEnumerable<Scope> Scopes => _sink.Scopes.Select(x => new Scope(x.Scope));
 
         public ILogger CreateLogger(string name)
         {

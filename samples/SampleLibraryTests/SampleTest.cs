@@ -14,8 +14,7 @@ namespace SampleLibraryTests
         public void DoSomethingLogsMessage()
         {
             // Arrange
-            var sink = new TestSink();
-            var loggerFactory = new TestLoggerFactory(sink, true);
+            var loggerFactory = new TestLoggerFactory();
             var logger = loggerFactory.CreateLogger<Sample>();
             var sample = new Sample(logger);
 
@@ -23,8 +22,7 @@ namespace SampleLibraryTests
             sample.DoSomething();
 
             // Assert
-            Assert.Equal(1, sink.Writes.Count);
-            var log = sink.Writes.Single();
+            var log = Assert.Single(loggerFactory.LogEntries);
             // Assert the message rendered by a default formatter
             Assert.Equal("The answer is 42", log.Message);
         }
@@ -33,8 +31,7 @@ namespace SampleLibraryTests
         public void DoSomethingLogsCorrectParameter()
         {
             // Arrange
-            var sink = new TestSink();
-            var loggerFactory = new TestLoggerFactory(sink, true);
+            var loggerFactory = TestLoggerFactoryBuilder.CreateLoggerFactory();
             var logger = loggerFactory.CreateLogger<Sample>();
             var sample = new Sample(logger);
 
@@ -42,11 +39,9 @@ namespace SampleLibraryTests
             sample.DoSomething();
 
             // Assert
-            Assert.Equal(1, sink.Writes.Count);
-            var log = sink.Writes.Single();
-            var state = Assert.IsAssignableFrom<IEnumerable<KeyValuePair<string, object>>>(log.State);
+            var log = Assert.Single(loggerFactory.LogEntries);
             // Assert specific parameters in the log entry
-            LogValuesAssert.Contains("number", 42, state);
+            LogValuesAssert.Contains("number", 42, log.Properties);
         }
     }
 }
