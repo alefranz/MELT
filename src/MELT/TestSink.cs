@@ -3,12 +3,14 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MELT
 {
     public class TestSink : ITestSink
     {
-        private ConcurrentQueue<BeginScopeContext> _scopes;
+        private ConcurrentQueue<BeginScopeContext> _beginScopes;
         private ConcurrentQueue<WriteContext> _writes;
 
         public TestSink(
@@ -18,7 +20,7 @@ namespace MELT
             WriteEnabled = writeEnabled;
             BeginEnabled = beginEnabled;
 
-            _scopes = new ConcurrentQueue<BeginScopeContext>();
+            _beginScopes = new ConcurrentQueue<BeginScopeContext>();
             _writes = new ConcurrentQueue<WriteContext>();
         }
 
@@ -26,9 +28,12 @@ namespace MELT
 
         public Func<BeginScopeContext, bool> BeginEnabled { get; set; }
 
-        public IProducerConsumerCollection<BeginScopeContext> Scopes { get => _scopes; set => _scopes = new ConcurrentQueue<BeginScopeContext>(value); }
+        public IProducerConsumerCollection<BeginScopeContext> BeginScopes { get => _beginScopes; set => _beginScopes = new ConcurrentQueue<BeginScopeContext>(value); }
 
         public IProducerConsumerCollection<WriteContext> Writes { get => _writes; set => _writes = new ConcurrentQueue<WriteContext>(value); }
+
+        public IEnumerable<LogEntry> LogEntries => Writes.Select(x => new LogEntry(x));
+        public IEnumerable<BeginScope> Scopes => BeginScopes.Select(x => new BeginScope(x));
 
         public event Action<WriteContext> MessageLogged;
 
@@ -47,7 +52,7 @@ namespace MELT
         {
             if (BeginEnabled == null || BeginEnabled(context))
             {
-                _scopes.Enqueue(context);
+                _beginScopes.Enqueue(context);
             }
             ScopeStarted?.Invoke(context);
         }

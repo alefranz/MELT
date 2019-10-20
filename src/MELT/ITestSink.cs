@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace MELT
 {
@@ -13,10 +14,14 @@ namespace MELT
 
         Func<BeginScopeContext, bool> BeginEnabled { get; set; }
 
-        IProducerConsumerCollection<BeginScopeContext> Scopes { get; set; }
+        IProducerConsumerCollection<BeginScopeContext> BeginScopes { get; set; }
 
         IProducerConsumerCollection<WriteContext> Writes { get; set; }
 
+        IEnumerable<LogEntry> LogEntries { get; }
+
+        IEnumerable<BeginScope> Scopes { get; }
+        
         void Write(WriteContext context);
 
         void Begin(BeginScopeContext context);

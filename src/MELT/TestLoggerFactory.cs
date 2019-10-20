@@ -23,7 +23,7 @@ namespace MELT
         }
 
         public IEnumerable<LogEntry> LogEntries => _sink.Writes.Select(x => new LogEntry(x));
-        public IEnumerable<Scope> Scopes => _sink.Scopes.Select(x => new Scope(x.Scope));
+        public IEnumerable<Scope> Scopes => _sink.BeginScopes.Select(x => new Scope(x.Scope));
 
         public ILogger CreateLogger(string name)
         {

@@ -57,6 +57,60 @@ namespace MELT.Xunit
             }
         }
 
+        /// <summary>
+        /// Asserts that the given key and value are present in the log entry properties.
+        /// </summary>
+        /// <param name="key">The key of the item to be found.</param>
+        /// <param name="value">The value of the item to be found.</param>
+        /// <param name="logEntry">The log entry.</param>
+        public static void Contains(
+            string key,
+            object value,
+            LogEntry logEntry)
+        {
+            Contains(key, value, logEntry.Properties);
+        }
+
+        /// <summary>
+        /// Asserts that all the expected values are present in the log entry properties by ignoring
+        /// the order of values.
+        /// </summary>
+        /// <param name="expectedValues">Expected subset of values</param>
+        /// <param name="logEntry">The log entry.</param>
+        public static void Contains(
+            IEnumerable<KeyValuePair<string, object>> expectedValues,
+            LogEntry logEntry)
+        {
+            Contains(expectedValues, logEntry.Properties);
+        }
+
+        /// <summary>
+        /// Asserts that the given key and value are present in the scope properties.
+        /// </summary>
+        /// <param name="key">The key of the item to be found.</param>
+        /// <param name="value">The value of the item to be found.</param>
+        /// <param name="scope">The scope.</param>
+        public static void Contains(
+            string key,
+            object value,
+            IScope scope)
+        {
+            Contains(key, value, scope.Properties);
+        }
+
+        /// <summary>
+        /// Asserts that all the expected values are present in the scope properties by ignoring
+        /// the order of values.
+        /// </summary>
+        /// <param name="expectedValues">Expected subset of values</param>
+        /// <param name="scope">The scope.</param>
+        public static void Contains(
+            IEnumerable<KeyValuePair<string, object>> expectedValues,
+            IScope scope)
+        {
+            Contains(expectedValues, scope.Properties);
+        }
+
         private static string GetString(IEnumerable<KeyValuePair<string, object>> logValues)
         {
             return string.Join(",", logValues.Select(kvp => $"[{kvp.Key} {kvp.Value}]"));
