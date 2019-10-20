@@ -21,6 +21,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MELT.Xunit.Tests", "test\ME
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApplication.IntegrationTests", "samples\SampleWebApplication.IntegrationTests\SampleWebApplication.IntegrationTests.csproj", "{0848ED77-DB75-4195-B59C-1B4BF0F4EFA8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleLibrary", "samples\SampleLibrary\SampleLibrary.csproj", "{263DEA15-C146-4C68-B930-D771733F77C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleLibraryTests", "samples\SampleLibraryTests\SampleLibraryTests.csproj", "{3DC8CD5B-BB9C-4FF0-9101-A5E7A185ED36}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,14 @@ Global
 		{0848ED77-DB75-4195-B59C-1B4BF0F4EFA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0848ED77-DB75-4195-B59C-1B4BF0F4EFA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0848ED77-DB75-4195-B59C-1B4BF0F4EFA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{263DEA15-C146-4C68-B930-D771733F77C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{263DEA15-C146-4C68-B930-D771733F77C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{263DEA15-C146-4C68-B930-D771733F77C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{263DEA15-C146-4C68-B930-D771733F77C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DC8CD5B-BB9C-4FF0-9101-A5E7A185ED36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DC8CD5B-BB9C-4FF0-9101-A5E7A185ED36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DC8CD5B-BB9C-4FF0-9101-A5E7A185ED36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DC8CD5B-BB9C-4FF0-9101-A5E7A185ED36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +74,8 @@ Global
 		{770FD00A-FC22-481F-B8EA-1662DCB0EBCE} = {49161A77-61F0-442B-8874-A5FF7D2368C2}
 		{3438AE10-B850-4ADD-A34A-0AED8E060F89} = {6EBCA070-1271-4575-85F7-A11FD455D64C}
 		{0848ED77-DB75-4195-B59C-1B4BF0F4EFA8} = {B33EF166-2895-47CF-BF2C-740C271A250E}
+		{263DEA15-C146-4C68-B930-D771733F77C6} = {B33EF166-2895-47CF-BF2C-740C271A250E}
+		{3DC8CD5B-BB9C-4FF0-9101-A5E7A185ED36} = {B33EF166-2895-47CF-BF2C-740C271A250E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {954CCC12-511A-4435-AE51-C19A527D4654}
