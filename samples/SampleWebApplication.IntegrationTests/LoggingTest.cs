@@ -1,7 +1,9 @@
 using MELT;
+using MELT.Xunit;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -33,7 +35,55 @@ namespace SampleWebApplication.Tests
             // Assert
             Assert.Equal(1, _sink.Writes.Count);
             var log = _sink.Writes.Single();
-            Assert.Equal("Hello World!", log.Message); // Assert the message rendered by a default formatter
+            // Assert the message rendered by a default formatter
+            Assert.Equal("Hello World!", log.Message);
+        }
+
+        [Fact]
+        public async Task ShouldLogWithWorldAsPlace()
+        {
+            // Arrange  
+
+            // Act
+            await _factory.CreateDefaultClient().GetAsync("/");
+
+            // Assert
+            Assert.Equal(1, _sink.Writes.Count);
+            var log = _sink.Writes.Single();
+            var state = Assert.IsAssignableFrom<IEnumerable<KeyValuePair<string, object>>>(log.State);
+            // Assert specific parameters in the log entry
+            LogValuesAssert.Contains("place", "World", state);
+        }
+
+        [Fact]
+        public async Task ShouldUseScope()
+        {
+            // Arrange  
+
+            // Act
+            await _factory.CreateDefaultClient().GetAsync("/");
+
+            // Assert
+            Assert.Equal(1, _sink.Writes.Count);
+            var log = _sink.Writes.Single();
+            // Assert the scope rendered by a default formatter
+            Assert.Equal("I'm in the GET scope", log.Scope.ToString());
+        }
+
+        [Fact]
+        public async Task ShouldUseScopeWithParameter()
+        {
+            // Arrange  
+
+            // Act
+            await _factory.CreateDefaultClient().GetAsync("/");
+
+            // Assert
+            Assert.Equal(1, _sink.Writes.Count);
+            var log = _sink.Writes.Single();
+            var scope = Assert.IsAssignableFrom<IEnumerable<KeyValuePair<string, object>>>(log.Scope);
+            // Assert specific parameters in the log scope
+            LogValuesAssert.Contains("name", "GET", scope);
         }
     }
 }
