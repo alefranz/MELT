@@ -2,9 +2,7 @@ using Microsoft.Extensions.Logging;
 using MELT;
 using SampleLibrary;
 using Xunit;
-using System.Linq;
 using MELT.Xunit;
-using System.Collections.Generic;
 
 namespace SampleLibraryTests
 {
@@ -14,7 +12,7 @@ namespace SampleLibraryTests
         public void DoSomethingLogsMessage()
         {
             // Arrange
-            var loggerFactory = new TestLoggerFactory();
+            var loggerFactory = MELTBuilder.CreateLoggerFactory();
             var logger = loggerFactory.CreateLogger<Sample>();
             var sample = new Sample(logger);
 
@@ -31,7 +29,7 @@ namespace SampleLibraryTests
         public void DoSomethingLogsCorrectParameter()
         {
             // Arrange
-            var loggerFactory = TestLoggerFactoryBuilder.CreateLoggerFactory();
+            var loggerFactory = MELTBuilder.CreateLoggerFactory();
             var logger = loggerFactory.CreateLogger<Sample>();
             var sample = new Sample(logger);
 

@@ -12,10 +12,6 @@ namespace MELT
         private readonly ITestSink _sink;
         private readonly bool _enabled;
 
-        public TestLoggerFactory() : this(new TestSink(), true)
-        {
-        }
-
         public TestLoggerFactory(ITestSink sink, bool enabled)
         {
             _sink = sink;
