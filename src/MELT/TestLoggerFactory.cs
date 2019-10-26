@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace MELT
 {
-    public class TestLoggerFactory : ILoggerFactory
+    public class TestLoggerFactory : ITestLoggerFactory
     {
         private readonly ITestSink _sink;
         private readonly bool _enabled;

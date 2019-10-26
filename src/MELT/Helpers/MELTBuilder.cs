@@ -5,9 +5,9 @@ namespace MELT
 {
     public static class MELTBuilder
     {
-        public static TestLoggerFactory CreateLoggerFactory() => new TestLoggerFactory(new TestSink(), true);
+        public static ITestLoggerFactory CreateLoggerFactory() => new TestLoggerFactory(new TestSink(), true);
 
-        public static TestSink CreateTestSink(Action<TestSinkOptions> configure)
+        public static ITestSink CreateTestSink(Action<TestSinkOptions> configure)
         {
             var options = new TestSinkOptions();
             configure(options);
