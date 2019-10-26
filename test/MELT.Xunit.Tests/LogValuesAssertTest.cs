@@ -7,7 +7,7 @@ using System.Linq;
 using Xunit;
 using Xunit.Sdk;
 
-namespace MELT.Tests
+namespace MELT.Xunit.Tests
 {
     public class LogValuesAssertTest
     {
