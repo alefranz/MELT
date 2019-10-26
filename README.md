@@ -1,4 +1,4 @@
-_Testing Library for Microsoft Extension Logging._
+_Testing Library for Microsoft Extensions Logging._
 
 [![Build Status](https://alefranz.visualstudio.com/MELT/_apis/build/status/alefranz.MELT?branchName=master)](https://alefranz.visualstudio.com/MELT/_build/latest?definitionId=1?branchName=master) [![](https://img.shields.io/nuget/v/MELT.svg)](https://www.nuget.org/packages/MELT/)
 
