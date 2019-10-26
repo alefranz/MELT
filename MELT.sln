@@ -21,9 +21,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MELT.Xunit.Tests", "test\ME
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApplication.IntegrationTests", "samples\SampleWebApplication.IntegrationTests\SampleWebApplication.IntegrationTests.csproj", "{0848ED77-DB75-4195-B59C-1B4BF0F4EFA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleLibrary", "samples\SampleLibrary\SampleLibrary.csproj", "{263DEA15-C146-4C68-B930-D771733F77C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleLibrary", "samples\SampleLibrary\SampleLibrary.csproj", "{263DEA15-C146-4C68-B930-D771733F77C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleLibraryTests", "samples\SampleLibraryTests\SampleLibraryTests.csproj", "{3DC8CD5B-BB9C-4FF0-9101-A5E7A185ED36}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleLibraryTests", "samples\SampleLibraryTests\SampleLibraryTests.csproj", "{3DC8CD5B-BB9C-4FF0-9101-A5E7A185ED36}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FCD27AA9-D880-4B0C-AAF1-240F0A901D30}"
+	ProjectSection(SolutionItems) = preProject
+		src\directory.build.props = src\directory.build.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

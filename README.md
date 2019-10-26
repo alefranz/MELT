@@ -4,7 +4,7 @@ _Testing Library for Microsoft Extension Logging._
 
 ## About MELT
 
-MELT is a free, open source, testing library for the .NET Standard _Microsoft Extension Logging_ library.
+MELT is a free, open source, testing library for the .NET Standard _Microsoft Extensions Logging_ library.
 It is a solution to easily test logs.
 
 It is a repackaging with a sweetened API and some omissions of [Microsoft.Extensions.Logging.Testing](https://github.com/aspnet/Extensions/tree/master/src/Logging/Logging.Testing), a library used internally in [ASP.NET Core](https://github.com/aspnet/AspNetCore) for testing the logging, given that [there is currently no plan to offer an official package for it](https://github.com/aspnet/Extensions/issues/672#issuecomment-532850535).
