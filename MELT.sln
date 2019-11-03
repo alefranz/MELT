@@ -30,6 +30,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		src\directory.build.props = src\directory.build.props
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MELT.AspNetCore", "src\MELT.AspNetCore\MELT.AspNetCore.csproj", "{0CDC4A91-192F-4BB8-A47C-7630E8695E41}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +70,10 @@ Global
 		{3DC8CD5B-BB9C-4FF0-9101-A5E7A185ED36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DC8CD5B-BB9C-4FF0-9101-A5E7A185ED36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DC8CD5B-BB9C-4FF0-9101-A5E7A185ED36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CDC4A91-192F-4BB8-A47C-7630E8695E41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CDC4A91-192F-4BB8-A47C-7630E8695E41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CDC4A91-192F-4BB8-A47C-7630E8695E41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CDC4A91-192F-4BB8-A47C-7630E8695E41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +87,7 @@ Global
 		{0848ED77-DB75-4195-B59C-1B4BF0F4EFA8} = {B33EF166-2895-47CF-BF2C-740C271A250E}
 		{263DEA15-C146-4C68-B930-D771733F77C6} = {B33EF166-2895-47CF-BF2C-740C271A250E}
 		{3DC8CD5B-BB9C-4FF0-9101-A5E7A185ED36} = {B33EF166-2895-47CF-BF2C-740C271A250E}
+		{0CDC4A91-192F-4BB8-A47C-7630E8695E41} = {49161A77-61F0-442B-8874-A5FF7D2368C2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {954CCC12-511A-4435-AE51-C19A527D4654}
