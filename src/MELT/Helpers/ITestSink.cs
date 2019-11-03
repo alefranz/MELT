@@ -18,12 +18,14 @@ namespace MELT
 
         IProducerConsumerCollection<WriteContext> Writes { get; set; }
 
+        void Write(WriteContext context);
+
+        void Begin(BeginScopeContext context);
+
         IEnumerable<LogEntry> LogEntries { get; }
 
         IEnumerable<BeginScope> Scopes { get; }
         
-        void Write(WriteContext context);
-
-        void Begin(BeginScopeContext context);
+        void Clear();
     }
 }

@@ -20,6 +20,8 @@ namespace MELT
             AddBeginEnabledRule(x => x.LoggerName == name);
         }
 
+        public void FilterByTypeName<T>() => FilterByLoggerName(typeof(T).FullName);
+
         public void SetMinimumLevel(LogLevel level)
         {
             AddWriteEnabledRule(x => x.LogLevel >= level);
