@@ -1,6 +1,8 @@
 _Testing Library for Microsoft Extensions Logging._
 
-[![Build Status](https://alefranz.visualstudio.com/MELT/_apis/build/status/alefranz.MELT?branchName=master)](https://alefranz.visualstudio.com/MELT/_build/latest?definitionId=1?branchName=master) [![](https://img.shields.io/nuget/v/MELT.svg)](https://www.nuget.org/packages/MELT/)
+[![Build Status](https://alefranz.visualstudio.com/MELT/_apis/build/status/alefranz.MELT?branchName=master)](https://alefranz.visualstudio.com/MELT/_build/latest?definitionId=1?branchName=master)
+[![MELT Nuget](https://img.shields.io/nuget/v/MELT.svg)](https://www.nuget.org/packages/MELT/)
+[![MELT.Xunit Nuget](https://img.shields.io/nuget/v/MELT.Xunit.svg)](https://www.nuget.org/packages/MELT.Xunit/)
 
 ## About MELT
 
@@ -19,7 +21,7 @@ If you like this project please don't forget to *star* it on [GitHub](https//git
 * Install the NuGet package [MELT](https://www.nuget.org/packages/MELT/)
 
     ```xml
-    <PackageReference Include="MELT" Version="0.1.0" />
+    <PackageReference Include="MELT" Version="0.2.0" />
     ```
 
 * Get a test logger factory
@@ -34,7 +36,7 @@ If you like this project please don't forget to *star* it on [GitHub](https//git
     var logger = loggerFactory.CreateLogger<Sample>();
     ```
 
-#### Assert log entries
+### Assert log entries
 
 The logger factory expose a property `LogEntries` that enumerates all the logs captured.
 Each entry expose all the relevant property for a log.
@@ -46,7 +48,7 @@ var log = Assert.Single(loggerFactory.LogEntries);
 Assert.Equal("The answer is 42", log.Message);
 ```
 
-#### Assert scopes
+### Assert scopes
 
 The logger factory expose a property `Scopes` that enumerates all the scopes captured.
 
@@ -59,12 +61,12 @@ Assert.Equal("I'm in the GET scope", scope.Message);
 
 There is also a property `Scope` in each log entry to have the scope captured with that entry.
 
-#### Easily test log or scope properties with xUnit
+### Easily test log or scope properties with xUnit
 
 * Install the NuGet package [MELT.Xunit](https://www.nuget.org/packages/MELT.Xunit/)
 
     ```xml
-    <PackageReference Include="MELT.Xunit" Version="0.1.0" />
+    <PackageReference Include="MELT.Xunit" Version="0.2.0" />
     ```
 
 * Use the `LogValuesAssert.Contains(...)` helpers.
@@ -75,16 +77,16 @@ For example, to test that a single log has been emitted and it had a property `n
     LogValuesAssert.Contains("number", 42, log.Properties);
     ```
 
-#### Full example
+### Full example
 
-See [SampleTest](https://github.com/alefranz/MELT/blob/master/samples/SampleLibraryTests/SampleTest.cs).
+See [SampleTest](samples/SampleLibraryTests/SampleTest.cs).
 
 ## Quick start for ASP.NET Core integration tests
 
 * Install the NuGet package [MELT](https://www.nuget.org/packages/MELT/)
 
     ```xml
-    <PackageReference Include="MELT" Version="0.1.0" />
+    <PackageReference Include="MELT" Version="0.2.0" />
     ```
 
 * Create a test sink using `MELTBuilder.CreateTestSink(...)`, where you can also customize the bahaviour.
@@ -113,7 +115,7 @@ See [SampleTest](https://github.com/alefranz/MELT/blob/master/samples/SampleLibr
 
     The logger will be automatically injected with Dependency Injection.
 
-#### Assert log entries
+### Assert log entries
 
 The `sink` expose a property `LogEntries` that enumerates all the logs captured.
 Each entry expose all the relevant property for a log.
@@ -125,7 +127,7 @@ var log = Assert.Single(sink.LogEntries);
 Assert.Equal("The answer is 42", log.Message);
 ```
 
-#### Assert scopes
+### Assert scopes
 
 The `sink` expose a property `Scopes` that enumerates all the scopes captured.
 
@@ -138,12 +140,12 @@ Assert.Equal("I'm in the GET scope", scope.Message);
 
 There is also a property `Scope` in each log entry to have the scope captured with that entry.
 
-#### Easily test log or scope properties with xUnit
+### Easily test log or scope properties with xUnit
 
 * Install the NuGet package [MELT.Xunit](https://www.nuget.org/packages/MELT.Xunit/)
 
     ```xml
-    <PackageReference Include="MELT.Xunit" Version="0.1.0" />
+    <PackageReference Include="MELT.Xunit" Version="0.2.0" />
     ```
 
 * Use the `LogValuesAssert.Contains(...)` helpers.
@@ -154,7 +156,7 @@ For example, to test that a single log has been emitted and it had a property `n
     LogValuesAssert.Contains("number", 42, log.Properties);
     ```
 
-#### Full example
+### Full example
 
-See [LoggingTest](https://github.com/alefranz/MELT/blob/master/samples/SampleWebApplication.IntegrationTests/LoggingTest.cs).
-
+See [LoggingTest](samples/SampleWebApplication.IntegrationTests/LoggingTest.cs) or
+[LoggingTestWithInjectedFactory](samples/SampleWebApplication.IntegrationTests/LoggingTestWithInjectedFactory.cs).
