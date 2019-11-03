@@ -22,7 +22,6 @@ namespace MELT
 
         public void FilterByTypeName<T>() => FilterByLoggerName(typeof(T).FullName);
 
-
         public void SetMinimumLevel(LogLevel level)
         {
             AddWriteEnabledRule(x => x.LogLevel >= level);
