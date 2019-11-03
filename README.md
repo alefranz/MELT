@@ -16,6 +16,11 @@ Most of the code is copyrighted by the .NET Foundation as mentioned in the files
 
 If you like this project please don't forget to *star* it on [GitHub](https//github.com/alefranz/MELT) or let me know with a [tweet](https://twitter.com/AleFranz).
 
+## Index
+
+* [Quick start](README.md#quick-start)
+* [Quick start for ASP.NET Core integration tests](README.md#quick-start-for-aspnet-core-integration-tests)
+
 ## Quick start
 
 * Install the NuGet package [MELT](https://www.nuget.org/packages/MELT/)
