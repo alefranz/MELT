@@ -20,8 +20,7 @@ namespace MELT
             WriteEnabled = writeEnabled;
             BeginEnabled = beginEnabled;
 
-            _beginScopes = new ConcurrentQueue<BeginScopeContext>();
-            _writes = new ConcurrentQueue<WriteContext>();
+            InitializeQueues();
         }
 
         public Func<WriteContext, bool> WriteEnabled { get; set; }
@@ -57,14 +56,15 @@ namespace MELT
             ScopeStarted?.Invoke(context);
         }
 
-        public static bool EnableWithTypeName<T>(WriteContext context)
+        public void Clear()
         {
-            return context.LoggerName.Equals(typeof(T).FullName);
+            InitializeQueues();
         }
 
-        public static bool EnableWithTypeName<T>(BeginScopeContext context)
+        private void InitializeQueues()
         {
-            return context.LoggerName.Equals(typeof(T).FullName);
+            _beginScopes = new ConcurrentQueue<BeginScopeContext>();
+            _writes = new ConcurrentQueue<WriteContext>();
         }
     }
 }
