@@ -5,38 +5,55 @@ namespace MELT
 {
     public class TestSinkOptions
     {
-        internal Func<WriteContext, bool> WriteEnabled { get; private set; } = x => true;
-        internal Func<BeginScopeContext, bool> BeginEnabled { get; private set; } = x => true;
+        internal Func<WriteContext, bool>? WriteEnabled { get; set; }
+        internal Func<BeginScopeContext, bool>? BeginEnabled { get; set; }
 
-        public void FilterByNamespace(string namespacePrefix)
+        public TestSinkOptions FilterByNamespace(string namespacePrefix)
         {
             AddWriteEnabledRule(x => x.LoggerName.StartsWith($"{namespacePrefix}."));
             AddBeginEnabledRule(x => x.LoggerName.StartsWith($"{namespacePrefix}."));
+            return this;
         }
 
-        public void FilterByLoggerName(string name)
+        public TestSinkOptions FilterByLoggerName(string name)
         {
             AddWriteEnabledRule(x => x.LoggerName == name);
             AddBeginEnabledRule(x => x.LoggerName == name);
+            return this;
         }
 
-        public void FilterByTypeName<T>() => FilterByLoggerName(typeof(T).FullName);
+        public TestSinkOptions FilterByTypeName<T>() => FilterByLoggerName(typeof(T).FullName);
 
-        public void SetMinimumLevel(LogLevel level)
+        public TestSinkOptions FilterByMinimumLevel(LogLevel level)
         {
             AddWriteEnabledRule(x => x.LogLevel >= level);
+            return this;
         }
 
         private void AddWriteEnabledRule(Func<WriteContext, bool> func)
         {
-            var capturedWriteEnabled = WriteEnabled;
-            WriteEnabled = x => capturedWriteEnabled(x) && func(x);
+            if (WriteEnabled is null)
+            {
+                WriteEnabled = func;
+            }
+            else
+            {
+                var capturedWriteEnabled = WriteEnabled;
+                WriteEnabled = x => capturedWriteEnabled(x) && func(x);
+            }
         }
 
         private void AddBeginEnabledRule(Func<BeginScopeContext, bool> func)
         {
-            var capturedBeginEnabled = BeginEnabled;
-            BeginEnabled = x => capturedBeginEnabled(x) && func(x);
+            if (BeginEnabled is null)
+            {
+                BeginEnabled = func;
+            }
+            else
+            {
+                var capturedBeginEnabled = BeginEnabled;
+                BeginEnabled = x => capturedBeginEnabled(x) && func(x);
+            }
         }
     }
 }

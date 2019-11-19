@@ -3,41 +3,30 @@
 
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 
 namespace MELT
 {
     public class TestLogger : ILogger
     {
-        private object _scope;
+        private object _scope = TestScope.Instance;
         private readonly ITestSink _sink;
-        private readonly string _name;
-        private readonly Func<LogLevel, bool> _filter;
+        private readonly Func<LogLevel, bool>? _filter;
 
-        public TestLogger(string name, ITestSink sink, bool enabled)
-            : this(name, sink, _ => enabled)
+        public TestLogger(string name, ITestSink sink, Func<LogLevel, bool>? filter = null)
         {
-        }
-
-        public TestLogger(string name, ITestSink sink, Func<LogLevel, bool> filter)
-        {
-            _sink = sink;
-            _name = name;
+            _sink = sink ?? throw new ArgumentNullException(nameof(sink));
+            Name = name ?? throw new ArgumentNullException(nameof(name));
             _filter = filter;
         }
 
-        public string Name { get; set; }
+        public string Name { get; }
 
         public IDisposable BeginScope<TState>(TState state)
         {
-            _scope = state;
+            _sink.Begin(new BeginScopeContext(Name, state));
 
-            _sink.Begin(new BeginScopeContext()
-            {
-                LoggerName = _name,
-                Scope = state,
-            });
-
-            return TestDisposable.Instance;
+            return TestScope.Instance;
         }
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
@@ -47,31 +36,18 @@ namespace MELT
                 return;
             }
 
-            _sink.Write(new WriteContext()
-            {
-                LogLevel = logLevel,
-                EventId = eventId,
-                State = state,
-                Exception = exception,
-                Formatter = (s, e) => formatter((TState)s, e),
-                LoggerName = _name,
-                Scope = _scope
-            });
+            if (formatter == null) throw new ArgumentNullException(nameof(formatter));
+
+            var message = formatter(state, exception);
+
+            // TODO: scopes should be lazy cached
+            _sink.Write(new WriteContext(logLevel, eventId, state, exception, _sink.BeginScopes.Select(x => x.Scope).ToList(), Name, message));
         }
 
         public bool IsEnabled(LogLevel logLevel)
         {
-            return logLevel != LogLevel.None && _filter(logLevel);
-        }
-
-        private class TestDisposable : IDisposable
-        {
-            public static readonly TestDisposable Instance = new TestDisposable();
-
-            public void Dispose()
-            {
-                // intentionally does nothing
-            }
+            if (logLevel == LogLevel.None) return false;
+            return _filter != null ? _filter(logLevel) : true;
         }
     }
 }

@@ -3,10 +3,16 @@
 
 namespace MELT
 {
-    public class BeginScopeContext
+    public readonly struct BeginScopeContext
     {
-        public object Scope { get; set; }
+        internal BeginScopeContext(string loggerName, object? scope)
+        {
+            LoggerName = loggerName;
+            Scope = scope;
+        }
 
-        public string LoggerName { get; set; }
+        public object? Scope { get; }
+
+        public string LoggerName { get; }
     }
 }
