@@ -6,28 +6,31 @@ using System;
 
 namespace MELT
 {
-    public class WriteContext
+    public readonly struct WriteContext
     {
-        public LogLevel LogLevel { get; set; }
-
-        public EventId EventId { get; set; }
-
-        public object State { get; set; }
-
-        public Exception Exception { get; set; }
-
-        public Func<object, Exception, string> Formatter { get; set; }
-
-        public object Scope { get; set; }
-
-        public string LoggerName { get; set; }
-
-        public string Message
+        public WriteContext(LogLevel logLevel, EventId eventId, object? state, Exception? exception, object scope, string loggerName, string? message)
         {
-            get
-            {
-                return Formatter(State, Exception);
-            }
+            LogLevel = logLevel;
+            EventId = eventId;
+            State = state;
+            Exception = exception;
+            Scope = scope;
+            LoggerName = loggerName;
+            Message = message;
         }
+
+        public LogLevel LogLevel { get; }
+
+        public EventId EventId { get; }
+
+        public object? State { get; }
+
+        public Exception? Exception { get; }
+
+        public object Scope { get; }
+
+        public string LoggerName { get; }
+
+        public string? Message { get; }
     }
 }

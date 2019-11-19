@@ -10,12 +10,10 @@ namespace MELT
     public class TestLoggerFactory : ITestLoggerFactory
     {
         private readonly ITestSink _sink;
-        private readonly bool _enabled;
 
-        public TestLoggerFactory(ITestSink sink, bool enabled)
+        public TestLoggerFactory(ITestSink sink)
         {
             _sink = sink;
-            _enabled = enabled;
         }
 
         public IEnumerable<LogEntry> LogEntries => _sink.Writes.Select(x => new LogEntry(x));
@@ -23,7 +21,7 @@ namespace MELT
 
         public ILogger CreateLogger(string name)
         {
-            return new TestLogger(name, _sink, _enabled);
+            return new TestLogger(name, _sink);
         }
 
         public void AddProvider(ILoggerProvider provider)

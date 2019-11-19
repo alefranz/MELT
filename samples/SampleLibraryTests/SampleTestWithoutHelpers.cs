@@ -15,7 +15,7 @@ namespace SampleLibraryTests
         {
             // Arrange
             var sink = new TestSink();
-            var loggerFactory = new TestLoggerFactory(sink, true);
+            var loggerFactory = new TestLoggerFactory(sink);
             var logger = loggerFactory.CreateLogger<Sample>();
             var sample = new Sample(logger);
 
@@ -34,7 +34,7 @@ namespace SampleLibraryTests
         {
             // Arrange
             var sink = new TestSink();
-            var loggerFactory = new TestLoggerFactory(sink, true);
+            var loggerFactory = new TestLoggerFactory(sink);
             var logger = loggerFactory.CreateLogger<Sample>();
             var sample = new Sample(logger);
 
