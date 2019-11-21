@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace MELT
 {
@@ -7,15 +7,15 @@ namespace MELT
         private readonly BeginScopeContext _scope;
         private static readonly KeyValuePair<string, object>[] _emptyProperties = new KeyValuePair<string, object>[0];
 
-        public BeginScope(BeginScopeContext scope)
+        internal BeginScope(BeginScopeContext scope)
         {
             _scope = scope;
         }
 
-        public string LoggerName => _scope.LoggerName;
-        public string Message => _scope.Scope.ToString();
+        public string? LoggerName => _scope.LoggerName;
+        public string? Message => _scope.Scope?.ToString();
         public IEnumerable<KeyValuePair<string, object>> Properties => _scope.Scope as IEnumerable<KeyValuePair<string, object>> ?? _emptyProperties;
 
-        public override string ToString() => Message;
+        public override string? ToString() => Message;
     }
 }

@@ -5,7 +5,7 @@ namespace MELT
 {
     public readonly struct BeginScopeContext
     {
-        internal BeginScopeContext(string loggerName, object? scope)
+        public BeginScopeContext(string loggerName, object? scope)
         {
             LoggerName = loggerName;
             Scope = scope;
@@ -13,6 +13,6 @@ namespace MELT
 
         public object? Scope { get; }
 
-        public string LoggerName { get; }
+        public string? LoggerName { get; }
     }
 }

@@ -47,7 +47,7 @@ namespace MELT
             MessageLogged?.Invoke(context);
         }
 
-        public void Begin(BeginScopeContext context)
+        public void BeginScope(BeginScopeContext context)
         {
             if (BeginEnabled == null || BeginEnabled(context))
             {

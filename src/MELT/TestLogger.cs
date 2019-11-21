@@ -3,15 +3,14 @@
 
 using Microsoft.Extensions.Logging;
 using System;
-using System.Linq;
 
 namespace MELT
 {
     public class TestLogger : ILogger
     {
-        private object _scope = TestScope.Instance;
         private readonly ITestSink _sink;
         private readonly Func<LogLevel, bool>? _filter;
+        private object? _scope;
 
         public TestLogger(string name, ITestSink sink, Func<LogLevel, bool>? filter = null)
         {
@@ -24,7 +23,9 @@ namespace MELT
 
         public IDisposable BeginScope<TState>(TState state)
         {
-            _sink.Begin(new BeginScopeContext(Name, state));
+            _scope = state;
+
+            _sink.BeginScope(new BeginScopeContext(Name, state));
 
             return TestScope.Instance;
         }
@@ -41,7 +42,7 @@ namespace MELT
             var message = formatter(state, exception);
 
             // TODO: scopes should be lazy cached
-            _sink.Write(new WriteContext(logLevel, eventId, state, exception, _sink.BeginScopes.Select(x => x.Scope).ToList(), Name, message));
+            _sink.Write(new WriteContext(logLevel, eventId, state, exception, _scope, Name, message));
         }
 
         public bool IsEnabled(LogLevel logLevel)

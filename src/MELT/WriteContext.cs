@@ -3,19 +3,18 @@
 
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 
 namespace MELT
 {
     public readonly struct WriteContext
     {
-        public WriteContext(LogLevel logLevel, EventId eventId, object? state, Exception? exception, IEnumerable<object> scopes, string loggerName, string? message)
+        public WriteContext(LogLevel logLevel, EventId eventId, object? state, Exception? exception, object scope, string loggerName, string? message)
         {
             LogLevel = logLevel;
             EventId = eventId;
             State = state;
             Exception = exception;
-            Scopes = scopes;
+            Scope = scope;
             LoggerName = loggerName;
             Message = message;
         }
@@ -28,7 +27,7 @@ namespace MELT
 
         public Exception? Exception { get; }
 
-        public IEnumerable<object> Scopes { get; }
+        public object Scope { get; }
 
         public string LoggerName { get; }
 

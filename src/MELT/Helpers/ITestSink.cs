@@ -20,7 +20,7 @@ namespace MELT
 
         void Write(WriteContext context);
 
-        void Begin(BeginScopeContext context);
+        void BeginScope(BeginScopeContext context);
 
         IEnumerable<LogEntry> LogEntries { get; }
 
