@@ -33,6 +33,7 @@ namespace SampleWebApplication
                     using (logger.BeginScope("I'm in the {name} scope", "GET"))
                     {
                         logger.LogInformation("Hello {place}!", "World");
+                        context.Response.ContentType = "text/plain";
                         await context.Response.WriteAsync("Hello World!");
                     }
                 });

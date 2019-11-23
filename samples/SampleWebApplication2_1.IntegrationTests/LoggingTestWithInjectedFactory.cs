@@ -2,6 +2,7 @@ using MELT;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Logging;
+using SampleWebApplication;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -16,7 +17,7 @@ namespace SampleWebApplication.Tests
             _factory = factory;
             // In this case the factory will be resused for all tests, so the sink will be shared as well.
             // We can clear the sink before each test execution, as xUnit will not run this tests in parallel.
-            _factory.GetTestSink().Clear();
+            if (_factory.TryGetTestSink(out var testSink)) testSink!.Clear();  // or simply testSink.Clear(); when not using Nullable Reference Types
         }
 
         [Fact]
