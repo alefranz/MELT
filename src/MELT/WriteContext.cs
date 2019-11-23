@@ -8,7 +8,7 @@ namespace MELT
 {
     public readonly struct WriteContext
     {
-        public WriteContext(LogLevel logLevel, EventId eventId, object? state, Exception? exception, object scope, string loggerName, string? message)
+        public WriteContext(LogLevel logLevel, EventId eventId, object? state, Exception? exception, object? scope, string loggerName, string? message)
         {
             LogLevel = logLevel;
             EventId = eventId;
@@ -27,7 +27,7 @@ namespace MELT
 
         public Exception? Exception { get; }
 
-        public object Scope { get; }
+        public object? Scope { get; }
 
         public string LoggerName { get; }
 

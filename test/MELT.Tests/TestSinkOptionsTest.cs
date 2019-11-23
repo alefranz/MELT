@@ -23,7 +23,8 @@ namespace MELT.Tests
             options.FilterByMinimumLevel(minimumLevel);
 
             // Assert
-            Assert.Equal(enabled, options.WriteEnabled(new WriteContext(logLevel, 0, null, null, null, string.Empty, string.Empty)));
+            Assert.NotNull(options.WriteEnabled);
+            Assert.Equal(enabled, options.WriteEnabled!(new WriteContext(logLevel, 0, null, null, null, string.Empty, string.Empty)));
         }
 
         [Theory]
@@ -40,7 +41,8 @@ namespace MELT.Tests
             options.FilterByLoggerName(loggerNameFilter);
 
             // Assert
-            Assert.Equal(enabled, options.WriteEnabled(new WriteContext(0, 0, null, null, null, loggerName, string.Empty)));
+            Assert.NotNull(options.WriteEnabled);
+            Assert.Equal(enabled, options.WriteEnabled!(new WriteContext(0, 0, null, null, null, loggerName, string.Empty)));
         }
 
         [Theory]
@@ -57,7 +59,8 @@ namespace MELT.Tests
             options.FilterByLoggerName(loggerNameFilter);
 
             // Assert
-            Assert.Equal(enabled, options.BeginEnabled(new BeginScopeContext(loggerName, null)));
+            Assert.NotNull(options.BeginEnabled);
+            Assert.Equal(enabled, options.BeginEnabled!(new BeginScopeContext(loggerName, null)));
         }
 
         [Theory]
@@ -74,7 +77,8 @@ namespace MELT.Tests
             options.FilterByTypeName<C>();
 
             // Assert
-            Assert.Equal(enabled, options.WriteEnabled(new WriteContext(0, 0, null, null, null, loggerName, string.Empty)));
+            Assert.NotNull(options.WriteEnabled);
+            Assert.Equal(enabled, options.WriteEnabled!(new WriteContext(0, 0, null, null, null, loggerName, string.Empty)));
         }
 
         [Theory]
@@ -91,7 +95,8 @@ namespace MELT.Tests
             options.FilterByTypeName<C>();
 
             // Assert
-            Assert.Equal(enabled, options.BeginEnabled(new BeginScopeContext(loggerName, null)));
+            Assert.NotNull(options.BeginEnabled);
+            Assert.Equal(enabled, options.BeginEnabled!(new BeginScopeContext(loggerName, null)));
         }
 
         [Theory]
@@ -108,7 +113,8 @@ namespace MELT.Tests
             options.FilterByNamespace(namespaceFilter);
 
             // Assert
-            Assert.Equal(enabled, options.WriteEnabled(new WriteContext(0, 0, null, null, null, loggerName, string.Empty)));
+            Assert.NotNull(options.WriteEnabled);
+            Assert.Equal(enabled, options.WriteEnabled!(new WriteContext(0, 0, null, null, null, loggerName, string.Empty)));
         }
 
         [Theory]
@@ -125,7 +131,8 @@ namespace MELT.Tests
             options.FilterByNamespace(namespaceFilter);
 
             // Assert
-            Assert.Equal(enabled, options.BeginEnabled(new BeginScopeContext(loggerName, null)));
+            Assert.NotNull(options.BeginEnabled);
+            Assert.Equal(enabled, options.BeginEnabled!(new BeginScopeContext(loggerName, null)));
         }
     }
 }

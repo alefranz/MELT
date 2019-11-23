@@ -13,6 +13,6 @@ namespace MELT
 
         public object? Scope { get; }
 
-        public string? LoggerName { get; }
+        public string LoggerName { get; }
     }
 }

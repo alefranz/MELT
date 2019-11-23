@@ -6,17 +6,17 @@ namespace MELT
 {
     public interface ITestSink
     {
-        event Action<WriteContext> MessageLogged;
+        event Action<WriteContext>? MessageLogged;
 
-        event Action<BeginScopeContext> ScopeStarted;
+        event Action<BeginScopeContext>? ScopeStarted;
 
-        Func<WriteContext, bool> WriteEnabled { get; set; }
+        Func<WriteContext, bool>? WriteEnabled { get; set; }
 
-        Func<BeginScopeContext, bool> BeginEnabled { get; set; }
+        Func<BeginScopeContext, bool>? BeginEnabled { get; set; }
 
-        IProducerConsumerCollection<BeginScopeContext> BeginScopes { get; set; }
+        IProducerConsumerCollection<BeginScopeContext> BeginScopes { get; }
 
-        IProducerConsumerCollection<WriteContext> Writes { get; set; }
+        IProducerConsumerCollection<WriteContext> Writes { get; }
 
         void Write(WriteContext context);
 
