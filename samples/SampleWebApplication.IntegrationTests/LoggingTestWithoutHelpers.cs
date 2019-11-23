@@ -66,8 +66,9 @@ namespace SampleWebApplication.Tests
             // Assert
             Assert.Equal(1, _sink.Writes.Count);
             var log = _sink.Writes.Single();
+
             // Assert the scope rendered by a default formatter
-            Assert.Equal("I'm in the GET scope", log.Scope.ToString());
+            Assert.Equal("I'm in the GET scope", log.Scope?.ToString());
         }
 
         [Fact]
