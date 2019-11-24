@@ -26,7 +26,7 @@ If you like this project please don't forget to *star* it on [GitHub](https//git
 * Install the NuGet package [MELT](https://www.nuget.org/packages/MELT/)
 
     ```xml
-    <PackageReference Include="MELT" Version="0.2.0" />
+    <PackageReference Include="MELT" Version="0.3.0" />
     ```
 
 * Get a test logger factory
@@ -71,7 +71,7 @@ There is also a property `Scope` in each log entry to have the scope captured wi
 * Install the NuGet package [MELT.Xunit](https://www.nuget.org/packages/MELT.Xunit/)
 
     ```xml
-    <PackageReference Include="MELT.Xunit" Version="0.2.0" />
+    <PackageReference Include="MELT.Xunit" Version="0.3.0" />
     ```
 
 * Use the `LogValuesAssert.Contains(...)` helpers.
@@ -91,7 +91,7 @@ See [SampleTest](samples/SampleLibraryTests/SampleTest.cs).
 * Install the NuGet package [MELT](https://www.nuget.org/packages/MELT/)
 
     ```xml
-    <PackageReference Include="MELT" Version="0.2.0" />
+    <PackageReference Include="MELT" Version="0.3.0" />
     ```
 
 * Create a test sink using `MELTBuilder.CreateTestSink(...)`, where you can also customize the bahaviour.
@@ -119,6 +119,44 @@ See [SampleTest](samples/SampleLibraryTests/SampleTest.cs).
     You can clear the sink in the test costrctuctor with `Clear()` if you like to have a clean state before each test, as xUnit will not run tests consuming the same fixture in parallel.
 
     The logger will be automatically injected with Dependency Injection.
+
+* Alternatively, you can set it up in your custom `WebApplicationFactory<TStartup>`.
+
+    ```csharp
+        public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup>
+            where TStartup : class
+        {
+            protected override void ConfigureWebHost(IWebHostBuilder builder)
+            {
+                builder.ConfigureLogging(logging => logging.AddTestLogger(options => options.FilterByNamespace(nameof(SampleWebApplication))));
+                // ...
+            }
+        }
+    ```
+
+    You can then retrieve the sink to assert against using the extension method `GetTestSink()` on the factory.
+
+    Please note that in this case all tests sharing the same factory will get the same sink.
+    You can reset it between tests with `Clear()` in the costructor of your `xUnit` tests. For example:
+
+    ```csharp
+        public class LoggingTestWithInjectedFactory : IClassFixture<CustomWebApplicationFactory<Startup>>
+        {
+            private readonly CustomWebApplicationFactory<Startup> _factory;
+
+            public LoggingTestWithInjectedFactory(CustomWebApplicationFactory<Startup> factory)
+            {
+                _factory = factory;
+                // In this case the factory will be resused for all tests, so the sink will be shared as well.
+                // We can clear the sink before each test execution, as xUnit will not run this tests in parallel.
+                _factory.GetTestSink().Clear();
+                // When running on 2.x, the server is not initialized until it is explicitly started or the first client is created.
+                // So we need to use:
+                // if (_factory.TryGetTestSink(out var testSink)) testSink!.Clear();
+                // The exclamation mark is needed only when using Nullable Reference Types!
+            }
+        }
+    ```
 
 ### Assert log entries
 
@@ -150,7 +188,7 @@ There is also a property `Scope` in each log entry to have the scope captured wi
 * Install the NuGet package [MELT.Xunit](https://www.nuget.org/packages/MELT.Xunit/)
 
     ```xml
-    <PackageReference Include="MELT.Xunit" Version="0.2.0" />
+    <PackageReference Include="MELT.Xunit" Version="0.3.0" />
     ```
 
 * Use the `LogValuesAssert.Contains(...)` helpers.

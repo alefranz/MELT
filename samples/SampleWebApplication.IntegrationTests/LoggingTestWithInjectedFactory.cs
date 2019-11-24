@@ -1,4 +1,3 @@
-using MELT;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Logging;
@@ -17,6 +16,8 @@ namespace SampleWebApplication.Tests
             // In this case the factory will be resused for all tests, so the sink will be shared as well.
             // We can clear the sink before each test execution, as xUnit will not run this tests in parallel.
             _factory.GetTestSink().Clear();
+
+            if (_factory.TryGetTestSink(out var testSink)) testSink.Clear();
         }
 
         [Fact]
@@ -67,7 +68,6 @@ namespace SampleWebApplication.Tests
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            //builder.UseTestLogging();
             builder.ConfigureLogging(logging => logging.AddTestLogger(options => options.FilterByNamespace(nameof(SampleWebApplication))));
         }
     }
