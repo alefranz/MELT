@@ -16,8 +16,10 @@ namespace SampleWebApplication.Tests
             // In this case the factory will be resused for all tests, so the sink will be shared as well.
             // We can clear the sink before each test execution, as xUnit will not run this tests in parallel.
             _factory.GetTestSink().Clear();
-
-            if (_factory.TryGetTestSink(out var testSink)) testSink.Clear();
+            // When running on 2.x, the server is not initialized until it is explicitly started or the first client is created.
+            // So we need to use:
+            // if (_factory.TryGetTestSink(out var testSink)) testSink!.Clear();
+            // The exclamation mark is needed only when using Nullable Reference Types!
         }
 
         [Fact]
@@ -68,7 +70,7 @@ namespace SampleWebApplication.Tests
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder.ConfigureLogging(logging => logging.AddTestLogger(options => options.FilterByNamespace(nameof(SampleWebApplication))));
+            builder.UseTestLogging(options => options.FilterByNamespace(nameof(SampleWebApplication)));
         }
     }
 }

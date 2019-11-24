@@ -109,9 +109,10 @@ See [SampleTest](samples/SampleLibraryTests/SampleTest.cs).
     Configure the logger using `WithWebHostBuilder` on the factory.
 
     ```csharp
-    using using Microsoft.Extensions.Logging;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Mvc.Testing;
     // ...
-    factory = factory.WithWebHostBuilder(builder => builder.ConfigureLogging(logging => logging.AddTestLogger(_sink)));
+    var factory = factory.WithWebHostBuilder(builder => builder.UseTestLogging(_sink));
     ```
 
     Alternatively, you can configure the logger builder in the `ConfigureWebHost` implementation of your custom `WebApplicationFactory<T>`.
@@ -123,12 +124,15 @@ See [SampleTest](samples/SampleLibraryTests/SampleTest.cs).
 * Alternatively, you can set it up in your custom `WebApplicationFactory<TStartup>`.
 
     ```csharp
+        using Microsoft.AspNetCore.Hosting;
+        using Microsoft.AspNetCore.Mvc.Testing;
+
         public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup>
             where TStartup : class
         {
             protected override void ConfigureWebHost(IWebHostBuilder builder)
             {
-                builder.ConfigureLogging(logging => logging.AddTestLogger(options => options.FilterByNamespace(nameof(SampleWebApplication))));
+                builder.UseTestLogging(options => options.FilterByNamespace(nameof(SampleWebApplication)));
                 // ...
             }
         }

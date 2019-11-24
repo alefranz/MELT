@@ -2,8 +2,6 @@ using MELT;
 using MELT.Xunit;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.Logging;
-using SampleWebApplication;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -17,7 +15,7 @@ namespace SampleWebApplication.Tests
         public LoggingTest(WebApplicationFactory<Startup> factory)
         {
             _sink = MELTBuilder.CreateTestSink(options => options.FilterByNamespace(nameof(SampleWebApplication)));
-            _factory = factory.WithWebHostBuilder(builder => builder.ConfigureLogging(logging => logging.AddTestLogger(_sink)));
+            _factory = factory.WithWebHostBuilder(builder => builder.UseTestLogging(_sink));
         }
 
         [Fact]

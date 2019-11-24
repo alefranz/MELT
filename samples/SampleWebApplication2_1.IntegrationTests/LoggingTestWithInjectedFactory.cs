@@ -1,8 +1,5 @@
-using MELT;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.Logging;
-using SampleWebApplication;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -54,8 +51,7 @@ namespace SampleWebApplication.Tests
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            //builder.UseTestLogging();
-            builder.ConfigureLogging(logging => logging.AddTestLogger(options => options.FilterByNamespace(nameof(SampleWebApplication))));
+            builder.UseTestLogging(options => options.FilterByNamespace(nameof(SampleWebApplication)));
         }
     }
 }
