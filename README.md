@@ -1,6 +1,6 @@
 _Testing Library for Microsoft Extensions Logging._
 
-[![Build Status](https://github.com/alefranz/MELT/workflows/Build/badge.svg?branch=refactor)](https://github.com/alefranz/MELT/actions?query=branch%3Arefactor)
+[![Build Status](https://github.com/alefranz/MELT/workflows/Build/badge.svg?branch=master)](https://github.com/alefranz/MELT/actions?query=branch%3Amaster)
 [![MELT Nuget](https://img.shields.io/nuget/v/MELT?label=MELT&logo=nuget)](https://www.nuget.org/packages/MELT/)
 [![MELT.AspNetCore Nuget](https://img.shields.io/nuget/v/MELT.AspNetCore?label=MELT.AspNetCore&logo=nuget)](https://www.nuget.org/packages/MELT.AspNetCore/)
 [![MELT.Xunit Nuget](https://img.shields.io/nuget/v/MELT.Xunit?label=MELT.Xunit&logo=nuget)](https://www.nuget.org/packages/MELT.Xunit/)
