@@ -3,6 +3,7 @@ using MELT;
 using SampleLibrary;
 using Xunit;
 using MELT.Xunit;
+using System.Collections.Generic;
 
 namespace SampleLibraryTests
 {
@@ -40,6 +41,7 @@ namespace SampleLibraryTests
             var log = Assert.Single(loggerFactory.LogEntries);
             // Assert specific parameters in the log entry
             LogValuesAssert.Contains("number", 42, log.Properties);
+            Assert.Contains(new KeyValuePair<string, object>("number", 42), log.Properties);
         }
     }
 }

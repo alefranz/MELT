@@ -6,6 +6,6 @@ namespace MELT
     public interface ITestLoggerFactory : ILoggerFactory
     {
         IEnumerable<LogEntry> LogEntries { get; }
-        IEnumerable<Scope> Scopes { get; }
+        IEnumerable<BeginScope> Scopes { get; }
     }
 }

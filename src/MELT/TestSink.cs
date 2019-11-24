@@ -14,29 +14,30 @@ namespace MELT
         private ConcurrentQueue<WriteContext> _writes;
 
         public TestSink(
-            Func<WriteContext, bool> writeEnabled = null,
-            Func<BeginScopeContext, bool> beginEnabled = null)
+            Func<WriteContext, bool>? writeEnabled = null,
+            Func<BeginScopeContext, bool>? beginEnabled = null)
         {
             WriteEnabled = writeEnabled;
             BeginEnabled = beginEnabled;
 
-            InitializeQueues();
+            _beginScopes = new ConcurrentQueue<BeginScopeContext>();
+            _writes = new ConcurrentQueue<WriteContext>();
         }
 
-        public Func<WriteContext, bool> WriteEnabled { get; set; }
+        public Func<WriteContext, bool>? WriteEnabled { get; set; }
 
-        public Func<BeginScopeContext, bool> BeginEnabled { get; set; }
+        public Func<BeginScopeContext, bool>? BeginEnabled { get; set; }
 
-        public IProducerConsumerCollection<BeginScopeContext> BeginScopes { get => _beginScopes; set => _beginScopes = new ConcurrentQueue<BeginScopeContext>(value); }
+        public IProducerConsumerCollection<BeginScopeContext> BeginScopes { get => _beginScopes; }
 
-        public IProducerConsumerCollection<WriteContext> Writes { get => _writes; set => _writes = new ConcurrentQueue<WriteContext>(value); }
+        public IProducerConsumerCollection<WriteContext> Writes { get => _writes;  }
 
         public IEnumerable<LogEntry> LogEntries => Writes.Select(x => new LogEntry(x));
         public IEnumerable<BeginScope> Scopes => BeginScopes.Select(x => new BeginScope(x));
 
-        public event Action<WriteContext> MessageLogged;
+        public event Action<WriteContext>? MessageLogged;
 
-        public event Action<BeginScopeContext> ScopeStarted;
+        public event Action<BeginScopeContext>? ScopeStarted;
 
         public void Write(WriteContext context)
         {
@@ -47,7 +48,7 @@ namespace MELT
             MessageLogged?.Invoke(context);
         }
 
-        public void Begin(BeginScopeContext context)
+        public void BeginScope(BeginScopeContext context)
         {
             if (BeginEnabled == null || BeginEnabled(context))
             {
@@ -57,11 +58,6 @@ namespace MELT
         }
 
         public void Clear()
-        {
-            InitializeQueues();
-        }
-
-        private void InitializeQueues()
         {
             _beginScopes = new ConcurrentQueue<BeginScopeContext>();
             _writes = new ConcurrentQueue<WriteContext>();

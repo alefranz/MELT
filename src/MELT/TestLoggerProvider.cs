@@ -16,7 +16,7 @@ namespace MELT
 
         public ILogger CreateLogger(string categoryName)
         {
-            return new TestLogger(categoryName, _sink, enabled: true);
+            return new TestLogger(categoryName, _sink);
         }
 
         public void Dispose()

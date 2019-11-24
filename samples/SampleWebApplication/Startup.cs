@@ -30,8 +30,10 @@ namespace SampleWebApplication
                 endpoints.MapGet("/", async context =>
                 {
                     var logger = context.RequestServices.GetRequiredService<ILogger<Startup>>();
-                    using (logger.BeginScope("I'm in the {name} scope", "GET")) {
+                    using (logger.BeginScope("I'm in the {name} scope", "GET"))
+                    {
                         logger.LogInformation("Hello {place}!", "World");
+                        context.Response.ContentType = "text/plain";
                         await context.Response.WriteAsync("Hello World!");
                     }
                 });
