@@ -1,8 +1,9 @@
 _Testing Library for Microsoft Extensions Logging._
 
-[![Build Status](https://alefranz.visualstudio.com/MELT/_apis/build/status/alefranz.MELT?branchName=master)](https://alefranz.visualstudio.com/MELT/_build/latest?definitionId=1?branchName=master)
-[![MELT Nuget](https://img.shields.io/nuget/v/MELT.svg)](https://www.nuget.org/packages/MELT/)
-[![MELT.Xunit Nuget](https://img.shields.io/nuget/v/MELT.Xunit.svg)](https://www.nuget.org/packages/MELT.Xunit/)
+[![Build Status](https://github.com/alefranz/MELT/workflows/Build/badge.svg?branch=refactor)](https://github.com/alefranz/MELT/actions?query=branch%3Arefactor)
+[![MELT Nuget](https://img.shields.io/nuget/v/MELT?label=MELT&logo=nuget)](https://www.nuget.org/packages/MELT/)
+[![MELT.AspNetCore Nuget](https://img.shields.io/nuget/v/MELT.AspNetCore?label=MELT.AspNetCore&logo=nuget)](https://www.nuget.org/packages/MELT.AspNetCore/)
+[![MELT.Xunit Nuget](https://img.shields.io/nuget/v/MELT.Xunit?label=MELT.Xunit&logo=nuget)](https://www.nuget.org/packages/MELT.Xunit/)
 
 ## About MELT
 
@@ -88,10 +89,10 @@ See [SampleTest](samples/SampleLibraryTests/SampleTest.cs).
 
 ## Quick start for ASP.NET Core integration tests
 
-* Install the NuGet package [MELT](https://www.nuget.org/packages/MELT/)
+* Install the NuGet package [MELT.AspNetCore](https://www.nuget.org/packages/MELT.AspNetCore/)
 
     ```xml
-    <PackageReference Include="MELT" Version="0.3.0" />
+    <PackageReference Include="MELT.AspNetCore" Version="0.3.0" />
     ```
 
 * Create a test sink using `MELTBuilder.CreateTestSink(...)`, where you can also customize the bahaviour.
