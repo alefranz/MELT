@@ -41,7 +41,6 @@ namespace MELT
 
             var message = formatter(state, exception);
 
-            // TODO: scopes should be lazy cached
             _sink.Write(new WriteContext(logLevel, eventId, state, exception, _scope, Name, message));
         }
 

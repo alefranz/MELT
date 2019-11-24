@@ -6,7 +6,6 @@ namespace MELT
 {
     public class LogEntry
     {
-        private static readonly KeyValuePair<string, object>[] _empty = new KeyValuePair<string, object>[0];
         private readonly WriteContext _entry;
 
         public LogEntry(WriteContext entry)
@@ -19,7 +18,7 @@ namespace MELT
         public string LoggerName => _entry.LoggerName;
         public LogLevel LogLevel => _entry.LogLevel;
         public string? Message => _entry.Message;
-        public IEnumerable<KeyValuePair<string, object>> Properties => _entry.State as IEnumerable<KeyValuePair<string, object>> ?? _empty;
+        public IEnumerable<KeyValuePair<string, object>> Properties => _entry.State as IEnumerable<KeyValuePair<string, object>> ?? Constants.EmptyProperties;
         public Scope Scope => new Scope(_entry.Scope);
     }
 }
