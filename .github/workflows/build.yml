@@ -64,7 +64,5 @@ jobs:
         name: artifacts
         path: ./artifacts
     - name: Publish packages
-      run: dotnet nuget push ./artifacts/*.nupkg --source nuget.org --api-key ${{secrets.NUGET_TOKEN}}
-    - name: Publish symbol packages
-      run: dotnet nuget push ./artifacts/*.snupkg --source nuget.org --api-key ${{secrets.NUGET_TOKEN}}
+      run: dotnet nuget push ./artifacts/**.nupkg --source nuget.org --api-key ${{secrets.NUGET_TOKEN}}
       
