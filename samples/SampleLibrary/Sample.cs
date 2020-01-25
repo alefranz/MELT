@@ -16,5 +16,11 @@ namespace SampleLibrary
         {
             _logger.LogInformation("The answer is {number}", 42);
         }
+
+        public void DoExceptional()
+        {
+            var exception = new ArgumentNullException("foo");
+            _logger.LogError(exception, "There was a {error}", "problem");
+        }
     }
 }
