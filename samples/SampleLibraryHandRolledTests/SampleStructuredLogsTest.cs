@@ -29,6 +29,9 @@ namespace SampleLibraryHandRolledTests
             Assert.Equal(42, element.Value);
             // or
             Assert.Contains(new KeyValuePair<string, object>("number", 42), log.Properties);
+
+            var template = Assert.Single(log.Properties, x => x.Key == "OriginalFormat");
+            Assert.Equal("The answer is {number}", template.Value);
         }
 
         [Fact]
@@ -56,15 +59,9 @@ namespace SampleLibraryHandRolledTests
             public List<(LogLevel Level, string Message, IReadOnlyList<KeyValuePair<string, object>> Properties, Exception Exception)> Entries { get; } =
                 new List<(LogLevel, string, IReadOnlyList<KeyValuePair<string, object>>, Exception)>();
 
-            public IDisposable BeginScope<TState>(TState state)
-            {
-                throw new NotImplementedException();
-            }
+            public IDisposable BeginScope<TState>(TState state) => throw new NotImplementedException();
 
-            public bool IsEnabled(LogLevel logLevel)
-            {
-                throw new NotImplementedException();
-            }
+            public bool IsEnabled(LogLevel logLevel) => throw new NotImplementedException();
 
             public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
             {

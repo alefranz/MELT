@@ -83,6 +83,10 @@ For example, to test that a single log has been emitted and it had a property `n
     LogValuesAssert.Contains("number", 42, log.Properties);
     ```
 
+### And much more
+
+You can assert againt all the characteristic of a log entry: `EventId`, `Exception`, `LoggerName`, `LogLevel`, `Message`, `Properties` and `Scope`.
+
 ### Full example
 
 See [SampleTest](samples/SampleLibraryTests/SampleTest.cs).
@@ -203,6 +207,10 @@ For example, to test that a single log has been emitted and it had a property `n
     var log = Assert.Single(sink.LogEntries);
     LogValuesAssert.Contains("number", 42, log.Properties);
     ```
+
+### And much more
+
+You can assert againt all the characteristic of a log entry: `EventId`, `Exception`, `LoggerName`, `LogLevel`, `Message`, `Properties` and `Scope`.
 
 ### Full example
 
