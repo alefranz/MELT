@@ -23,10 +23,10 @@ jobs:
     - name: Setup .NET Core 3.1
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.100
+        dotnet-version: 3.1.101
     - name: .NET Core SxS
       run: |
-        rsync -a ${DOTNET_ROOT/3.1.100/2.1.607}/* $DOTNET_ROOT/
+        rsync -a ${DOTNET_ROOT/3.1.101/2.1.607}/* $DOTNET_ROOT/
     - name: Build
       run: dotnet build --configuration Release
     - name: Test
@@ -41,7 +41,7 @@ jobs:
     - name: Setup .NET Core 3.1
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.100
+        dotnet-version: 3.1.101
     - name: Determine version
       run: echo "::set-env name=VERSION::$(git describe --tags --dirty)"
     - name: Pack
@@ -58,7 +58,7 @@ jobs:
     - name: Setup .NET Core 3.1
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.100
+        dotnet-version: 3.1.101
     - uses: actions/download-artifact@v1
       with:
         name: artifacts
