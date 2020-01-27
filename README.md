@@ -129,18 +129,18 @@ See [SampleTest](samples/SampleLibraryTests/SampleTest.cs).
 * Alternatively, you can set it up in your custom `WebApplicationFactory<TStartup>`.
 
     ```csharp
-        using Microsoft.AspNetCore.Hosting;
-        using Microsoft.AspNetCore.Mvc.Testing;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Mvc.Testing;
 
-        public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup>
-            where TStartup : class
+    public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup>
+        where TStartup : class
+    {
+        protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            protected override void ConfigureWebHost(IWebHostBuilder builder)
-            {
-                builder.UseTestLogging(options => options.FilterByNamespace(nameof(SampleWebApplication)));
-                // ...
-            }
+            builder.UseTestLogging(options => options.FilterByNamespace(nameof(SampleWebApplication)));
+            // ...
         }
+    }
     ```
 
     You can then retrieve the sink to assert against using the extension method `GetTestSink()` on the factory.
@@ -149,22 +149,22 @@ See [SampleTest](samples/SampleLibraryTests/SampleTest.cs).
     You can reset it between tests with `Clear()` in the constructor of your `xUnit` tests. For example:
 
     ```csharp
-        public class LoggingTestWithInjectedFactory : IClassFixture<CustomWebApplicationFactory<Startup>>
-        {
-            private readonly CustomWebApplicationFactory<Startup> _factory;
+    public class LoggingTestWithInjectedFactory : IClassFixture<CustomWebApplicationFactory<Startup>>
+    {
+        private readonly CustomWebApplicationFactory<Startup> _factory;
 
-            public LoggingTestWithInjectedFactory(CustomWebApplicationFactory<Startup> factory)
-            {
-                _factory = factory;
-                // In this case the factory will be resused for all tests, so the sink will be shared as well.
-                // We can clear the sink before each test execution, as xUnit will not run this tests in parallel.
-                _factory.GetTestSink().Clear();
-                // When running on 2.x, the server is not initialized until it is explicitly started or the first client is created.
-                // So we need to use:
-                // if (_factory.TryGetTestSink(out var testSink)) testSink!.Clear();
-                // The exclamation mark is needed only when using Nullable Reference Types!
-            }
+        public LoggingTestWithInjectedFactory(CustomWebApplicationFactory<Startup> factory)
+        {
+            _factory = factory;
+            // In this case the factory will be resused for all tests, so the sink will be shared as well.
+            // We can clear the sink before each test execution, as xUnit will not run this tests in parallel.
+            _factory.GetTestSink().Clear();
+            // When running on 2.x, the server is not initialized until it is explicitly started or the first client is created.
+            // So we need to use:
+            // if (_factory.TryGetTestSink(out var testSink)) testSink!.Clear();
+            // The exclamation mark is needed only when using Nullable Reference Types!
         }
+    }
     ```
 
 ### Assert log entries
