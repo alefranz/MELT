@@ -17,8 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\MELT.Xunit\MELT.Xunit.csproj" />
-    <ProjectReference Include="..\..\src\MELT\MELT.csproj" />
     <ProjectReference Include="..\SampleLibrary\SampleLibrary.csproj" />
   </ItemGroup>
 
