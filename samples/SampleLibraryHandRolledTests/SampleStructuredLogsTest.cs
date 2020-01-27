@@ -30,7 +30,7 @@ namespace SampleLibraryHandRolledTests
             // or
             Assert.Contains(new KeyValuePair<string, object>("number", 42), log.Properties);
 
-            var template = Assert.Single(log.Properties, x => x.Key == "OriginalFormat");
+            var template = Assert.Single(log.Properties, x => x.Key == "{OriginalFormat}");
             Assert.Equal("The answer is {number}", template.Value);
         }
 
