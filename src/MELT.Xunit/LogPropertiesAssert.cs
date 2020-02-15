@@ -8,7 +8,7 @@ using Xunit.Sdk;
 
 namespace MELT.Xunit
 {
-    public static class LogValuesAssert
+    public static class LogPropertiesAssert
     {
         /// <summary>
         /// Asserts that the given key and value are present in the actual values.

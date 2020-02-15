@@ -52,7 +52,7 @@ namespace SampleWebApplication.Tests
             var log = _sink.Writes.Single();
             var state = Assert.IsAssignableFrom<IEnumerable<KeyValuePair<string, object>>>(log.State);
             // Assert specific parameters in the log entry
-            LogValuesAssert.Contains("place", "World", state);
+            LogPropertiesAssert.Contains("place", "World", state);
         }
 
         [Fact]
@@ -84,7 +84,7 @@ namespace SampleWebApplication.Tests
             var log = _sink.Writes.Single();
             var scope = Assert.IsAssignableFrom<IEnumerable<KeyValuePair<string, object>>>(log.Scope);
             // Assert specific parameters in the log scope
-            LogValuesAssert.Contains("name", "GET", scope);
+            LogPropertiesAssert.Contains("name", "GET", scope);
         }
     }
 }

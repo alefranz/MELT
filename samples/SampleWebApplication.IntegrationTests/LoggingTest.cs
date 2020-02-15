@@ -44,7 +44,7 @@ namespace SampleWebApplication.Tests
             // Assert
             var log = Assert.Single(_sink.LogEntries);
             // Assert specific parameters in the log entry
-            LogValuesAssert.Contains("place", "World", log);
+            LogPropertiesAssert.Contains("place", "World", log);
         }
 
         [Fact]
@@ -72,7 +72,7 @@ namespace SampleWebApplication.Tests
             // Assert
             var log = Assert.Single(_sink.LogEntries);
             // Assert specific parameters in the log scope
-            LogValuesAssert.Contains("name", "GET", log.Scope);
+            LogPropertiesAssert.Contains("name", "GET", log.Scope);
         }
 
         [Fact]
@@ -100,7 +100,7 @@ namespace SampleWebApplication.Tests
             // Assert
             var scope = Assert.Single(_sink.Scopes);
             // Assert specific parameters in the log scope
-            LogValuesAssert.Contains("name", "GET", scope);
+            LogPropertiesAssert.Contains("name", "GET", scope);
         }
     }
 }

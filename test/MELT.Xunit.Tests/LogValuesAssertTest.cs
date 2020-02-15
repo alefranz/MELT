@@ -72,7 +72,7 @@ namespace MELT.Xunit.Tests
             IEnumerable<KeyValuePair<string, object>> actualValues)
         {
             // Act && Assert
-            LogValuesAssert.Contains(expectedValues, actualValues);
+            LogPropertiesAssert.Contains(expectedValues, actualValues);
         }
 
         public static TheoryData<
@@ -118,7 +118,7 @@ namespace MELT.Xunit.Tests
         {
             // Act && Assert
             var equalException = Assert.Throws<EqualException>(
-                () => LogValuesAssert.Contains(expectedValues, actualValues));
+                () => LogPropertiesAssert.Contains(expectedValues, actualValues));
 
             Assert.Equal(GetString(expectedValues), equalException.Expected);
             Assert.Equal(GetString(actualValues), equalException.Actual);
@@ -142,7 +142,7 @@ namespace MELT.Xunit.Tests
             };
 
             // Act && Assert
-            LogValuesAssert.Contains(expectedLogValues, actualLogValues);
+            LogPropertiesAssert.Contains(expectedLogValues, actualLogValues);
         }
 
         [Fact]
@@ -157,7 +157,7 @@ namespace MELT.Xunit.Tests
             };
 
             // Act && Assert
-            LogValuesAssert.Contains("RouteKey", "id", actualLogValues);
+            LogPropertiesAssert.Contains("RouteKey", "id", actualLogValues);
         }
 
         public static TheoryData<
@@ -206,7 +206,7 @@ namespace MELT.Xunit.Tests
         {
             // Act && Assert
             var equalException = Assert.Throws<EqualException>(
-                () => LogValuesAssert.Contains(expectedValues, actualValues));
+                () => LogPropertiesAssert.Contains(expectedValues, actualValues));
 
             Assert.Equal(GetString(expectedValues), equalException.Expected);
             Assert.Equal(GetString(actualValues), equalException.Actual);

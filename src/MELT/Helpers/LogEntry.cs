@@ -11,6 +11,23 @@ namespace MELT
         public LogEntry(WriteContext entry)
         {
             _entry = entry;
+            var properties = new Dictionary<string, object>();
+
+            if (_entry.State is IEnumerable<KeyValuePair<string, object>> propertiesList)
+            {
+                foreach (var prop in propertiesList)
+                {
+                    if (prop.Key == "{OriginalFormat}")
+                    {
+                        Format = prop.Value as string;
+                        continue;
+                    }
+
+                    properties[prop.Key] = prop.Value;
+                }
+            }
+
+            Properties = properties;
         }
 
         public EventId EventId => _entry.EventId;
@@ -18,7 +35,8 @@ namespace MELT
         public string LoggerName => _entry.LoggerName;
         public LogLevel LogLevel => _entry.LogLevel;
         public string? Message => _entry.Message;
-        public IEnumerable<KeyValuePair<string, object>> Properties => _entry.State as IEnumerable<KeyValuePair<string, object>> ?? Constants.EmptyProperties;
+        public IReadOnlyDictionary<string, object> Properties { get; }
+        public string? Format { get; }
         public Scope Scope => new Scope(_entry.Scope);
     }
 }
