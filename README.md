@@ -17,6 +17,8 @@ Most of the code is copyrighted by the .NET Foundation as mentioned in the files
 
 If you like this project please don't forget to *star* it on [GitHub](https//github.com/alefranz/MELT) or let me know with a [tweet](https://twitter.com/AleFranz).
 
+You can find an explanation on the advantages of using this library and the importance of testing logs on the blog post "[How to test logging when using Microsoft.Extensions.Logging](https://alessio.franceschelli.me/posts/dotnet/how-to-test-logging-when-using-microsoft-extensions-logging/)".
+
 ## Index
 
 * [Quick start](README.md#quick-start)
@@ -66,6 +68,13 @@ Assert.Equal("I'm in the GET scope", scope.Message);
 ```
 
 There is also a property `Scope` in each log entry to have the scope captured with that entry.
+
+### Assert message format
+
+```csharp
+var log = Assert.Single(loggerFactory.LogEntries);
+Assert.Equal("The answer is {number}", log.Format);
+```
 
 ### Easily test log or scope properties with xUnit
 
@@ -191,6 +200,13 @@ Assert.Equal("I'm in the GET scope", scope.Message);
 ```
 
 There is also a property `Scope` in each log entry to have the scope captured with that entry.
+
+### Assert message format
+
+```csharp
+var log = Assert.Single(loggerFactory.LogEntries);
+Assert.Equal("The answer is {number}", log.Format);
+```
 
 ### Easily test log or scope properties with xUnit
 
