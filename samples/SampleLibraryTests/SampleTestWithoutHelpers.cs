@@ -30,6 +30,26 @@ namespace SampleLibraryTests
         }
 
         [Fact]
+        public void DoSomethingLogsUsingCorrectFormat()
+        {
+            // Arrange
+            var sink = new TestSink();
+            var loggerFactory = new TestLoggerFactory(sink);
+            var logger = loggerFactory.CreateLogger<Sample>();
+            var sample = new Sample(logger);
+
+            // Act
+            sample.DoSomething();
+
+            // Assert
+            Assert.Equal(1, sink.Writes.Count);
+            var log = sink.Writes.Single();
+            var state = Assert.IsAssignableFrom<IEnumerable<KeyValuePair<string, object>>>(log.State);
+            // Assert the the log format template
+            LogValuesAssert.Contains("{OriginalFormat}", "The answer is {number}", state);
+        }
+
+        [Fact]
         public void DoSomethingLogsCorrectParameter()
         {
             // Arrange
