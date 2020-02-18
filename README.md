@@ -29,7 +29,7 @@ You can find an explanation on the advantages of using this library and the impo
 * Install the NuGet package [MELT](https://www.nuget.org/packages/MELT/)
 
     ```xml
-    <PackageReference Include="MELT" Version="0.3.0" />
+    <PackageReference Include="MELT" Version="0.4.0" />
     ```
 
 * Get a test logger factory
@@ -81,7 +81,7 @@ Assert.Equal("The answer is {number}", log.Format);
 * Install the NuGet package [MELT.Xunit](https://www.nuget.org/packages/MELT.Xunit/)
 
     ```xml
-    <PackageReference Include="MELT.Xunit" Version="0.3.0" />
+    <PackageReference Include="MELT.Xunit" Version="0.4.0" />
     ```
 
 * Use the `LogValuesAssert.Contains(...)` helpers.
@@ -105,7 +105,7 @@ See [SampleTest](samples/SampleLibraryTests/SampleTest.cs).
 * Install the NuGet package [MELT.AspNetCore](https://www.nuget.org/packages/MELT.AspNetCore/)
 
     ```xml
-    <PackageReference Include="MELT.AspNetCore" Version="0.3.0" />
+    <PackageReference Include="MELT.AspNetCore" Version="0.4.0" />
     ```
 
 * Create a test sink using `MELTBuilder.CreateTestSink(...)`, where you can also customize the behaviour.
@@ -213,7 +213,7 @@ Assert.Equal("The answer is {number}", log.Format);
 * Install the NuGet package [MELT.Xunit](https://www.nuget.org/packages/MELT.Xunit/)
 
     ```xml
-    <PackageReference Include="MELT.Xunit" Version="0.3.0" />
+    <PackageReference Include="MELT.Xunit" Version="0.4.0" />
     ```
 
 * Use the `LogValuesAssert.Contains(...)` helpers.
