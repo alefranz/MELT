@@ -40,7 +40,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApplication2_1", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApplication2_1.IntegrationTests", "samples\SampleWebApplication2_1.IntegrationTests\SampleWebApplication2_1.IntegrationTests.csproj", "{7B27D2A1-7463-447E-98B7-7E814D6F7A10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleLibraryHandRolledTests", "samples\SampleLibraryHandRolledTests\SampleLibraryHandRolledTests.csproj", "{15BD4DE9-E58A-41A1-9233-D5E708B19697}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleLibraryHandRolledTests", "samples\SampleLibraryHandRolledTests\SampleLibraryHandRolledTests.csproj", "{15BD4DE9-E58A-41A1-9233-D5E708B19697}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApplicationSerilog", "samples\SampleWebApplicationSerilog\SampleWebApplicationSerilog.csproj", "{D1FE7A00-415C-4FA6-9ABC-AA2D69A04948}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApplicationSerilog.IntegrationTests", "samples\SampleWebApplicationSerilog.IntegrationTests\SampleWebApplicationSerilog.IntegrationTests.csproj", "{093B5068-9AC9-4766-BCC9-C93A2C444E67}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -96,6 +100,14 @@ Global
 		{15BD4DE9-E58A-41A1-9233-D5E708B19697}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15BD4DE9-E58A-41A1-9233-D5E708B19697}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15BD4DE9-E58A-41A1-9233-D5E708B19697}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1FE7A00-415C-4FA6-9ABC-AA2D69A04948}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1FE7A00-415C-4FA6-9ABC-AA2D69A04948}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1FE7A00-415C-4FA6-9ABC-AA2D69A04948}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1FE7A00-415C-4FA6-9ABC-AA2D69A04948}.Release|Any CPU.Build.0 = Release|Any CPU
+		{093B5068-9AC9-4766-BCC9-C93A2C444E67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{093B5068-9AC9-4766-BCC9-C93A2C444E67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{093B5068-9AC9-4766-BCC9-C93A2C444E67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{093B5068-9AC9-4766-BCC9-C93A2C444E67}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -113,6 +125,8 @@ Global
 		{1098CBA6-EC79-4B53-8314-F43ED432104E} = {B33EF166-2895-47CF-BF2C-740C271A250E}
 		{7B27D2A1-7463-447E-98B7-7E814D6F7A10} = {B33EF166-2895-47CF-BF2C-740C271A250E}
 		{15BD4DE9-E58A-41A1-9233-D5E708B19697} = {B33EF166-2895-47CF-BF2C-740C271A250E}
+		{D1FE7A00-415C-4FA6-9ABC-AA2D69A04948} = {B33EF166-2895-47CF-BF2C-740C271A250E}
+		{093B5068-9AC9-4766-BCC9-C93A2C444E67} = {B33EF166-2895-47CF-BF2C-740C271A250E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {954CCC12-511A-4435-AE51-C19A527D4654}

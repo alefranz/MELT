@@ -1,10 +1,9 @@
 using MELT;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace SampleWebApplication.Tests
+namespace Microsoft.AspNetCore.Mvc.Testing
 {
     public static class WebApplicationFactoryExtensions
     {
