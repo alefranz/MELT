@@ -232,3 +232,13 @@ You can assert againt all the characteristic of a log entry: `EventId`, `Excepti
 
 See [LoggingTest](samples/SampleWebApplication.IntegrationTests/LoggingTest.cs) or
 [LoggingTestWithInjectedFactory](samples/SampleWebApplication.IntegrationTests/LoggingTestWithInjectedFactory.cs).
+
+## Compatibility
+
+This library is compatibe with [Microsoft.Extensions.Logging](https://github.com/aspnet/Extensions/tree/master/src/Logging/Logging.Testing) 2.0+.
+When used for integration tests of ASP.NET Core applications, it supports all the currently supported versions of ASP.NET Core: 2.1 LTS and 3.1 LTS, but also the now deprecated 2.2 and 3.0.
+
+### Serilog
+
+When used in conjunction with Serilog, it must be configured using [Serilog.Extensions.Logging](https://github.com/serilog/serilog-extensions-logging).
+

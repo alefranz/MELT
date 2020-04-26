@@ -9,10 +9,12 @@ namespace MELT
     public class TestLoggerFactory : ITestLoggerFactory
     {
         private readonly ITestSink _sink;
+        private readonly bool _useScopeFromProperties;
 
-        public TestLoggerFactory(ITestSink sink)
+        public TestLoggerFactory(ITestSink sink, bool useScopeFromProperties = false)
         {
             _sink = sink;
+            _useScopeFromProperties = useScopeFromProperties;
         }
 
         public IEnumerable<LogEntry> LogEntries => _sink.LogEntries;
@@ -20,7 +22,7 @@ namespace MELT
 
         public ILogger CreateLogger(string name)
         {
-            return new TestLogger(name, _sink);
+            return new TestLogger(name, _sink, _useScopeFromProperties);
         }
 
         public void AddProvider(ILoggerProvider provider)

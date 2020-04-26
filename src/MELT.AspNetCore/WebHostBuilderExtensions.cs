@@ -18,9 +18,9 @@ namespace Microsoft.AspNetCore.Hosting
         /// Adds a configured test logger that collect logs.
         /// </summary>
         /// <param name="builder">The <see cref="IWebHostBuilder"/> to add the test logger to.</param>
-        /// <param name="configure">A delegate used to configure the <see cref="TestSinkOptions"/>.</param>
+        /// <param name="configure">A delegate used to configure the <see cref="TestLoggerOptions"/>.</param>
         /// <returns>A reference to the <paramref name="builder"/> after the operation has completed.</returns>
-        public static IWebHostBuilder UseTestLogging(this IWebHostBuilder builder, Action<TestSinkOptions> configure)
+        public static IWebHostBuilder UseTestLogging(this IWebHostBuilder builder, Action<TestLoggerOptions> configure)
             => builder.ConfigureLogging(logging => logging.AddTestLogger(configure));
 
         /// <summary>
