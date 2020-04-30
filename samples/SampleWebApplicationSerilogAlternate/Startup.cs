@@ -44,6 +44,14 @@ namespace SampleWebApplicationSerilogAlternate
                         await GetAsync(context, logger);
                     }
                 });
+
+                endpoints.MapGet("/destructure", async context =>
+                {
+                    var logger = context.RequestServices.GetRequiredService<ILogger<Startup>>();
+                    var thing = new { foo = "bar", answer = 42};
+                    logger.LogInformation("This {@thing} has been destructured.", thing);
+                    context.Response.StatusCode = StatusCodes.Status202Accepted;
+                });
             });
         }
 

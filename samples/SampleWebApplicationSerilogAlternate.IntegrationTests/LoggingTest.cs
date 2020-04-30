@@ -138,6 +138,19 @@ namespace SampleWebApplicationSerilogAlternate.Tests
             LogValuesAssert.Contains("name", "GET", scope);
         }
 
+        [Fact]
+        public async Task ShouldDestructure()
+        {
+            // Arrange
+
+            // Act
+            await _factory.CreateDefaultClient().GetAsync("/destructure");
+
+            var log = Assert.Single(_sink.LogEntries);
+            // Assert the message rendered by a default formatter
+            Assert.Equal("This { foo: \"bar\", answer: 42 } has been destructured.", log.Message);
+        }
+
         public void Dispose()
         {
             Log.CloseAndFlush();
