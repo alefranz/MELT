@@ -45,12 +45,13 @@ namespace SampleWebApplicationSerilogAlternate
                     }
                 });
 
-                endpoints.MapGet("/destructure", async context =>
+                endpoints.MapGet("/destructure", context =>
                 {
                     var logger = context.RequestServices.GetRequiredService<ILogger<Startup>>();
                     var thing = new { foo = "bar", answer = 42};
                     logger.LogInformation("This {@thing} has been destructured.", thing);
                     context.Response.StatusCode = StatusCodes.Status202Accepted;
+                    return Task.CompletedTask;
                 });
             });
         }

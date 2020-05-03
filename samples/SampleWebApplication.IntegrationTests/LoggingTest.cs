@@ -3,6 +3,7 @@ using MELT.Xunit;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -45,6 +46,40 @@ namespace SampleWebApplication.Tests
             var log = Assert.Single(_sink.LogEntries);
             // Assert specific parameters in the log entry
             LogValuesAssert.Contains("place", "World", log);
+        }
+
+        [Fact]
+        public async Task ShouldLogHelloWorldAndUniverse()
+        {
+            // Arrange  
+
+            // Act
+            await _factory.CreateDefaultClient().GetAsync("/?multipleValues=1");
+
+            // Assert
+            var log = Assert.Single(_sink.LogEntries);
+            // Assert the message rendered by a default formatter
+            Assert.Equal("Hello World and Universe!", log.Message);
+        }
+
+        [Fact]
+        public async Task ShouldLogWithMultipleValuesForPlace()
+        {
+            // Arrange  
+
+            // Act
+            await _factory.CreateDefaultClient().GetAsync("/?multipleValues=1");
+
+            // Assert
+            var log = Assert.Single(_sink.LogEntries);
+            // Assert specific parameters in the log entry
+            LogValuesAssert.Contains("place", "World", log);
+            LogValuesAssert.Contains("place", "Universe", log);
+            // or
+            LogValuesAssert.Contains(new[] {
+                new KeyValuePair<string, object> ("place", "World"),
+                new KeyValuePair<string, object> ("place", "Universe")
+            }, log);
         }
 
         [Fact]

@@ -60,6 +60,8 @@ namespace MELT
                 }
             }
 
+            // TODO: move to extension method
+
             _sink.Write(new WriteContext(logLevel, eventId, state, exception, scope, Name, message));
         }
 
