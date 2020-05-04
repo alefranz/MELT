@@ -18,7 +18,6 @@ namespace SampleWebApplicationSerilogAlternate
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
                 .Enrich.FromLogContext()
                 .WriteTo.Console()
-                .WriteTo.Providers(Providers)
                 .CreateLogger();
 
             try
