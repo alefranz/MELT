@@ -51,21 +51,7 @@ namespace SampleWebApplicationSerilogAlternate.Tests
             var log = Assert.Single(_factory.GetTestSink().LogEntries);
             // Assert the scope rendered by a default formatter
             //Assert.NotEmpty(log.Scope);
-            Assert.Equal("I'm in the GET scope", log.Scope.Message);
-        }
-
-        [Fact]
-        public async Task ShouldBeginScope()
-        {
-            // Arrange
-
-            // Act
-            await _factory.CreateDefaultClient().GetAsync("/");
-
-            // Assert
-            var scope = Assert.Single(_factory.GetTestSink().Scopes);
-            // Assert the scope rendered by a default formatter
-            Assert.Equal("I'm in the GET scope", scope.Message);
+            Assert.Equal("[\"I'm in the GET scope\"]", log.Scope.Message);
         }
     }
 

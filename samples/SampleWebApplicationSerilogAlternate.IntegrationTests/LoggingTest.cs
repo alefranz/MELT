@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -111,36 +110,8 @@ namespace SampleWebApplicationSerilogAlternate.Tests
 
             // Assert
             var log = Assert.Single(_sink.LogEntries);
-            // Assert specific parameters in the log scope
-            LogValuesAssert.Contains("name", "GET", log.Scope);
-        }
-
-        [Fact]
-        public async Task ShouldBeginScope()
-        {
-            // Arrange
-
-            // Act
-            await _factory.CreateDefaultClient().GetAsync("/");
-
-            // Assert
-            var scope = Assert.Single(_sink.Scopes);
-            // Assert the scope rendered by a default formatter
-            Assert.Equal("\"I'm in the GET scope\"", scope.Message);
-        }
-
-        [Fact]
-        public async Task ShouldBeginScopeWithParameter()
-        {
-            // Arrange
-
-            // Act
-            await _factory.CreateDefaultClient().GetAsync("/");
-
-            // Assert
-            var scope = Assert.Single(_sink.Scopes);
-            // Assert specific parameters in the log scope
-            LogValuesAssert.Contains("name", "GET", scope);
+            // Assert specific parameters in the log entry itself, as Serilog puts the scope parameters on the log entry
+            LogValuesAssert.Contains("name", "GET", log);
         }
 
         [Fact]
