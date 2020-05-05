@@ -28,7 +28,7 @@ namespace SampleWebApplicationSerilogAlternate.Tests
                 .CreateLogger();
 
             _sink = MELTBuilder.CreateTestSink(options => options.FilterByNamespace(nameof(SampleWebApplicationSerilogAlternate)));
-            _factory = factory.WithWebHostBuilder(builder => builder.ConfigureLogging(logging => logging.AddTestLogger(_sink, useScopeFromProperties: true)));
+            _factory = factory.WithWebHostBuilder(builder => builder.ConfigureLogging(logging => logging.AddTestLogger(_sink)));
         }
 
         [Fact]
@@ -68,11 +68,9 @@ namespace SampleWebApplicationSerilogAlternate.Tests
 
             // Assert
             var log = Assert.Single(_sink.LogEntries);
-            // Assert the scope rendered by a default formatter
-            //Assert.Equal("I'm in the GET scope", log.Scope.Message);
-            var scopeSequence = Assert.IsType<SequenceValue>(log.Properties.Single(x => x.Key == "Scope").Value);
-            var scope = Assert.Single(scopeSequence.Elements);
-            Assert.Equal("\"I'm in the GET scope\"", scope.ToString());
+            var scope = Assert.Single(log.GetSerilogScope());
+            var scopeValue = Assert.IsType<ScalarValue>(scope).Value;
+            Assert.Equal("I'm in the GET scope", scopeValue);
         }
 
         [Fact]
@@ -85,18 +83,16 @@ namespace SampleWebApplicationSerilogAlternate.Tests
 
             // Assert
             var log = Assert.Single(_sink.LogEntries);
-            // Assert the scope rendered by a default formatter
-            Assert.Equal("[\"A top level scope\", \"I'm in the GET scope\"]", log.Scope.Message);
 
-            // or Assert the scope raw property
-            var scopeSequence = Assert.IsType<SequenceValue>(log.Properties.Single(x => x.Key == "Scope").Value);
-            Assert.Equal(2, scopeSequence.Elements.Count);
-            Assert.Equal("\"A top level scope\"", scopeSequence.Elements[0].ToString());
-            Assert.Equal("\"I'm in the GET scope\"", scopeSequence.Elements[1].ToString());
+            // Assert the scopes
+            var scopeElements = log.GetSerilogScope();
+            Assert.Equal(2, scopeElements.Count);
+            Assert.Equal(new ScalarValue("A top level scope"), scopeElements[0]);
+            Assert.Equal(new ScalarValue("I'm in the GET scope"), scopeElements[1]);
             // or
-            Assert.Collection(scopeSequence.Elements,
-                x => Assert.Equal("\"A top level scope\"", x.ToString()),
-                x => Assert.Equal("\"I'm in the GET scope\"", x.ToString())
+            Assert.Collection(scopeElements,
+                x => Assert.Equal(new ScalarValue("A top level scope"), x),
+                x => Assert.Equal(new ScalarValue("I'm in the GET scope"), x)
             );
         }
 

@@ -14,7 +14,6 @@ namespace MELT
         {
             _entry = entry;
             Properties = _entry.State as IEnumerable<KeyValuePair<string, object>> ?? Constants.EmptyProperties;
-            _propertiesDict = new Dictionary<string, object>();
         }
 
         public EventId EventId => _entry.EventId;
@@ -24,14 +23,7 @@ namespace MELT
         public string? Message => _entry.Message;
         public IEnumerable<KeyValuePair<string, object>> Properties { get; }
 
-        private Dictionary<string, object> _propertiesDict;
-
         public string Format => _format ??= GetFormat();
-
-        //public string GetProperty(string key)
-        //{
-        //    _propertiesDict.TryGetValue
-        //}
 
         private string GetFormat()
         {

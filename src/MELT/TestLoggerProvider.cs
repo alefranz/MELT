@@ -8,17 +8,15 @@ namespace MELT
     public class TestLoggerProvider : ILoggerProvider
     {
         private readonly ITestSink _sink;
-        private readonly bool _useScopeFromProperties;
 
-        public TestLoggerProvider(ITestSink sink, bool useScopeFromProperties = false)
+        public TestLoggerProvider(ITestSink sink)
         {
             _sink = sink;
-            _useScopeFromProperties = useScopeFromProperties;
         }
 
         public ILogger CreateLogger(string categoryName)
         {
-            return new TestLogger(categoryName, _sink, _useScopeFromProperties);
+            return new TestLogger(categoryName, _sink);
         }
 
         public void Dispose()

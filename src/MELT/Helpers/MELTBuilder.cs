@@ -35,7 +35,7 @@ namespace MELT
 
             var options = CreateOptions(configure);
             var sink = CreateTestSink(options);
-            return new TestLoggerFactory(sink, options.UseScopeFromProperties);
+            return new TestLoggerFactory(sink);
         }
 
         /// <summary>

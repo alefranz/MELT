@@ -1,8 +1,8 @@
+using MELT.Xunit;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Serilog;
 using Serilog.Events;
-using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -49,9 +49,9 @@ namespace SampleWebApplicationSerilogAlternate.Tests
 
             // Assert
             var log = Assert.Single(_factory.GetTestSink().LogEntries);
-            // Assert the scope rendered by a default formatter
-            //Assert.NotEmpty(log.Scope);
-            Assert.Equal("[\"I'm in the GET scope\"]", log.Scope.Message);
+            var scope = Assert.Single(log.GetSerilogScope());
+            var scopeValue = Assert.IsType<ScalarValue>(scope).Value;
+            Assert.Equal("I'm in the GET scope", scopeValue);
         }
     }
 
@@ -72,7 +72,6 @@ namespace SampleWebApplicationSerilogAlternate.Tests
         {
             builder.UseTestLogging(options =>
             {
-                options.UseScopeFromProperties = true;
                 options.FilterByNamespace(nameof(SampleWebApplicationSerilogAlternate));
             });
         }

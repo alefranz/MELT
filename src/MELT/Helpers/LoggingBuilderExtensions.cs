@@ -6,21 +6,21 @@ namespace Microsoft.Extensions.Logging
 {
     public static class LoggingBuilderExtensions
     {
-        public static ILoggingBuilder AddTestLogger(this ILoggingBuilder builder, bool useScopeFromProperties = false)
-            => builder.AddTestLogger(MELTBuilder.CreateTestSink(), useScopeFromProperties);
+        public static ILoggingBuilder AddTestLogger(this ILoggingBuilder builder)
+            => builder.AddTestLogger(MELTBuilder.CreateTestSink());
 
         public static ILoggingBuilder AddTestLogger(this ILoggingBuilder builder, Action<TestLoggerOptions> configure)
         {
             if (configure == null) throw new ArgumentNullException(nameof(configure));
 
             var options = MELTBuilder.CreateOptions(configure);
-            return builder.AddTestLogger(MELTBuilder.CreateTestSink(options), options.UseScopeFromProperties);
+            return builder.AddTestLogger(MELTBuilder.CreateTestSink(options));
         }
 
-        public static ILoggingBuilder AddTestLogger(this ILoggingBuilder builder, ITestSink sink, bool useScopeFromProperties = false)
+        public static ILoggingBuilder AddTestLogger(this ILoggingBuilder builder, ITestSink sink)
         {
             builder.Services.TryAddSingleton(sink);
-            return builder.AddProvider(new TestLoggerProvider(sink, useScopeFromProperties));
+            return builder.AddProvider(new TestLoggerProvider(sink));
         }
     }
 }

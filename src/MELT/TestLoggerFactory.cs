@@ -22,7 +22,7 @@ namespace MELT
 
         public ILogger CreateLogger(string name)
         {
-            return new TestLogger(name, _sink, _useScopeFromProperties);
+            return new TestLogger(name, _sink);
         }
 
         public void AddProvider(ILoggerProvider provider)

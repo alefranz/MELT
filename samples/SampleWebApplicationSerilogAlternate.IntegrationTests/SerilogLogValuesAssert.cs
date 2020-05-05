@@ -12,8 +12,13 @@ namespace MELT.Xunit
 {
     public static class SerilogLogValuesAssert
     {
-        public static SequenceValue? GetSerilogScope(this LogEntry log)
-            => log.Properties.SingleOrDefault(x => x.Key == "Scope").Value as SequenceValue;
+        private static readonly IReadOnlyList<LogEventPropertyValue> _emptyProperties = new LogEventPropertyValue[0];
+
+        public static IReadOnlyList<LogEventPropertyValue> GetSerilogScope(this LogEntry log)
+        {
+            var scopeSequence = log.Properties.SingleOrDefault(x => x.Key == "Scope").Value as SequenceValue;
+            return scopeSequence?.Elements ?? _emptyProperties;
+        }
 
         //AssertStructuredValue(log, "thing", new[] {
         //        new KeyValuePair<string, object>("foo", "bar"),

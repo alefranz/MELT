@@ -8,8 +8,6 @@ namespace MELT
         internal Func<WriteContext, bool>? WriteEnabled { get; set; }
         internal Func<BeginScopeContext, bool>? BeginEnabled { get; set; }
 
-        public bool UseScopeFromProperties { get; set; }
-
         public TestLoggerOptions FilterByNamespace(string namespacePrefix)
         {
             AddWriteEnabledRule(x => x.LoggerName.StartsWith($"{namespacePrefix}."));

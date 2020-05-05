@@ -3,21 +3,18 @@
 
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 
 namespace MELT
 {
     public class TestLogger : ILogger
     {
         private readonly ITestSink _sink;
-        private readonly bool _useScopeFromProperties;
         private object? _scope;
 
-        public TestLogger(string name, ITestSink sink, bool useScopeFromProperties)
+        public TestLogger(string name, ITestSink sink)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             _sink = sink ?? throw new ArgumentNullException(nameof(sink));
-            _useScopeFromProperties = useScopeFromProperties;
         }
 
         public string Name { get; }
@@ -42,27 +39,7 @@ namespace MELT
 
             var message = formatter(state, exception);
 
-            // Serilog does not invoke BeginScope, but it put the Scope in the state.
-            // This solution is also compatible with .Enrich.FromLogContext().
-            var scope = _scope;
-            if (_useScopeFromProperties)
-            {
-                if (state is IEnumerable<KeyValuePair<string, object>> properties)
-                {
-                    foreach (var prop in properties)
-                    {
-                        if (prop.Key == "Scope")
-                        {
-                            scope = prop.Value;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            // TODO: move to extension method
-
-            _sink.Write(new WriteContext(logLevel, eventId, state, exception, scope, Name, message));
+            _sink.Write(new WriteContext(logLevel, eventId, state, exception, _scope, Name, message));
         }
 
         public bool IsEnabled(LogLevel logLevel) => logLevel != LogLevel.None;
