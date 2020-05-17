@@ -4,7 +4,21 @@ using System.Collections.Generic;
 
 namespace MELT
 {
-    public interface ITestSink
+    [Obsolete]
+    public interface ITestSink : IInternalTestSink, ITestLoggerSink
+    { }
+
+    public interface ITestLoggerSink
+    {
+        IEnumerable<LogEntry> LogEntries { get; }
+
+        IEnumerable<BeginScope> Scopes { get; }
+
+        void Clear();
+    }
+
+    [Obsolete]
+    public interface IInternalTestSink
     {
         event Action<WriteContext>? MessageLogged;
 
@@ -21,11 +35,5 @@ namespace MELT
         void Write(WriteContext context);
 
         void BeginScope(BeginScopeContext context);
-
-        IEnumerable<LogEntry> LogEntries { get; }
-
-        IEnumerable<BeginScope> Scopes { get; }
-        
-        void Clear();
     }
 }

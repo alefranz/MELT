@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -15,7 +14,7 @@ namespace SampleWebApplication.Tests
             _factory = factory;
             // In this case the factory will be resused for all tests, so the sink will be shared as well.
             // We can clear the sink before each test execution, as xUnit will not run this tests in parallel.
-            _factory.GetTestSink().Clear();
+            _factory.GetTestLoggerSink().Clear();
             // When running on 2.x, the server is not initialized until it is explicitly started or the first client is created.
             // So we need to use:
             // if (_factory.TryGetTestSink(out var testSink)) testSink!.Clear();
@@ -31,7 +30,7 @@ namespace SampleWebApplication.Tests
             await _factory.CreateDefaultClient().GetAsync("/");
 
             // Assert
-            var log = Assert.Single(_factory.GetTestSink().LogEntries);
+            var log = Assert.Single(_factory.GetTestLoggerSink().LogEntries);
             // Assert the message rendered by a default formatter
             Assert.Equal("Hello World!", log.Message);
         }
@@ -45,7 +44,7 @@ namespace SampleWebApplication.Tests
             await _factory.CreateDefaultClient().GetAsync("/");
 
             // Assert
-            var log = Assert.Single(_factory.GetTestSink().LogEntries);
+            var log = Assert.Single(_factory.GetTestLoggerSink().LogEntries);
             // Assert the scope rendered by a default formatter
             Assert.Equal("I'm in the GET scope", log.Scope.Message);
         }
@@ -59,7 +58,7 @@ namespace SampleWebApplication.Tests
             await _factory.CreateDefaultClient().GetAsync("/");
 
             // Assert
-            var scope = Assert.Single(_factory.GetTestSink().Scopes);
+            var scope = Assert.Single(_factory.GetTestLoggerSink().Scopes);
             // Assert the scope rendered by a default formatter
             Assert.Equal("I'm in the GET scope", scope.Message);
         }

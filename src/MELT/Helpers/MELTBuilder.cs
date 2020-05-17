@@ -4,11 +4,31 @@ namespace MELT
 {
     public static class MELTBuilder
     {
-        /// <summary>
+        ///// <summary>
+        ///// Create a configured test logger sink to be passed to the test logger factory.
+        ///// </summary>
+        ///// <param name="configure">A delegate used to configure the <see cref="TestLoggerOptions"/>.</param>
+        ///// <returns>The test logger sink.</returns>
+        //public static ITestLoggerSink CreateLogSink(Action<TestLoggerOptions> configure)
+        //{
+        //    if (configure == null) throw new ArgumentNullException(nameof(configure));
+
+        //    var options = CreateOptions(configure);
+        //    return new TestSink(CreateTestSink(options));
+        //}
+
+        ///// <summary>
+        ///// Create a default test logger sink to be passed to the test logger factory.
+        ///// </summary>
+        ///// <returns>The test logger sink.</returns>
+        //public static ITestLoggerSink CreateLogSink() => new TestSink(CreateTestSink());
+
+        [Obsolete]
+        // <summary>
         /// Create a configured test sink to be passed to the test logger factory.
         /// </summary>
         /// <param name="configure">A delegate used to configure the <see cref="TestLoggerOptions"/>.</param>
-        /// <returns>The test sink.</returns>
+        /// <returns>The test logger sink.</returns>
         public static ITestSink CreateTestSink(Action<TestLoggerOptions> configure)
         {
             if (configure == null) throw new ArgumentNullException(nameof(configure));
@@ -17,11 +37,32 @@ namespace MELT
             return CreateTestSink(options);
         }
 
+        [Obsolete]
         /// <summary>
         /// Create a default test sink to be passed to the test logger factory.
         /// </summary>
         /// <returns>The test sink.</returns>
         public static ITestSink CreateTestSink() => new TestSink();
+
+        // <summary>
+        /// Create a configured test sink to be passed to the test logger factory.
+        /// </summary>
+        /// <param name="configure">A delegate used to configure the <see cref="TestLoggerOptions"/>.</param>
+        /// <returns>The test logger sink.</returns>
+        public static ITestLoggerSink CreateTestLoggerSink(Action<TestLoggerOptions> configure)
+        {
+            if (configure == null) throw new ArgumentNullException(nameof(configure));
+
+            var options = CreateOptions(configure);
+            return CreateTestSink(options);
+        }
+
+        [Obsolete]
+        /// <summary>
+        /// Create a default test sink to be passed to the test logger factory.
+        /// </summary>
+        /// <returns>The test sink.</returns>
+        public static ITestLoggerSink CreateTestLoggerSink() => new TestSink();
 
         /// <summary>
         /// Create a configured logger factory to be used to capture log messages and scopes in a test sink.
@@ -45,8 +86,7 @@ namespace MELT
         /// <returns>The test logger factory.</returns>
         public static ITestLoggerFactory CreateLoggerFactory()
         {
-            var sink = CreateTestSink();
-            return new TestLoggerFactory(sink, false);
+            return new TestLoggerFactory(new TestSink());
         }
 
         internal static TestLoggerOptions CreateOptions(Action<TestLoggerOptions> configure)

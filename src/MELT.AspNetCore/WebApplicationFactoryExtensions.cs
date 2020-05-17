@@ -7,6 +7,7 @@ namespace Microsoft.AspNetCore.Mvc.Testing
 {
     public static class WebApplicationFactoryExtensions
     {
+        [Obsolete]
         public static bool TryGetTestSink<TStartup>(this WebApplicationFactory<TStartup> factory, out ITestSink? testSink)
             where TStartup : class
         {
@@ -20,9 +21,27 @@ namespace Microsoft.AspNetCore.Mvc.Testing
             return false;
         }
 
+        [Obsolete]
         public static ITestSink GetTestSink<TStartup>(this WebApplicationFactory<TStartup> factory)
             where TStartup : class
             => GetServices(factory).GetRequiredService<ITestSink>();
+
+        public static bool TryGetTestLoggerSink<TStartup>(this WebApplicationFactory<TStartup> factory, out ITestLoggerSink? testSink)
+            where TStartup : class
+        {
+            if (TryGetServices(factory, out var services))
+            {
+                testSink = services.GetService<ITestLoggerSink>();
+                return testSink != null;
+            }
+
+            testSink = null;
+            return false;
+        }
+
+        public static ITestLoggerSink GetTestLoggerSink<TStartup>(this WebApplicationFactory<TStartup> factory)
+            where TStartup : class
+            => GetServices(factory).GetRequiredService<ITestLoggerSink>();
 
 
         private static IServiceProvider GetServices<TStartup>(WebApplicationFactory<TStartup> factory) where TStartup : class

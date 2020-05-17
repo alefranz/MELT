@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace MELT
 {
-    public class TestSink : ITestSink
+    internal class TestSink : ITestSink
     {
         private ConcurrentQueue<BeginScopeContext> _beginScopes;
         private ConcurrentQueue<WriteContext> _writes;
@@ -30,9 +30,12 @@ namespace MELT
 
         public IProducerConsumerCollection<BeginScopeContext> BeginScopes { get => _beginScopes; }
 
-        public IProducerConsumerCollection<WriteContext> Writes { get => _writes;  }
+        public IProducerConsumerCollection<WriteContext> Writes { get => _writes; }
 
+        //[Obsolete]
         public IEnumerable<LogEntry> LogEntries => Writes.Select(x => new LogEntry(x));
+
+        //[Obsolete]
         public IEnumerable<BeginScope> Scopes => BeginScopes.Select(x => new BeginScope(x));
 
         public event Action<WriteContext>? MessageLogged;
@@ -57,10 +60,33 @@ namespace MELT
             ScopeStarted?.Invoke(context);
         }
 
+        //[Obsolete]
         public void Clear()
         {
             _beginScopes = new ConcurrentQueue<BeginScopeContext>();
             _writes = new ConcurrentQueue<WriteContext>();
         }
     }
+
+    //public class LogSink : IHaveSink
+    //{
+    //    private readonly ITestSink _sink;
+
+    //    ITestSink IHaveSink.Sink => _sink;
+
+    //    public LogSink(ITestSink sink)
+    //    {
+    //        _sink = sink;
+    //    }
+
+    //    public IEnumerable<LogEntry> LogEntries => _sink.Writes.Select(x => new LogEntry(x));
+    //    public IEnumerable<BeginScope> Scopes => _sink.BeginScopes.Select(x => new BeginScope(x));
+
+    //    public void Clear() => _sink.Clear();
+    //}
+
+    //internal interface IHaveSink
+    //{
+    //    internal ITestSink Sink { get; }
+    //}
 }

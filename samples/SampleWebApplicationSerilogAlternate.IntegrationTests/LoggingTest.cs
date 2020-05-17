@@ -15,7 +15,7 @@ namespace SampleWebApplicationSerilogAlternate.Tests
     [Collection("Serilog Test Collection")]
     public class LoggingTest : IClassFixture<WebApplicationFactory<Startup>>, IDisposable
     {
-        private readonly ITestSink _sink;
+        private readonly ISerilogTestSink _sink;
         private readonly WebApplicationFactory<Startup> _factory;
 
         public LoggingTest(WebApplicationFactory<Startup> factory)
@@ -27,8 +27,9 @@ namespace SampleWebApplicationSerilogAlternate.Tests
                 .WriteTo.Providers(Program.Providers)
                 .CreateLogger();
 
-            _sink = MELTBuilder.CreateTestSink(options => options.FilterByNamespace(nameof(SampleWebApplicationSerilogAlternate)));
+            var sink = MELTBuilder.CreateTestSink(options => options.FilterByNamespace(nameof(SampleWebApplicationSerilogAlternate)));
             _factory = factory.WithWebHostBuilder(builder => builder.ConfigureLogging(logging => logging.AddTestLogger(_sink)));
+            _sink = sink.AsSerilog();
         }
 
         [Fact]

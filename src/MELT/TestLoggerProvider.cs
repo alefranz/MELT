@@ -5,11 +5,12 @@ using Microsoft.Extensions.Logging;
 
 namespace MELT
 {
+    [ProviderAlias("TestLogger")]
     public class TestLoggerProvider : ILoggerProvider
     {
-        private readonly ITestSink _sink;
+        public readonly ITestSink _sink;
 
-        public TestLoggerProvider(ITestSink sink)
+        internal TestLoggerProvider(ITestSink sink)
         {
             _sink = sink;
         }

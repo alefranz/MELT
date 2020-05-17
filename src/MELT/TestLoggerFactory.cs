@@ -8,13 +8,11 @@ namespace MELT
 {
     public class TestLoggerFactory : ITestLoggerFactory
     {
-        private readonly ITestSink _sink;
-        private readonly bool _useScopeFromProperties;
+        private readonly TestSink _sink;
 
-        public TestLoggerFactory(ITestSink sink, bool useScopeFromProperties = false)
+        internal TestLoggerFactory(TestSink sink)
         {
             _sink = sink;
-            _useScopeFromProperties = useScopeFromProperties;
         }
 
         public IEnumerable<LogEntry> LogEntries => _sink.LogEntries;

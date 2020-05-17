@@ -1,6 +1,7 @@
 // Copyright(c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using SampleWebApplicationSerilogAlternate.Tests;
 using Serilog.Events;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,11 @@ namespace MELT.Xunit
 {
     public static class SerilogLogValuesAssert
     {
+        public static ISerilogTestSink AsSerilog(this ITestSink sink)
+        {
+            return new SerilogTestSink(sink);
+        }
+
         private static readonly IReadOnlyList<LogEventPropertyValue> _emptyProperties = new LogEventPropertyValue[0];
 
         public static IReadOnlyList<LogEventPropertyValue> GetSerilogScope(this LogEntry log)
