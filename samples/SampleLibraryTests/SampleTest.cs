@@ -2,9 +2,8 @@ using Microsoft.Extensions.Logging;
 using MELT;
 using SampleLibrary;
 using Xunit;
-using MELT.Xunit;
-using System.Collections.Generic;
 using System;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace SampleLibraryTests
 {
@@ -14,7 +13,25 @@ namespace SampleLibraryTests
         public void DoSomethingLogsMessage()
         {
             // Arrange
-            var loggerFactory = MELTBuilder.CreateLoggerFactory();
+            //var loggerFactory = MELTBuilder.CreateLoggerFactory();
+            //var logger = loggerFactory.CreateLogger<Sample>();
+
+
+            //var loggerFactory = new LoggerFactory();
+            //var sink = loggerFactory.AddTest();
+
+
+            //var loggerFactory = MELTBuilder.CreateTestLoggerFactory();
+
+            //var loggerFactory = new LoggerFactory();
+            //var loggerProvider = new TestLoggerProvider();
+            //loggerFactory.AddProvider(loggerProvider);
+
+
+            //(var loggerFactory, var loggerProvider) = InitializeTestLogger();
+
+            var loggerFactory = MELTBuilder.CreateTestLoggerFactory();
+
             var logger = loggerFactory.CreateLogger<Sample>();
             var sample = new Sample(logger);
 
@@ -22,10 +39,18 @@ namespace SampleLibraryTests
             sample.DoSomething();
 
             // Assert
-            var log = Assert.Single(loggerFactory.LogEntries);
+            var log = Assert.Single(loggerFactory.GetTestLoggerSink().LogEntries);
             // Assert the message rendered by a default formatter
             Assert.Equal("The answer is 42", log.Message);
         }
+
+        //private static (LoggerFactory loggerFactory, TestLoggerProvider loggerProvider) InitializeTestLogger()
+        //{
+        //    var loggerFactory = new LoggerFactory();
+        //    var loggerProvider = new TestLoggerProvider();
+        //    loggerFactory.AddProvider(loggerProvider);
+        //    return (loggerFactory, loggerProvider);
+        //}
 
         [Fact]
         public void DoSomethingLogsCorrectParameter()

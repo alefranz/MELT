@@ -2,35 +2,42 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 
 namespace MELT
 {
-    public class TestLoggerFactory : ITestLoggerFactory
+    public class TestLoggerFactory : LoggerFactory, ITestLoggerFactory
     {
-        private readonly TestSink _sink;
+        private readonly ITestSink _sink;
 
-        internal TestLoggerFactory(TestSink sink)
+        internal TestLoggerFactory(ITestSink sink)
         {
             _sink = sink;
+            //AddProvider(new TestLoggerProvider(_sink));
         }
 
+        [Obsolete]
         public IEnumerable<LogEntry> LogEntries => _sink.LogEntries;
+
+        [Obsolete]
         public IEnumerable<BeginScope> Scopes => _sink.Scopes;
 
-        public ILogger CreateLogger(string name)
-        {
-            return new TestLogger(name, _sink);
-        }
+        public ITestLoggerSink Sink => _sink;
 
-        public void AddProvider(ILoggerProvider provider)
-        {
-            // no op
-        }
+        //public ILogger CreateLogger(string name)
+        //{
+        //    return new TestLogger(name, _sink);
+        //}
 
-        public void Dispose()
-        {
-            // no op
-        }
+        //public void AddProvider(ILoggerProvider provider)
+        //{
+        //    // no op
+        //}
+
+        //public void Dispose()
+        //{
+        //    // no op
+        //}
     }
 }
