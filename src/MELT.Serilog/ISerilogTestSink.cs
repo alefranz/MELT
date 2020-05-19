@@ -1,12 +1,11 @@
-using MELT;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SampleWebApplicationSerilogAlternate.Tests
+namespace MELT
 {
-    public interface ISerilogTestSink
+    public interface ISerilogTestLoggerSink
     {
         IEnumerable<SerilogLogEntry> LogEntries { get; }
     }
@@ -15,6 +14,7 @@ namespace SampleWebApplicationSerilogAlternate.Tests
     {
         private readonly LogEntry _entry;
 
+        // TODO Use WriteContext ?
         public SerilogLogEntry(LogEntry entry)
         {
             _entry = entry;
@@ -25,7 +25,7 @@ namespace SampleWebApplicationSerilogAlternate.Tests
         public string LoggerName => _entry.LoggerName;
         public LogLevel LogLevel => _entry.LogLevel;
         public string? Message => _entry.Message;
-        public IEnumerable<KeyValuePair<string, object>> Properties => _entry.Properties as 
+        public IEnumerable<KeyValuePair<string, object>> Properties => _entry.Properties;
 
         public string Format => _entry.Format;
 
@@ -39,15 +39,27 @@ namespace SampleWebApplicationSerilogAlternate.Tests
         }
     }
 
-    public class SerilogTestSink : ISerilogTestSink
+    public class SerilogTestLoggerSink : ISerilogTestLoggerSink
     {
-        private readonly ITestSink _sink;
+        private readonly ITestLoggerSink _sink;
 
-        public SerilogTestSink(ITestSink sink)
+        public SerilogTestLoggerSink(ITestLoggerSink sink)
         {
             _sink = sink;
         }
 
         public IEnumerable<SerilogLogEntry> LogEntries => _sink.LogEntries.Select(x => new SerilogLogEntry(x));
+    }
+
+    public static class SerilogExtensions
+    {
+        public static ISerilogTestLoggerSink AsSerilog(this ITestLoggerSink sink)
+        {
+            return new SerilogTestLoggerSink(sink);
+        }
+
+        public static ITestLoggerSink GetSerilogTestLoggerSink<TStartup>(this WebApplicationFactory<TStartup> factory)
+            where TStartup : class
+            => GetServices(factory).GetRequiredService<ITestLoggerSink>();
     }
 }

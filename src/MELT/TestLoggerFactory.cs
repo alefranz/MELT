@@ -1,43 +1,75 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 
 namespace MELT
 {
-    public class TestLoggerFactory : LoggerFactory, ITestLoggerFactory
+    public class TestLoggerFactory : ITestLoggerFactory
     {
-        private readonly ITestSink _sink;
+        private readonly ILoggerFactory _loggerFactory;
+        private readonly ServiceProvider _serviceProvider;
+        
 
-        internal TestLoggerFactory(ITestSink sink)
+        //internal TestLoggerFactory(ITestSink sink)
+        //{
+        //    _sink = sink;
+        //    //AddProvider(new TestLoggerProvider(_sink));
+        //}
+
+        [Obsolete]
+        public IEnumerable<LogEntry> LogEntries => Sink.LogEntries;
+
+        [Obsolete]
+        public IEnumerable<BeginScope> Scopes => Sink.Scopes;
+
+        //public ITestLoggerSink Sink => _sink;
+
+        
+
+        private TestLoggerFactory(ILoggerFactory loggerFactory, ServiceProvider serviceProvider)
         {
-            _sink = sink;
-            //AddProvider(new TestLoggerProvider(_sink));
+            _loggerFactory = loggerFactory;
+            _serviceProvider = serviceProvider;
         }
 
-        [Obsolete]
-        public IEnumerable<LogEntry> LogEntries => _sink.LogEntries;
+        public ITestLoggerSink Sink => _serviceProvider.GetRequiredService<ITestLoggerSink>();
 
-        [Obsolete]
-        public IEnumerable<BeginScope> Scopes => _sink.Scopes;
+        public void Dispose()
+        {
+            _serviceProvider.Dispose();
+        }
 
-        public ITestLoggerSink Sink => _sink;
+        public ILogger CreateLogger(string categoryName)
+        {
+            return _loggerFactory.CreateLogger(categoryName);
+        }
 
-        //public ILogger CreateLogger(string name)
-        //{
-        //    return new TestLogger(name, _sink);
-        //}
+        public void AddProvider(ILoggerProvider provider)
+        {
+            _loggerFactory.AddProvider(provider);
+        }
 
-        //public void AddProvider(ILoggerProvider provider)
-        //{
-        //    // no op
-        //}
+        public static ITestLoggerFactory Create()
+        {
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging(builder => builder.AddTest());
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+            return new TestLoggerFactory(loggerFactory, serviceProvider);
+        }
 
-        //public void Dispose()
-        //{
-        //    // no op
-        //}
+        public static ITestLoggerFactory Create(Action<ILoggingBuilder> configure)
+        {
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging(builder => builder.AddTest());
+            serviceCollection.AddLogging(configure);
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+            return new TestLoggerFactory(loggerFactory, serviceProvider);
+        }
     }
 }

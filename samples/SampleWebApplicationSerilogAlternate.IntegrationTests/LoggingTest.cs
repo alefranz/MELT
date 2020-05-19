@@ -1,5 +1,4 @@
 using MELT;
-using MELT.Xunit;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Logging;
@@ -27,9 +26,12 @@ namespace SampleWebApplicationSerilogAlternate.Tests
                 .WriteTo.Providers(Program.Providers)
                 .CreateLogger();
 
-            var sink = MELTBuilder.CreateTestSink(options => options.FilterByNamespace(nameof(SampleWebApplicationSerilogAlternate)));
-            _factory = factory.WithWebHostBuilder(builder => builder.ConfigureLogging(logging => logging.AddTestLogger(_sink)));
-            _sink = sink.AsSerilog();
+            //var sink = MELTBuilder.CreateTestSink(options => options.FilterByNamespace(nameof(SampleWebApplicationSerilogAlternate)));
+            //_factory = factory.WithWebHostBuilder(builder => builder.ConfigureLogging(logging => logging.AddTestLogger(_sink)));
+            //_sink = sink.AsSerilog();
+
+            _factory = factory.WithWebHostBuilder(builder => builder.UseTestLogging(options => options.FilterByNamespace(nameof(SampleWebApplicationSerilogAlternate))));
+            _sink = _factory.GetTestLoggerSink().AsSerilog();
         }
 
         [Fact]

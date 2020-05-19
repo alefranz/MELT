@@ -30,7 +30,8 @@ namespace SampleLibraryTests
 
             //(var loggerFactory, var loggerProvider) = InitializeTestLogger();
 
-            var loggerFactory = MELTBuilder.CreateTestLoggerFactory();
+            //var loggerFactory = MELTBuilder.CreateTestLoggerFactory();
+            var loggerFactory = TestLoggerFactory.Create();
 
             var logger = loggerFactory.CreateLogger<Sample>();
             var sample = new Sample(logger);
@@ -39,7 +40,7 @@ namespace SampleLibraryTests
             sample.DoSomething();
 
             // Assert
-            var log = Assert.Single(loggerFactory.GetTestLoggerSink().LogEntries);
+            var log = Assert.Single(loggerFactory.Sink.LogEntries);
             // Assert the message rendered by a default formatter
             Assert.Equal("The answer is 42", log.Message);
         }
@@ -64,7 +65,7 @@ namespace SampleLibraryTests
             sample.DoSomething();
 
             // Assert
-            var log = Assert.Single(loggerFactory.LogEntries);
+            var log = Assert.Single(loggerFactory.Sink.LogEntries);
             // Assert specific parameters in the log entry
             LogValuesAssert.Contains("number", 42, log);
         }
@@ -81,7 +82,7 @@ namespace SampleLibraryTests
             sample.DoSomething();
 
             // Assert
-            var log = Assert.Single(loggerFactory.LogEntries);
+            var log = Assert.Single(loggerFactory.Sink.LogEntries);
             // Assert the the log format template
             Assert.Equal("The answer is {number}", log.Format);
         }
@@ -98,7 +99,7 @@ namespace SampleLibraryTests
             sample.DoExceptional();
 
             // Assert
-            var log = Assert.Single(loggerFactory.LogEntries);
+            var log = Assert.Single(loggerFactory.Sink.LogEntries);
             // Assert the message rendered by a default formatter
             Assert.Equal("There was a problem", log.Message);
             // Assert specific parameters in the log entry

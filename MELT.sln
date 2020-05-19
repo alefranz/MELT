@@ -50,6 +50,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApplicationSerilog
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApplicationSerilogAlternate.IntegrationTests", "samples\SampleWebApplicationSerilogAlternate.IntegrationTests\SampleWebApplicationSerilogAlternate.IntegrationTests.csproj", "{12A7ED3E-5568-4843-817E-96B29B5DFED1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MELT.Serilog", "src\MELT.Serilog\MELT.Serilog.csproj", "{706569E0-2979-4D8A-96C9-852D868D4399}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MELT.Serilog.Xunit", "src\MELT.Serilog.Xunit\MELT.Serilog.Xunit.csproj", "{7BC06B5D-72DE-43C2-9CCA-3D8ED83F3514}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -120,6 +124,14 @@ Global
 		{12A7ED3E-5568-4843-817E-96B29B5DFED1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12A7ED3E-5568-4843-817E-96B29B5DFED1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12A7ED3E-5568-4843-817E-96B29B5DFED1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{706569E0-2979-4D8A-96C9-852D868D4399}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{706569E0-2979-4D8A-96C9-852D868D4399}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{706569E0-2979-4D8A-96C9-852D868D4399}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{706569E0-2979-4D8A-96C9-852D868D4399}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BC06B5D-72DE-43C2-9CCA-3D8ED83F3514}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BC06B5D-72DE-43C2-9CCA-3D8ED83F3514}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BC06B5D-72DE-43C2-9CCA-3D8ED83F3514}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BC06B5D-72DE-43C2-9CCA-3D8ED83F3514}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -141,6 +153,8 @@ Global
 		{093B5068-9AC9-4766-BCC9-C93A2C444E67} = {B33EF166-2895-47CF-BF2C-740C271A250E}
 		{822BEBF9-788B-4BB9-A79E-FA9FF26C723E} = {B33EF166-2895-47CF-BF2C-740C271A250E}
 		{12A7ED3E-5568-4843-817E-96B29B5DFED1} = {B33EF166-2895-47CF-BF2C-740C271A250E}
+		{706569E0-2979-4D8A-96C9-852D868D4399} = {49161A77-61F0-442B-8874-A5FF7D2368C2}
+		{7BC06B5D-72DE-43C2-9CCA-3D8ED83F3514} = {49161A77-61F0-442B-8874-A5FF7D2368C2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {954CCC12-511A-4435-AE51-C19A527D4654}

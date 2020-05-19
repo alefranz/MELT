@@ -17,10 +17,14 @@ namespace SampleWebApplication.Tests
             //_sink = MELTBuilder.CreateTestSink(options => options.FilterByNamespace(nameof(SampleWebApplication)));
             //_factory = factory.WithWebHostBuilder(builder => builder.ConfigureLogging(logging => logging.AddTestLogger(_sink)));
 
-            _factory = factory.WithWebHostBuilder(builder =>
-                builder.ConfigureLogging(logging =>
-                    logging.AddTest(options =>
-                        options.FilterByNamespace(nameof(SampleWebApplication)))));
+
+            _factory = factory.WithWebHostBuilder(builder => builder.UseTestLogging(options => options.FilterByNamespace(nameof(SampleWebApplication))));
+
+            // or
+            //_factory = factory.WithWebHostBuilder(builder =>
+            //    builder.ConfigureLogging(logging =>
+            //        logging.AddTest(options =>
+            //            options.FilterByNamespace(nameof(SampleWebApplication)))));
         }
 
         [Fact]
