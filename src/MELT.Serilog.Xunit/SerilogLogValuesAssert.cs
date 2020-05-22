@@ -1,26 +1,26 @@
 // Copyright(c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using MELT;
 using MELT.Serilog;
 using Serilog.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Xunit;
 using Xunit.Sdk;
 
-namespace MELT.Xunit
+namespace Xunit
 {
     public static class SerilogLogValuesAssert
     {
-        public static ISerilogTestSink AsSerilog(this ITestSink sink)
-        {
-            return new SerilogTestSink(sink);
-        }
+        //public static ISerilogTestSink AsSerilog(this ITestSink sink)
+        //{
+        //    return new SerilogTestSink(sink);
+        //}
 
         private static readonly IReadOnlyList<LogEventPropertyValue> _emptyProperties = new LogEventPropertyValue[0];
 
-        public static IReadOnlyList<LogEventPropertyValue> GetSerilogScope(this LogEntry log)
+        public static IReadOnlyList<LogEventPropertyValue> GetSerilogScope(this SerilogLogEntry log)
         {
             var scopeSequence = log.Properties.SingleOrDefault(x => x.Key == "Scope").Value as SequenceValue;
             return scopeSequence?.Elements ?? _emptyProperties;
@@ -30,14 +30,14 @@ namespace MELT.Xunit
         //        new KeyValuePair<string, object>("foo", "bar"),
         //        new KeyValuePair<string, object>("answer", 42)
         //    });
-        public static void AssertStructuredValue(LogEntry log, string name, IEnumerable<KeyValuePair<string, object>> expectedValues)
+        public static void AssertStructuredValue(SerilogLogEntry log, string name, IEnumerable<KeyValuePair<string, object>> expectedValues)
         {
             var thing = Assert.Single(log.Properties, x => x.Key == name);
             var value = Assert.IsType<StructureValue>(thing.Value);
-            foreach (var (k, v) in expectedValues)
+            foreach (var expected in expectedValues)
             {
-                var property = Assert.Single(value.Properties, x => x.Name == k);
-                Assert.Equal(new ScalarValue(v), property.Value);
+                var property = Assert.Single(value.Properties, x => x.Name == expected.Key);
+                Assert.Equal(new ScalarValue(expected.Value), property.Value);
             }
         }
 
@@ -97,7 +97,7 @@ namespace MELT.Xunit
         public static void Contains(
             string key,
             object value,
-            LogEntry logEntry)
+            SerilogLogEntry logEntry)
         {
             Contains(key, value, logEntry.Properties);
         }
@@ -110,7 +110,7 @@ namespace MELT.Xunit
         /// <param name="logEntry">The log entry.</param>
         public static void Contains(
             IEnumerable<KeyValuePair<string, object>> expectedValues,
-            LogEntry logEntry)
+            SerilogLogEntry logEntry)
         {
             Contains(expectedValues, logEntry.Properties);
         }

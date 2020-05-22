@@ -5,7 +5,7 @@ using System;
 
 namespace Microsoft.AspNetCore.Mvc.Testing
 {
-    public static class WebApplicationFactoryExtensions
+    public static class MELTWebApplicationFactoryExtensions
     {
         [Obsolete]
         public static bool TryGetTestSink<TStartup>(this WebApplicationFactory<TStartup> factory, out ITestSink? testSink)
@@ -44,7 +44,7 @@ namespace Microsoft.AspNetCore.Mvc.Testing
             => GetServices(factory).GetRequiredService<ITestLoggerSink>();
 
 
-        private static IServiceProvider GetServices<TStartup>(WebApplicationFactory<TStartup> factory) where TStartup : class
+        internal static IServiceProvider GetServices<TStartup>(WebApplicationFactory<TStartup> factory) where TStartup : class
         {
             var server = factory.Server;
 
@@ -75,7 +75,7 @@ namespace Microsoft.AspNetCore.Mvc.Testing
             return host.Services;
         }
 
-        private static bool TryGetServices<TStartup>(WebApplicationFactory<TStartup> factory, out IServiceProvider? services) where TStartup : class
+        internal static bool TryGetServices<TStartup>(WebApplicationFactory<TStartup> factory, out IServiceProvider? services) where TStartup : class
         {
             IWebHost? host = null;
             try

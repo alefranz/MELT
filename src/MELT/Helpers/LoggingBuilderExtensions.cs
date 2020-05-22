@@ -54,6 +54,8 @@ namespace Microsoft.Extensions.Logging
             var sink = MELTBuilder.CreateTestSink(options);
 
             builder.Services.TryAddSingleton(sink);
+            builder.Services.TryAddSingleton<IInternalTestSink>(sink);
+            builder.Services.TryAddTransient<ITestLoggerSink, TestLoggerSinkAccessor>();
             return builder.AddProvider(new TestLoggerProvider(sink));
         }
     }

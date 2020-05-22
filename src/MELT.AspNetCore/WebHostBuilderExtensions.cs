@@ -12,7 +12,7 @@ namespace Microsoft.AspNetCore.Hosting
         /// <param name="builder">The <see cref="IWebHostBuilder"/> to add the test logger to.</param>
         /// <returns>A reference to the <paramref name="builder"/> after the operation has completed.</returns>
         public static IWebHostBuilder UseTestLogging(this IWebHostBuilder builder)
-            => builder.ConfigureLogging(logging => logging.AddTestLogger());
+            => builder.ConfigureLogging(logging => logging.AddTest());
 
         /// <summary>
         /// Adds a configured test logger that collect logs.
@@ -21,15 +21,15 @@ namespace Microsoft.AspNetCore.Hosting
         /// <param name="configure">A delegate used to configure the <see cref="TestLoggerOptions"/>.</param>
         /// <returns>A reference to the <paramref name="builder"/> after the operation has completed.</returns>
         public static IWebHostBuilder UseTestLogging(this IWebHostBuilder builder, Action<TestLoggerOptions> configure)
-            => builder.ConfigureLogging(logging => logging.AddTestLogger(configure));
+            => builder.ConfigureLogging(logging => logging.AddTest(configure));
 
-        /// <summary>
-        /// Adds a configured test logger that collect logs.
-        /// </summary>
-        /// <param name="builder">The <see cref="IWebHostBuilder"/> to add the test logger to.</param>
-        /// <param name="sink">The <see cref="ITestSink"/> to send the logs to.</param>
-        /// <returns>A reference to the <paramref name="builder"/> after the operation has completed.</returns>
-        public static IWebHostBuilder UseTestLogging(this IWebHostBuilder builder, ITestSink sink)
-            => builder.ConfigureLogging(logging => logging.AddTestLogger(sink));
+        ///// <summary>
+        ///// Adds a configured test logger that collect logs.
+        ///// </summary>
+        ///// <param name="builder">The <see cref="IWebHostBuilder"/> to add the test logger to.</param>
+        ///// <param name="sink">The <see cref="ITestSink"/> to send the logs to.</param>
+        ///// <returns>A reference to the <paramref name="builder"/> after the operation has completed.</returns>
+        //public static IWebHostBuilder UseTestLogging(this IWebHostBuilder builder, ITestSink sink)
+        //    => builder.ConfigureLogging(logging => logging.AddTestLogger(sink));
     }
 }

@@ -1,4 +1,4 @@
-using MELT;
+using MELT.Serilog;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Logging;
@@ -14,7 +14,7 @@ namespace SampleWebApplicationSerilogAlternate.Tests
     [Collection("Serilog Test Collection")]
     public class LoggingTest : IClassFixture<WebApplicationFactory<Startup>>, IDisposable
     {
-        private readonly ISerilogTestSink _sink;
+        private readonly ISerilogTestLoggerSink _sink;
         private readonly WebApplicationFactory<Startup> _factory;
 
         public LoggingTest(WebApplicationFactory<Startup> factory)
@@ -31,7 +31,7 @@ namespace SampleWebApplicationSerilogAlternate.Tests
             //_sink = sink.AsSerilog();
 
             _factory = factory.WithWebHostBuilder(builder => builder.UseTestLogging(options => options.FilterByNamespace(nameof(SampleWebApplicationSerilogAlternate))));
-            _sink = _factory.GetTestLoggerSink().AsSerilog();
+            _sink = _factory.GetSerilogTestLoggerSink();
         }
 
         [Fact]
@@ -58,7 +58,7 @@ namespace SampleWebApplicationSerilogAlternate.Tests
             // Assert
             var log = Assert.Single(_sink.LogEntries);
             // Assert specific parameters in the log entry
-            LogValuesAssert.Contains("place", "World", log);
+            SerilogLogValuesAssert.Contains("place", "World", log);
         }
 
         [Fact]
@@ -110,7 +110,7 @@ namespace SampleWebApplicationSerilogAlternate.Tests
             // Assert
             var log = Assert.Single(_sink.LogEntries);
             // Assert specific parameters in the log entry itself, as Serilog puts the scope parameters on the log entry
-            LogValuesAssert.Contains("name", "GET", log);
+            SerilogLogValuesAssert.Contains("name", "GET", log);
         }
 
         [Fact]

@@ -56,9 +56,7 @@ namespace MELT
         {
             if (configure == null) throw new ArgumentNullException(nameof(configure));
 
-            var options = CreateOptions(configure);
-            var sink = CreateTestSink(options);
-            return new TestLoggerFactory(sink);
+            return TestLoggerFactory.Create(configure);
         }
 
         /// <summary>
@@ -66,10 +64,7 @@ namespace MELT
         /// </summary>
         /// <param name="configure">A delegate used to configure the <see cref="TestLoggerOptions"/>.</param>
         /// <returns>The test logger factory.</returns>
-        public static ITestLoggerFactory CreateLoggerFactory()
-        {
-            return new TestLoggerFactory(new TestSink());
-        }
+        public static ITestLoggerFactory CreateLoggerFactory() => TestLoggerFactory.Create();
 
         ///// <summary>
         ///// Create a default logger factory to be used to capture log messages and scopes in a test sink.
@@ -88,6 +83,7 @@ namespace MELT
             return options;
         }
 
+        [Obsolete]
         internal static ITestSink CreateTestSink(TestLoggerOptions options)
         {
             return new TestSink(options.WriteEnabled, options.BeginEnabled);

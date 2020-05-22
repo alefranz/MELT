@@ -71,5 +71,14 @@ namespace MELT
             var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
             return new TestLoggerFactory(loggerFactory, serviceProvider);
         }
+
+        public static ITestLoggerFactory Create(Action<TestLoggerOptions> configure)
+        {
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging(builder => builder.AddTest(configure));
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+            return new TestLoggerFactory(loggerFactory, serviceProvider);
+        }
     }
 }

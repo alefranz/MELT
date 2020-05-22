@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 
 namespace MELT
@@ -6,9 +6,9 @@ namespace MELT
     [Obsolete]
     public interface IInternalTestSink
     {
-        event Action<WriteContext>? MessageLogged;
+        //event Action<WriteContext>? MessageLogged;
 
-        event Action<BeginScopeContext>? ScopeStarted;
+        //event Action<BeginScopeContext>? ScopeStarted;
 
         Func<WriteContext, bool>? WriteEnabled { get; set; }
 

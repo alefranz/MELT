@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 
-namespace MELT
+namespace MELT.Serilog
 {
     public interface ISerilogTestLoggerSink
     {
         IEnumerable<SerilogLogEntry> LogEntries { get; }
+
+        void Clear();
     }
 }
