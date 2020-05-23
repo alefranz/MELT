@@ -69,7 +69,7 @@ namespace SampleWebApplicationSerilogAlternate.Tests
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder.UseTestLogging(options =>
+            builder.UseSerilogTestLogging(options =>
             {
                 options.FilterByNamespace(nameof(SampleWebApplicationSerilogAlternate));
             });

@@ -1,6 +1,3 @@
-// Copyright (c) .NET Foundation. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
-
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,23 +9,21 @@ namespace MELT
     {
         private readonly ILoggerFactory _loggerFactory;
         private readonly ServiceProvider _serviceProvider;
-        
 
-        //internal TestLoggerFactory(ITestSink sink)
-        //{
-        //    _sink = sink;
-        //    //AddProvider(new TestLoggerProvider(_sink));
-        //}
+        [Obsolete]
+        public TestLoggerFactory(ITestSink sink)
+        {
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging(builder => builder.AddTestLogger(sink));
+            _serviceProvider = serviceCollection.BuildServiceProvider();
+            _loggerFactory = _serviceProvider.GetService<ILoggerFactory>();
+        }
 
         [Obsolete]
         public IEnumerable<LogEntry> LogEntries => Sink.LogEntries;
 
         [Obsolete]
         public IEnumerable<BeginScope> Scopes => Sink.Scopes;
-
-        //public ITestLoggerSink Sink => _sink;
-
-        
 
         private TestLoggerFactory(ILoggerFactory loggerFactory, ServiceProvider serviceProvider)
         {

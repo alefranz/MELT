@@ -23,6 +23,9 @@ namespace MELT
         public string? Message => _entry.Message;
         public IEnumerable<KeyValuePair<string, object>> Properties { get; }
 
+        public string OriginalFormat => _format ??= GetFormat();
+
+        [Obsolete()]
         public string Format => _format ??= GetFormat();
 
         private string GetFormat()

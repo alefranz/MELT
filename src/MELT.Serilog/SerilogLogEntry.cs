@@ -20,9 +20,10 @@ namespace MELT.Serilog
         public string LoggerName => _writeContext.LoggerName;
         public LogEventLevel LogLevel => (LogEventLevel)_writeContext.LogLevel;
         public string? Message => _writeContext.Message;
-        public IReadOnlyDictionary<string, object> Properties => _writeContext.State as IReadOnlyDictionary<string, object> ?? EmptyDictionary;
+        public IReadOnlyList<KeyValuePair<string, object>> Properties => _writeContext.State as IReadOnlyList<KeyValuePair<string, object>> ?? Constants.EmptyProperties;
 
-        public string Format => Properties.TryGetValue("", out var value) && value is string format ? format : Constants.NullString;
+        // Serilog put the format at the end
+        public string Format => Properties.Count > 0 && Properties[Properties.Count - 1].Key == "{OriginalFormat}" && Properties[Properties.Count - 1].Value is string s ? s : Constants.NullString;
 
         public SerilogScope Scope => new SerilogScope(_writeContext.Scope);
     }

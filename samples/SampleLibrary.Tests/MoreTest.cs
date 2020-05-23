@@ -3,7 +3,7 @@ using MELT;
 using SampleLibrary;
 using Xunit;
 
-namespace SampleLibraryTests
+namespace SampleLibrary.Tests
 {
     public class MoreTest
     {

@@ -10,7 +10,7 @@ namespace Microsoft.Extensions.Logging
         public static ILoggingBuilder AddTestLogger(this ILoggingBuilder builder)
             => builder.AddTestLogger(MELTBuilder.CreateTestSink());
 
-        [Obsolete("The recommended alternative is " + nameof(AddTest) + "(Action<" + nameof(TestLoggerOptions) + ">) or use the simplified factory.WithWebHostBuilder(builder => builder.UseTestLogging())")]
+        [Obsolete("The recommended alternative is " + nameof(AddTest) + "(Action<" + nameof(TestLoggerOptions) + ">) or use the simplified factory.WithWebHostBuilder(builder => builder.UseTestLogging()). The sink can then be retrieved with factory.GetTestLoggerSink()")]
         public static ILoggingBuilder AddTestLogger(this ILoggingBuilder builder, Action<TestLoggerOptions> configure)
         {
             if (configure == null) throw new ArgumentNullException(nameof(configure));
@@ -31,7 +31,7 @@ namespace Microsoft.Extensions.Logging
         //    return builder.AddProvider(new TestLoggerProvider(sinkWrapper.Sink));
         //}
 
-        [Obsolete("The recommended alternative is " + nameof(AddTest) + "() or use the simplified factory.WithWebHostBuilder(builder => builder.UseTestLogging())")]
+        [Obsolete("The recommended alternative is " + nameof(AddTest) + "() or use the simplified factory.WithWebHostBuilder(builder => builder.UseTestLogging()). The sink can then be retrieved with factory.GetTestLoggerSink()")]
         public static ILoggingBuilder AddTestLogger(this ILoggingBuilder builder, ITestSink sink)
         {
             builder.Services.TryAddSingleton(sink);

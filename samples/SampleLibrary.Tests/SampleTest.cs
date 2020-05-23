@@ -5,7 +5,7 @@ using Xunit;
 using System;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace SampleLibraryTests
+namespace SampleLibrary.Tests
 {
     public class SampleTest
     {

@@ -25,7 +25,7 @@ namespace MELT
         ///// <returns>The test logger sink.</returns>
         //public static ITestLoggerSink CreateLogSink() => new TestSink(CreateTestSink());
 
-        [Obsolete("The recommended alternative is to not create directly a sink and use factory.WithWebHostBuilder(builder => builder.UseTestLogging())")]
+        [Obsolete("The recommended alternative is to not create directly a sink and use factory.WithWebHostBuilder(builder => builder.UseTestLogging(Action<TestLoggerOptions>)). The sink can then be retrieved with factory.GetTestLoggerSink()")]
         // <summary>
         /// Create a configured test sink to be passed to the test logger factory.
         /// </summary>
@@ -39,13 +39,14 @@ namespace MELT
             return CreateTestSink(options);
         }
 
-        [Obsolete]
+        [Obsolete("The recommended alternative is to not create directly a sink and use factory.WithWebHostBuilder(builder => builder.UseTestLogging()). The sink can then be retrieved with factory.GetTestLoggerSink()")]
         /// <summary>
         /// Create a default test sink to be passed to the test logger factory.
         /// </summary>
         /// <returns>The test sink.</returns>
         public static ITestSink CreateTestSink() => new TestSink();
 
+        [Obsolete("The recommended alternative is " + nameof(TestLoggerFactory) + "." + nameof(TestLoggerFactory.Create) + "(Action<" + nameof(TestLoggerOptions) + ">)")]
         /// <summary>
         /// Create a configured logger factory to be used to capture log messages and scopes in a test sink.
         /// </summary>
@@ -59,6 +60,7 @@ namespace MELT
             return TestLoggerFactory.Create(configure);
         }
 
+        [Obsolete("The recommended alternative is " + nameof(TestLoggerFactory) + "." + nameof(TestLoggerFactory.Create) + "()")]
         /// <summary>
         /// Create a default logger factory to be used to capture log messages and scopes in a test sink.
         /// </summary>
@@ -83,7 +85,6 @@ namespace MELT
             return options;
         }
 
-        [Obsolete]
         internal static ITestSink CreateTestSink(TestLoggerOptions options)
         {
             return new TestSink(options.WriteEnabled, options.BeginEnabled);

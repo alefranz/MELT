@@ -30,7 +30,7 @@ namespace SampleWebApplicationSerilogAlternate.Tests
             //_factory = factory.WithWebHostBuilder(builder => builder.ConfigureLogging(logging => logging.AddTestLogger(_sink)));
             //_sink = sink.AsSerilog();
 
-            _factory = factory.WithWebHostBuilder(builder => builder.UseTestLogging(options => options.FilterByNamespace(nameof(SampleWebApplicationSerilogAlternate))));
+            _factory = factory.WithWebHostBuilder(builder => builder.UseSerilogTestLogging(options => options.FilterByNamespace(nameof(SampleWebApplicationSerilogAlternate))));
             _sink = _factory.GetSerilogTestLoggerSink();
         }
 
