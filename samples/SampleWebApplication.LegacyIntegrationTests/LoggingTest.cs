@@ -1,10 +1,12 @@
 using MELT;
+using MELT.Xunit;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace SampleWebApplication2_1.IntegrationTests
+namespace SampleWebApplication.LegacyIntegrationTests
 {
     public class LoggingTest : IClassFixture<WebApplicationFactory<Startup>>
     {
@@ -13,8 +15,8 @@ namespace SampleWebApplication2_1.IntegrationTests
 
         public LoggingTest(WebApplicationFactory<Startup> factory)
         {
-            _sink = MELTBuilder.CreateTestSink(options => options.FilterByNamespace(nameof(SampleWebApplication2_1)));
-            _factory = factory.WithWebHostBuilder(builder => builder.UseTestLogging(_sink));
+            _sink = MELTBuilder.CreateTestSink(options => options.FilterByNamespace(nameof(SampleWebApplication)));
+            _factory = factory.WithWebHostBuilder(builder => builder.ConfigureLogging(logging => logging.AddTestLogger(_sink)));
         }
 
         [Fact]

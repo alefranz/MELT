@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.AspNetCore.Mvc.Testing
 {
-    public static class SerilogExtensions
+    public static class MELTSerilogExtensions
     {
         //public static ISerilogTestLoggerSink AsSerilog(this ITestLoggerSink sink)
         //{

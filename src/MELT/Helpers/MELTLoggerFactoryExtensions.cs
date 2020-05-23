@@ -3,7 +3,7 @@ using System;
 
 namespace Microsoft.Extensions.Logging
 {
-    public static class LoggerFactoryExtensions
+    public static class MELTLoggerFactoryExtensions
     {
         [Obsolete]
         public static ITestLoggerSink AddTest(this ILoggerFactory loggerFactory)

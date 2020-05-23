@@ -8,7 +8,8 @@ using System.Linq;
 
 namespace MELT
 {
-    internal class TestSink : ITestSink
+    [Obsolete]
+    public class TestSink : ITestSink
     {
         private ConcurrentQueue<BeginScopeContext> _beginScopes;
         private ConcurrentQueue<WriteContext> _writes;

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace SampleWebApplication
+namespace SampleWebApplication2_1
 {
     public class Program
     {

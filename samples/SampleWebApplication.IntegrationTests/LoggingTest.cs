@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace SampleWebApplication.Tests
+namespace SampleWebApplication.IntegrationTests
 {
     public class LoggingTest : IClassFixture<WebApplicationFactory<Startup>>
     {
@@ -17,7 +17,7 @@ namespace SampleWebApplication.Tests
             //_sink = MELTBuilder.CreateTestSink(options => options.FilterByNamespace(nameof(SampleWebApplication)));
             //_factory = factory.WithWebHostBuilder(builder => builder.ConfigureLogging(logging => logging.AddTestLogger(_sink)));
 
-
+            // TODO: keep or remove?
             _factory = factory.WithWebHostBuilder(builder => builder.UseTestLogging(options => options.FilterByNamespace(nameof(SampleWebApplication))));
 
             // or

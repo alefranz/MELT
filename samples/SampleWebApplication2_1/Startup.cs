@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace SampleWebApplication
+namespace SampleWebApplication2_1
 {
     public class Startup
     {

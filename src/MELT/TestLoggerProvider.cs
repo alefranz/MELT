@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace MELT
 {
@@ -10,8 +11,10 @@ namespace MELT
     {
         public readonly ITestSink _sink;
 
-        // for testing
-        internal TestLoggerProvider(ITestSink sink)
+
+        // TODO: keep as internal for testing
+        [Obsolete]
+        public TestLoggerProvider(ITestSink sink)
         {
             _sink = sink;
         }

@@ -54,7 +54,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MELT.Serilog", "src\MELT.Se
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MELT.Serilog.Xunit", "src\MELT.Serilog.Xunit\MELT.Serilog.Xunit.csproj", "{7BC06B5D-72DE-43C2-9CCA-3D8ED83F3514}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MELT.Serilog.AspNetCore", "src\MELT.Serilog.AspNetCore\MELT.Serilog.AspNetCore.csproj", "{89D51593-33AB-493A-B7DE-5C9DE17FFB6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MELT.Serilog.AspNetCore", "src\MELT.Serilog.AspNetCore\MELT.Serilog.AspNetCore.csproj", "{89D51593-33AB-493A-B7DE-5C9DE17FFB6A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApplication.LegacyIntegrationTests", "samples\SampleWebApplication.LegacyIntegrationTests\SampleWebApplication.LegacyIntegrationTests.csproj", "{07718F50-501C-45A3-8858-79F9747C875A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -138,6 +140,10 @@ Global
 		{89D51593-33AB-493A-B7DE-5C9DE17FFB6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89D51593-33AB-493A-B7DE-5C9DE17FFB6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89D51593-33AB-493A-B7DE-5C9DE17FFB6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07718F50-501C-45A3-8858-79F9747C875A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07718F50-501C-45A3-8858-79F9747C875A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07718F50-501C-45A3-8858-79F9747C875A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07718F50-501C-45A3-8858-79F9747C875A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -162,6 +168,7 @@ Global
 		{706569E0-2979-4D8A-96C9-852D868D4399} = {49161A77-61F0-442B-8874-A5FF7D2368C2}
 		{7BC06B5D-72DE-43C2-9CCA-3D8ED83F3514} = {49161A77-61F0-442B-8874-A5FF7D2368C2}
 		{89D51593-33AB-493A-B7DE-5C9DE17FFB6A} = {49161A77-61F0-442B-8874-A5FF7D2368C2}
+		{07718F50-501C-45A3-8858-79F9747C875A} = {B33EF166-2895-47CF-BF2C-740C271A250E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {954CCC12-511A-4435-AE51-C19A527D4654}

@@ -25,7 +25,7 @@ namespace MELT
         ///// <returns>The test logger sink.</returns>
         //public static ITestLoggerSink CreateLogSink() => new TestSink(CreateTestSink());
 
-        [Obsolete]
+        [Obsolete("The recommended alternative is to not create directly a sink and use factory.WithWebHostBuilder(builder => builder.UseTestLogging())")]
         // <summary>
         /// Create a configured test sink to be passed to the test logger factory.
         /// </summary>
