@@ -60,7 +60,7 @@ namespace SampleWebApplicationSerilogAlternate
                 endpoints.MapGet("/destructure", context =>
                 {
                     var logger = context.RequestServices.GetRequiredService<ILogger<Startup>>();
-                    var thing = new { foo = "bar", answer = 42};
+                    var thing = new { foo = "bar", answer = 42 };
                     logger.LogInformation("This {@thing} has been destructured.", thing);
                     context.Response.StatusCode = StatusCodes.Status204NoContent;
                     return Task.CompletedTask;

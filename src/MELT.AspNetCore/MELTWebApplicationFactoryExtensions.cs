@@ -7,7 +7,7 @@ namespace Microsoft.AspNetCore.Mvc.Testing
 {
     public static class MELTWebApplicationFactoryExtensions
     {
-        [Obsolete("The recommended alternative is " + nameof(TryGetTestLoggerSink) + "(out " + nameof(ITestLoggerSink) +")")]
+        [Obsolete("The recommended alternative is " + nameof(TryGetTestLoggerSink) + "(out " + nameof(ITestLoggerSink) + ")")]
         public static bool TryGetTestSink<TStartup>(this WebApplicationFactory<TStartup> factory, out ITestSink? testSink)
             where TStartup : class
         {

@@ -159,5 +159,5 @@ namespace Xunit
                 throw new NotImplementedException();
             }
         }
-    } 
+    }
 }

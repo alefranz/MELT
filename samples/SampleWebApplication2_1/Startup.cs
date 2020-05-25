@@ -38,7 +38,8 @@ namespace SampleWebApplication2_1
             app.UseHttpsRedirection();
             app.UseMvc();
 
-            app.Run(async context => {
+            app.Run(async context =>
+            {
                 var logger = context.RequestServices.GetRequiredService<ILogger<Startup>>();
                 using (logger.BeginScope("I'm in the {name} scope", "GET"))
                 {
