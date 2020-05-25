@@ -16,10 +16,10 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.300
+    - name: Install dotnet-format
+      run: dotnet tool install dotnet-format
     - name: Format
-      run: |
-      dotnet dotnet tool install dotnet-format
-      dotnet format --check
+      run: dotnet format --check
   build:
     runs-on: ubuntu-latest
     steps:
