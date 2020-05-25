@@ -6,10 +6,10 @@ namespace MELT
 {
     public interface ITestLoggerFactory : ILoggerFactory
     {
-        [Obsolete]
+        [Obsolete("The reccomended alternative is " + nameof(Sink) + "." + nameof(ITestLoggerSink.LogEntries) + ".")]
         IEnumerable<LogEntry> LogEntries { get; }
 
-        [Obsolete]
+        [Obsolete("The reccomended alternative is " + nameof(Sink) + "." + nameof(ITestLoggerSink.Scopes) + ".")]
         IEnumerable<BeginScope> Scopes { get; }
 
         ITestLoggerSink Sink { get; }

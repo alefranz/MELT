@@ -3,7 +3,6 @@ using MELT;
 using SampleLibrary;
 using Xunit;
 using MELT.Xunit;
-using System.Collections.Generic;
 using System;
 
 namespace SampleLibrary.LegacyTests
@@ -74,10 +73,12 @@ namespace SampleLibrary.LegacyTests
 
             // Assert
             var log = Assert.Single(loggerFactory.LogEntries);
+
             // Assert the message rendered by a default formatter
             Assert.Equal("There was a problem", log.Message);
             // Assert specific parameters in the log entry
             LogValuesAssert.Contains("error", "problem", log);
+
             // Assert the exception
             var exception = Assert.IsType<ArgumentNullException>(log.Exception);
             Assert.Equal("foo", exception.ParamName);

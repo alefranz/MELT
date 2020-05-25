@@ -9,6 +9,7 @@ using Xunit.Sdk;
 
 namespace Xunit
 {
+    [Obsolete("The reccomended alternative is " + nameof(LoggingAssert) + ".")]
     public static class LogValuesAssert
     {
         /// <summary>
@@ -21,9 +22,7 @@ namespace Xunit
             string key,
             object value,
             IEnumerable<KeyValuePair<string, object>> actualValues)
-        {
-            Contains(new[] { new KeyValuePair<string, object>(key, value) }, actualValues);
-        }
+            => LoggingAssert.Contains(key, value, actualValues);
 
         /// <summary>
         /// Asserts that all the expected values are present in the actual values by ignoring
@@ -34,29 +33,7 @@ namespace Xunit
         public static void Contains(
             IEnumerable<KeyValuePair<string, object>> expectedValues,
             IEnumerable<KeyValuePair<string, object>> actualValues)
-        {
-            if (expectedValues == null)
-            {
-                throw new ArgumentNullException(nameof(expectedValues));
-            }
-
-            if (actualValues == null)
-            {
-                throw new ArgumentNullException(nameof(actualValues));
-            }
-
-            var comparer = new LogValueComparer();
-
-            foreach (var expectedPair in expectedValues)
-            {
-                if (!actualValues.Contains(expectedPair, comparer))
-                {
-                    throw new EqualException(
-                        expected: GetString(expectedValues),
-                        actual: GetString(actualValues));
-                }
-            }
-        }
+            => LoggingAssert.Contains(expectedValues, actualValues);
 
         /// <summary>
         /// Asserts that the given key and value are present in the log entry properties.
@@ -110,6 +87,57 @@ namespace Xunit
             IScope scope)
         {
             Contains(expectedValues, scope.Properties);
+        }
+
+    }
+
+    public static class LoggingAssert
+    {
+        /// <summary>
+        /// Asserts that the given key and value are present in the actual values.
+        /// </summary>
+        /// <param name="key">The key of the item to be found.</param>
+        /// <param name="value">The value of the item to be found.</param>
+        /// <param name="actualValues">The actual values.</param>
+        public static void Contains(
+            string key,
+            object value,
+            IEnumerable<KeyValuePair<string, object>> actualValues)
+        {
+            Contains(new[] { new KeyValuePair<string, object>(key, value) }, actualValues);
+        }
+
+        /// <summary>
+        /// Asserts that all the expected values are present in the actual values by ignoring
+        /// the order of values. Extra actual values are ignored.
+        /// </summary>
+        /// <param name="expectedValues">Expected subset of values</param>
+        /// <param name="actualValues">Actual set of values</param>
+        public static void Contains(
+            IEnumerable<KeyValuePair<string, object>> expectedValues,
+            IEnumerable<KeyValuePair<string, object>> actualValues)
+        {
+            if (expectedValues == null)
+            {
+                throw new ArgumentNullException(nameof(expectedValues));
+            }
+
+            if (actualValues == null)
+            {
+                throw new ArgumentNullException(nameof(actualValues));
+            }
+
+            var comparer = new LogValueComparer();
+
+            foreach (var expectedPair in expectedValues)
+            {
+                if (!actualValues.Contains(expectedPair, comparer))
+                {
+                    throw new EqualException(
+                        expected: GetString(expectedValues),
+                        actual: GetString(actualValues));
+                }
+            }
         }
 
         private static string GetString(IEnumerable<KeyValuePair<string, object>> logValues)

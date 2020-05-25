@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SampleWebApplicationSerilogAlternate
@@ -42,6 +43,17 @@ namespace SampleWebApplicationSerilogAlternate
                     using (logger.BeginScope("A top level scope"))
                     {
                         await GetAsync(context, logger);
+                    }
+                });
+
+                endpoints.MapGet("/dictionaryScope", context =>
+                {
+                    var logger = context.RequestServices.GetRequiredService<ILogger<Startup>>();
+                    using (logger.BeginScope(new Dictionary<string, object>() { ["foo"] = "bar", ["answer"] = 42 }))
+                    {
+                        logger.LogInformation("foo");
+                        context.Response.StatusCode = StatusCodes.Status204NoContent;
+                        return Task.CompletedTask;
                     }
                 });
 

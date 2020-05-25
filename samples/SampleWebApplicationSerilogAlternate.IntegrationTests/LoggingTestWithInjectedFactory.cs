@@ -48,7 +48,7 @@ namespace SampleWebApplicationSerilogAlternate.IntegrationTests
 
             // Assert
             var log = Assert.Single(_factory.GetSerilogTestLoggerSink().LogEntries);
-            var scope = Assert.Single(log.GetSerilogScope());
+            var scope = Assert.Single(log.Scope);
             var scopeValue = Assert.IsType<ScalarValue>(scope).Value;
             Assert.Equal("I'm in the GET scope", scopeValue);
         }

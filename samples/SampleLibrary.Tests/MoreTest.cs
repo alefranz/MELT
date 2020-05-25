@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Logging;
 using MELT;
-using SampleLibrary;
 using Xunit;
 
 namespace SampleLibrary.Tests
@@ -11,7 +10,7 @@ namespace SampleLibrary.Tests
         public void DoMoreLogsMessage()
         {
             // Arrange
-            var loggerFactory = MELTBuilder.CreateLoggerFactory();
+            var loggerFactory = TestLoggerFactory.Create();
             var sampleLogger = loggerFactory.CreateLogger<Sample>();
             var moreLogger = loggerFactory.CreateLogger<More>();
             var more = new More(new Sample(sampleLogger), moreLogger);
@@ -57,6 +56,26 @@ namespace SampleLibrary.Tests
             // Assert
             var log = Assert.Single(loggerFactory.LogEntries);
             Assert.Equal("More is less.", log.Format);
+        }
+
+        [Fact]
+        public void DoEvenMoreLogsCorrectParameters()
+        {
+            // Arrange
+            var loggerFactory = MELTBuilder.CreateLoggerFactory();
+            var sampleLogger = loggerFactory.CreateLogger<Sample>();
+            var moreLogger = loggerFactory.CreateLogger<More>();
+            var more = new More(new Sample(sampleLogger), moreLogger);
+
+
+            // Act
+            more.DoEvenMore();
+
+            // Assert
+            var log = Assert.Single(loggerFactory.Sink.LogEntries);
+            // Assert specific parameters in the log entry
+            LoggingAssert.Contains("number", 42, log.Properties);
+            LoggingAssert.Contains("foo", "bar", log.Properties);
         }
     }
 }

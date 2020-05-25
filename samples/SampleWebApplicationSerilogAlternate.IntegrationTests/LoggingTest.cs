@@ -12,7 +12,6 @@ namespace SampleWebApplicationSerilogAlternate.IntegrationTests
     [Collection("Serilog Test Collection")]
     public class LoggingTest : IClassFixture<WebApplicationFactory<Startup>>, IDisposable
     {
-        private readonly ISerilogTestLoggerSink _sink;
         private readonly WebApplicationFactory<Startup> _factory;
 
         public LoggingTest(WebApplicationFactory<Startup> factory)
@@ -24,11 +23,10 @@ namespace SampleWebApplicationSerilogAlternate.IntegrationTests
                 .CreateLogger();
 
             //var sink = MELTBuilder.CreateTestSink(options => options.FilterByNamespace(nameof(SampleWebApplicationSerilogAlternate)));
-            //_factory = factory.WithWebHostBuilder(builder => builder.ConfigureLogging(logging => logging.AddTestLogger(_sink)));
-            //_sink = sink.AsSerilog();
+            //_factory = factory.WithWebHostBuilder(builder => builder.ConfigureLogging(logging => logging.AddTestLogger(_factory.GetSerilogTestLoggerSink())));
+            //_factory.GetSerilogTestLoggerSink() = sink.AsSerilog();
 
             _factory = factory.WithWebHostBuilder(builder => builder.UseSerilogTestLogging(options => options.FilterByNamespace(nameof(SampleWebApplicationSerilogAlternate))));
-            _sink = _factory.GetSerilogTestLoggerSink();
         }
 
         [Fact]
@@ -39,7 +37,7 @@ namespace SampleWebApplicationSerilogAlternate.IntegrationTests
             // Act
             await _factory.CreateDefaultClient().GetAsync("/");
 
-            var log = Assert.Single(_sink.LogEntries);
+            var log = Assert.Single(_factory.GetSerilogTestLoggerSink().LogEntries);
             // Assert the message rendered by a default formatter
             Assert.Equal("Hello \"World\"!", log.Message);
         }
@@ -53,9 +51,9 @@ namespace SampleWebApplicationSerilogAlternate.IntegrationTests
             await _factory.CreateDefaultClient().GetAsync("/");
 
             // Assert
-            var log = Assert.Single(_sink.LogEntries);
+            var log = Assert.Single(_factory.GetSerilogTestLoggerSink().LogEntries);
             // Assert specific parameters in the log entry
-            SerilogLogValuesAssert.Contains("place", "World", log);
+            LoggingAssert.Contains("place", "World", log.Properties);
         }
 
         [Fact]
@@ -67,10 +65,10 @@ namespace SampleWebApplicationSerilogAlternate.IntegrationTests
             await _factory.CreateDefaultClient().GetAsync("/");
 
             // Assert
-            var log = Assert.Single(_sink.LogEntries);
-            var scope = Assert.Single(log.GetSerilogScope());
-            var scopeValue = Assert.IsType<ScalarValue>(scope).Value;
-            Assert.Equal("I'm in the GET scope", scopeValue);
+            var log = Assert.Single(_factory.GetSerilogTestLoggerSink().LogEntries);
+            var scope = Assert.Single(log.Scope);
+            Assert.Equal(new ScalarValue("I'm in the GET scope"), scope);
+
         }
 
         [Fact]
@@ -82,18 +80,33 @@ namespace SampleWebApplicationSerilogAlternate.IntegrationTests
             await _factory.CreateDefaultClient().GetAsync("/nestedScope");
 
             // Assert
-            var log = Assert.Single(_sink.LogEntries);
+            var log = Assert.Single(_factory.GetSerilogTestLoggerSink().LogEntries);
 
             // Assert the scopes
-            var scopeElements = log.GetSerilogScope();
-            Assert.Equal(2, scopeElements.Count);
-            Assert.Equal(new ScalarValue("A top level scope"), scopeElements[0]);
-            Assert.Equal(new ScalarValue("I'm in the GET scope"), scopeElements[1]);
-            // or
-            Assert.Collection(scopeElements,
+            Assert.Collection(log.Scope,
                 x => Assert.Equal(new ScalarValue("A top level scope"), x),
                 x => Assert.Equal(new ScalarValue("I'm in the GET scope"), x)
             );
+            // or
+            Assert.Equal(2, log.Scope.Count);
+            Assert.Equal(new ScalarValue("A top level scope"), log.Scope[0]);
+            Assert.Equal(new ScalarValue("I'm in the GET scope"), log.Scope[1]);
+        }
+
+        [Fact]
+        public async Task ShouldUseDictionaryScope()
+        {
+            // Arrange
+
+            // Act
+            await _factory.CreateDefaultClient().GetAsync("/dictionaryScope");
+
+            // Assert
+            var log = Assert.Single(_factory.GetSerilogTestLoggerSink().LogEntries);
+            // If the scope is a dictionary, it will only add the properties, not a scope
+            Assert.Empty(log.Scope);
+            LoggingAssert.Contains("foo", "bar", log.Properties);
+            LoggingAssert.Contains("answer", 42, log.Properties);
         }
 
         [Fact]
@@ -105,9 +118,9 @@ namespace SampleWebApplicationSerilogAlternate.IntegrationTests
             await _factory.CreateDefaultClient().GetAsync("/");
 
             // Assert
-            var log = Assert.Single(_sink.LogEntries);
+            var log = Assert.Single(_factory.GetSerilogTestLoggerSink().LogEntries);
             // Assert specific parameters in the log entry itself, as Serilog puts the scope parameters on the log entry
-            SerilogLogValuesAssert.Contains("name", "GET", log);
+            LoggingAssert.Contains("name", "GET", log.Properties);
         }
 
         [Fact]
@@ -119,7 +132,7 @@ namespace SampleWebApplicationSerilogAlternate.IntegrationTests
             await _factory.CreateDefaultClient().GetAsync("/destructure");
 
             // Assert
-            var log = Assert.Single(_sink.LogEntries);
+            var log = Assert.Single(_factory.GetSerilogTestLoggerSink().LogEntries);
             // Assert the message rendered by a default formatter
             Assert.Equal("This { foo: \"bar\", answer: 42 } has been destructured.", log.Message);
         }
@@ -133,7 +146,7 @@ namespace SampleWebApplicationSerilogAlternate.IntegrationTests
             await _factory.CreateDefaultClient().GetAsync("/destructure");
 
             // Assert
-            var log = Assert.Single(_sink.LogEntries);
+            var log = Assert.Single(_factory.GetSerilogTestLoggerSink().LogEntries);
             // Assert specific parameters in the log entry
             //StructureValue expected = new StructureValue(new[] {
             //    new LogEventProperty("foo", new ScalarValue("bar")),
@@ -161,7 +174,7 @@ namespace SampleWebApplicationSerilogAlternate.IntegrationTests
             await _factory.CreateDefaultClient().GetAsync("/array");
 
             // Assert
-            var log = Assert.Single(_sink.LogEntries);
+            var log = Assert.Single(_factory.GetSerilogTestLoggerSink().LogEntries);
             // Assert the message rendered by a default formatter
             Assert.Equal("This [1, 2] is an array.", log.Message);
         }
@@ -175,7 +188,7 @@ namespace SampleWebApplicationSerilogAlternate.IntegrationTests
             await _factory.CreateDefaultClient().GetAsync("/array");
 
             // Assert
-            var log = Assert.Single(_sink.LogEntries);
+            var log = Assert.Single(_factory.GetSerilogTestLoggerSink().LogEntries);
 
             var array = Assert.Single(log.Properties, x => x.Key == "array");
             var sequence = Assert.IsType<SequenceValue>(array.Value);
