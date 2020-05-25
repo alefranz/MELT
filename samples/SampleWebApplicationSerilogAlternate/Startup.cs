@@ -50,7 +50,16 @@ namespace SampleWebApplicationSerilogAlternate
                     var logger = context.RequestServices.GetRequiredService<ILogger<Startup>>();
                     var thing = new { foo = "bar", answer = 42};
                     logger.LogInformation("This {@thing} has been destructured.", thing);
-                    context.Response.StatusCode = StatusCodes.Status202Accepted;
+                    context.Response.StatusCode = StatusCodes.Status204NoContent;
+                    return Task.CompletedTask;
+                });
+
+                endpoints.MapGet("/array", context =>
+                {
+                    var logger = context.RequestServices.GetRequiredService<ILogger<Startup>>();
+                    var array = new[] { 1, 2 };
+                    logger.LogInformation("This {array} is an array.", array);
+                    context.Response.StatusCode = StatusCodes.Status204NoContent;
                     return Task.CompletedTask;
                 });
             });

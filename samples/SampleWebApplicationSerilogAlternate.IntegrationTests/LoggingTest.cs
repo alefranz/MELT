@@ -1,15 +1,13 @@
-using MELT.Serilog;
+using MELT;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace SampleWebApplicationSerilogAlternate.Tests
+namespace SampleWebApplicationSerilogAlternate.IntegrationTests
 {
     [Collection("Serilog Test Collection")]
     public class LoggingTest : IClassFixture<WebApplicationFactory<Startup>>, IDisposable
@@ -20,8 +18,7 @@ namespace SampleWebApplicationSerilogAlternate.Tests
         public LoggingTest(WebApplicationFactory<Startup> factory)
         {
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                .MinimumLevel.Verbose()
                 .Enrich.FromLogContext()
                 .WriteTo.Providers(Program.Providers)
                 .CreateLogger();
@@ -153,6 +150,38 @@ namespace SampleWebApplicationSerilogAlternate.Tests
             Assert.Equal(new ScalarValue("bar"), foo.Value);
             var answer = Assert.Single(value.Properties, x => x.Name == "answer");
             Assert.Equal(new ScalarValue(42), answer.Value);
+        }
+
+        [Fact]
+        public async Task ShouldHaveArrayObjectInLogMessage()
+        {
+            // Arrange
+
+            // Act
+            await _factory.CreateDefaultClient().GetAsync("/array");
+
+            // Assert
+            var log = Assert.Single(_sink.LogEntries);
+            // Assert the message rendered by a default formatter
+            Assert.Equal("This [1, 2] is an array.", log.Message);
+        }
+
+        [Fact]
+        public async Task ShouldHaveArrayProperty()
+        {
+            // Arrange
+
+            // Act
+            await _factory.CreateDefaultClient().GetAsync("/array");
+
+            // Assert
+            var log = Assert.Single(_sink.LogEntries);
+
+            var array = Assert.Single(log.Properties, x => x.Key == "array");
+            var sequence = Assert.IsType<SequenceValue>(array.Value);
+            Assert.Collection(sequence.Elements,
+                x => Assert.Equal(new ScalarValue(1), x),
+                x => Assert.Equal(new ScalarValue(2), x));
         }
 
         public void Dispose()

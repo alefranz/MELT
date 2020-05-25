@@ -1,4 +1,4 @@
-﻿namespace MELT
+namespace MELT
 {
     public class SerilogScope : Scope
     {

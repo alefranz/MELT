@@ -1,5 +1,4 @@
 using MELT;
-using MELT.Serilog;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 

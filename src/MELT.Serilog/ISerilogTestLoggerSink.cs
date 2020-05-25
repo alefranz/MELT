@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace MELT.Serilog
+namespace MELT
 {
     public interface ISerilogTestLoggerSink
     {

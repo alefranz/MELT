@@ -14,7 +14,7 @@ namespace MELT
 
         public string? LoggerName => _scope.LoggerName;
         public string? Message => _scope.Scope?.ToString();
-        public IEnumerable<KeyValuePair<string, object>> Properties => _scope.Scope as IEnumerable<KeyValuePair<string, object>> ?? _emptyProperties;
+        public IReadOnlyList<KeyValuePair<string, object>> Properties => _scope.Scope as IReadOnlyList<KeyValuePair<string, object>> ?? _emptyProperties;
 
         public override string? ToString() => Message;
     }

@@ -12,7 +12,7 @@ namespace MELT
         }
 
         public string Message => _scope?.ToString() ?? string.Empty;
-        public IEnumerable<KeyValuePair<string, object>> Properties => _scope as IEnumerable<KeyValuePair<string, object>> ?? Constants.EmptyProperties;
+        public IReadOnlyList<KeyValuePair<string, object>> Properties => _scope as IReadOnlyList<KeyValuePair<string, object>> ?? Constants.EmptyProperties;
 
         public override string ToString() => Message;
     }

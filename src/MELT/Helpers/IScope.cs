@@ -5,6 +5,6 @@ namespace MELT
     public interface IScope
     {
         string? Message { get; }
-        IEnumerable<KeyValuePair<string, object>> Properties { get; }
+        IReadOnlyList<KeyValuePair<string, object>> Properties { get; }
     }
 }

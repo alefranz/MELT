@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MELT.Serilog
+namespace MELT
 {
     internal class SerilogTestLoggerSinkAccessor : ISerilogTestLoggerSink
     {

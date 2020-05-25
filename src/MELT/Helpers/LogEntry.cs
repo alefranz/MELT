@@ -13,7 +13,7 @@ namespace MELT
         public LogEntry(WriteContext entry)
         {
             _entry = entry;
-            Properties = _entry.State as IEnumerable<KeyValuePair<string, object>> ?? Constants.EmptyProperties;
+            Properties = _entry.State as IReadOnlyList<KeyValuePair<string, object>> ?? Constants.EmptyProperties;
         }
 
         public EventId EventId => _entry.EventId;
@@ -21,7 +21,7 @@ namespace MELT
         public string LoggerName => _entry.LoggerName;
         public LogLevel LogLevel => _entry.LogLevel;
         public string? Message => _entry.Message;
-        public IEnumerable<KeyValuePair<string, object>> Properties { get; }
+        public IReadOnlyList<KeyValuePair<string, object>> Properties { get; }
 
         public string OriginalFormat => _format ??= GetFormat();
 

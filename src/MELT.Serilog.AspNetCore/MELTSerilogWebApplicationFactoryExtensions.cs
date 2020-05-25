@@ -1,4 +1,4 @@
-using MELT.Serilog;
+using MELT;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.AspNetCore.Mvc.Testing

@@ -5,7 +5,7 @@ using Serilog.Events;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace SampleWebApplicationSerilogAlternate.Tests
+namespace SampleWebApplicationSerilogAlternate.IntegrationTests
 {
     [Collection("Serilog Test Collection")]
     public class LoggingTestWithInjectedFactory : IClassFixture<CustomWebApplicationFactory<Startup>>
@@ -60,8 +60,7 @@ namespace SampleWebApplicationSerilogAlternate.Tests
         public CustomWebApplicationFactory()
         {
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                .MinimumLevel.Verbose()
                 .Enrich.FromLogContext()
                 .WriteTo.Providers(Program.Providers)
                 .CreateLogger();
