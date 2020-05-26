@@ -26,19 +26,37 @@ namespace Microsoft.AspNetCore.Mvc.Testing
             where TStartup : class
             => GetServices(factory).GetRequiredService<ITestSink>();
 
-        public static bool TryGetTestLoggerSink<TStartup>(this WebApplicationFactory<TStartup> factory, out ITestLoggerSink? testSink)
+        /// <summary>
+        /// Tries to get the <see cref="ITestLoggerSink"/> which is capturing the logs for the given <see cref="WebApplicationFactory{TStartup}"/>.
+        /// </summary>
+        /// <typeparam name="TStartup">The type of the <see cref="WebApplicationFactory{TStartup}"/>.</typeparam>
+        /// <param name="factory">The <see cref="WebApplicationFactory{TStartup}"/> used in the current test.</param>
+        /// <param name="loggerSink">The <see cref="ITestLoggerSink"/> which is capturing logs, if configured.</param>
+        /// <returns>True if the the <see cref="WebApplicationFactory{TStartup}"/> has been configured to use the test logger using builder.UseSerilogTestLogging()
+        /// or builder.ConfigureLogging(logging => logging.AddSerilogTest()).</returns>
+        public static bool TryGetTestLoggerSink<TStartup>(this WebApplicationFactory<TStartup> factory, out ITestLoggerSink? loggerSink)
             where TStartup : class
         {
             if (TryGetServices(factory, out var services))
             {
-                testSink = services.GetService<ITestLoggerSink>();
-                return testSink != null;
+                loggerSink = services.GetService<ITestLoggerSink>();
+                return loggerSink != null;
             }
 
-            testSink = null;
+            loggerSink = null;
             return false;
         }
 
+        /// <summary>
+        /// Gets the <see cref="ITestLoggerSink"/> which is capturing the logs for the given <see cref="WebApplicationFactory{TStartup}"/>.
+        /// </summary>
+        /// <typeparam name="TStartup">The type of the <see cref="WebApplicationFactory{TStartup}"/>.</typeparam>
+        /// <param name="factory">The <see cref="WebApplicationFactory{TStartup}"/> used in the current test.</param>
+        /// <returns>The <see cref="ITestLoggerSink"/> which is capturing logs.</returns>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown when the <see cref="WebApplicationFactory{TStartup}"/> has not been configured to use the test logger using builder.UseTestLogging()
+        /// or builder.ConfigureLogging(logging => logging.AddTest()).
+        /// </exception>
         public static ITestLoggerSink GetTestLoggerSink<TStartup>(this WebApplicationFactory<TStartup> factory)
             where TStartup : class
             => GetServices(factory).GetRequiredService<ITestLoggerSink>();

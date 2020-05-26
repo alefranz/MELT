@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <NoWarn>612,618</NoWarn>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 

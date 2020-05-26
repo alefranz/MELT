@@ -1,9 +1,7 @@
 using Microsoft.Extensions.Logging;
-using MELT;
-using SampleLibrary;
 using Xunit;
 using System;
-using Microsoft.Extensions.DependencyInjection;
+using MELT;
 
 namespace SampleLibrary.Tests
 {
@@ -57,7 +55,7 @@ namespace SampleLibrary.Tests
         public void DoSomethingLogsCorrectParameter()
         {
             // Arrange
-            var loggerFactory = MELTBuilder.CreateLoggerFactory();
+            var loggerFactory = TestLoggerFactory.Create();
             var logger = loggerFactory.CreateLogger<Sample>();
             var sample = new Sample(logger);
 
@@ -67,7 +65,7 @@ namespace SampleLibrary.Tests
             // Assert
             var log = Assert.Single(loggerFactory.Sink.LogEntries);
             // Assert specific parameters in the log entry
-            LogValuesAssert.Contains("number", 42, log);
+            LoggingAssert.Contains("number", 42, log.Properties);
         }
 
         [Fact]
@@ -84,7 +82,7 @@ namespace SampleLibrary.Tests
             // Assert
             var log = Assert.Single(loggerFactory.Sink.LogEntries);
             // Assert the the log format template
-            Assert.Equal("The answer is {number}", log.Format);
+            Assert.Equal("The answer is {number}", log.OriginalFormat);
         }
 
         [Fact]
@@ -103,7 +101,7 @@ namespace SampleLibrary.Tests
             // Assert the message rendered by a default formatter
             Assert.Equal("There was a problem", log.Message);
             // Assert specific parameters in the log entry
-            LogValuesAssert.Contains("error", "problem", log);
+            LoggingAssert.Contains("error", "problem", log.Properties);
             // Assert the exception
             var exception = Assert.IsType<ArgumentNullException>(log.Exception);
             Assert.Equal("foo", exception.ParamName);

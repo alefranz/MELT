@@ -25,12 +25,12 @@ namespace MELT
         ///// <returns>The test logger sink.</returns>
         //public static ITestLoggerSink CreateLogSink() => new TestSink(CreateTestSink());
 
-        [Obsolete("The recommended alternative is to not create directly a sink and use factory.WithWebHostBuilder(builder => builder.UseTestLogging(Action<TestLoggerOptions>)). The sink can then be retrieved with factory.GetTestLoggerSink()")]
-        // <summary>
+        /// <summary>
         /// Create a configured test sink to be passed to the test logger factory.
         /// </summary>
         /// <param name="configure">A delegate used to configure the <see cref="TestLoggerOptions"/>.</param>
         /// <returns>The test logger sink.</returns>
+        [Obsolete("The recommended alternative is to not create directly a sink and use factory.WithWebHostBuilder(builder => builder.UseTestLogging(Action<TestLoggerOptions>)). The sink can then be retrieved with factory.GetTestLoggerSink()")]
         public static ITestSink CreateTestSink(Action<TestLoggerOptions> configure)
         {
             if (configure == null) throw new ArgumentNullException(nameof(configure));
@@ -39,20 +39,20 @@ namespace MELT
             return CreateTestSink(options);
         }
 
-        [Obsolete("The recommended alternative is to not create directly a sink and use factory.WithWebHostBuilder(builder => builder.UseTestLogging()). The sink can then be retrieved with factory.GetTestLoggerSink()")]
+
         /// <summary>
         /// Create a default test sink to be passed to the test logger factory.
         /// </summary>
         /// <returns>The test sink.</returns>
+        [Obsolete("The recommended alternative is to not create directly a sink and use factory.WithWebHostBuilder(builder => builder.UseTestLogging()). The sink can then be retrieved with factory.GetTestLoggerSink()")]
         public static ITestSink CreateTestSink() => new TestSink();
 
-        [Obsolete("The recommended alternative is " + nameof(TestLoggerFactory) + "." + nameof(TestLoggerFactory.Create) + "(Action<" + nameof(TestLoggerOptions) + ">)")]
         /// <summary>
         /// Create a configured logger factory to be used to capture log messages and scopes in a test sink.
         /// </summary>
         /// <param name="configure">A delegate used to configure the <see cref="TestLoggerOptions"/>.</param>
-        /// <param name="useScopeFromProperties">Indicate if it should attempt to retrieve the scope from the properties, e.g. when using Serilog. It defaults to false.</param>
         /// <returns>The test logger factory.</returns>
+        [Obsolete("The recommended alternative is " + nameof(TestLoggerFactory) + "." + nameof(TestLoggerFactory.Create) + "(Action<" + nameof(TestLoggerOptions) + ">)")]
         public static ITestLoggerFactory CreateLoggerFactory(Action<TestLoggerOptions> configure)
         {
             if (configure == null) throw new ArgumentNullException(nameof(configure));
@@ -60,12 +60,11 @@ namespace MELT
             return TestLoggerFactory.Create(configure);
         }
 
-        [Obsolete("The recommended alternative is " + nameof(TestLoggerFactory) + "." + nameof(TestLoggerFactory.Create) + "()")]
         /// <summary>
         /// Create a default logger factory to be used to capture log messages and scopes in a test sink.
         /// </summary>
-        /// <param name="configure">A delegate used to configure the <see cref="TestLoggerOptions"/>.</param>
         /// <returns>The test logger factory.</returns>
+        [Obsolete("The recommended alternative is " + nameof(TestLoggerFactory) + "." + nameof(TestLoggerFactory.Create) + "()")]
         public static ITestLoggerFactory CreateLoggerFactory() => TestLoggerFactory.Create();
 
         ///// <summary>

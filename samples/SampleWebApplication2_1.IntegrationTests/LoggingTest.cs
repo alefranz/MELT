@@ -1,4 +1,5 @@
 using MELT;
+using MELT.Xunit;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System.Threading.Tasks;
