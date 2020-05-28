@@ -11,24 +11,6 @@ namespace SampleLibrary.Tests
         public void DoSomethingLogsMessage()
         {
             // Arrange
-            //var loggerFactory = MELTBuilder.CreateLoggerFactory();
-            //var logger = loggerFactory.CreateLogger<Sample>();
-
-
-            //var loggerFactory = new LoggerFactory();
-            //var sink = loggerFactory.AddTest();
-
-
-            //var loggerFactory = MELTBuilder.CreateTestLoggerFactory();
-
-            //var loggerFactory = new LoggerFactory();
-            //var loggerProvider = new TestLoggerProvider();
-            //loggerFactory.AddProvider(loggerProvider);
-
-
-            //(var loggerFactory, var loggerProvider) = InitializeTestLogger();
-
-            //var loggerFactory = MELTBuilder.CreateTestLoggerFactory();
             var loggerFactory = TestLoggerFactory.Create();
 
             var logger = loggerFactory.CreateLogger<Sample>();
@@ -42,14 +24,6 @@ namespace SampleLibrary.Tests
             // Assert the message rendered by a default formatter
             Assert.Equal("The answer is 42", log.Message);
         }
-
-        //private static (LoggerFactory loggerFactory, TestLoggerProvider loggerProvider) InitializeTestLogger()
-        //{
-        //    var loggerFactory = new LoggerFactory();
-        //    var loggerProvider = new TestLoggerProvider();
-        //    loggerFactory.AddProvider(loggerProvider);
-        //    return (loggerFactory, loggerProvider);
-        //}
 
         [Fact]
         public void DoSomethingLogsCorrectParameter()
@@ -72,7 +46,7 @@ namespace SampleLibrary.Tests
         public void DoSomethingLogsUsingCorrectFormat()
         {
             // Arrange
-            var loggerFactory = MELTBuilder.CreateLoggerFactory();
+            var loggerFactory = TestLoggerFactory.Create();
             var logger = loggerFactory.CreateLogger<Sample>();
             var sample = new Sample(logger);
 
@@ -89,7 +63,7 @@ namespace SampleLibrary.Tests
         public void DoExceptionalLogsException()
         {
             // Arrange
-            var loggerFactory = MELTBuilder.CreateLoggerFactory();
+            var loggerFactory = TestLoggerFactory.Create();
             var logger = loggerFactory.CreateLogger<Sample>();
             var sample = new Sample(logger);
 

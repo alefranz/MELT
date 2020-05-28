@@ -1,4 +1,3 @@
-using MELT.Xunit;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Logging;
@@ -10,15 +9,10 @@ namespace SampleWebApplication.IntegrationTests
 {
     public class LoggingTest : IClassFixture<WebApplicationFactory<Startup>>
     {
-        //private readonly ITestSink _sink;
         private readonly WebApplicationFactory<Startup> _factory;
 
         public LoggingTest(WebApplicationFactory<Startup> factory)
         {
-            //_sink = MELTBuilder.CreateTestSink(options => options.FilterByNamespace(nameof(SampleWebApplication)));
-            //_factory = factory.WithWebHostBuilder(builder => builder.ConfigureLogging(logging => logging.AddTestLogger(_sink)));
-
-            // TODO: keep or remove?
             _factory = factory.WithWebHostBuilder(builder => builder.UseTestLogging(options => options.FilterByNamespace(nameof(SampleWebApplication))));
 
             // or
@@ -53,7 +47,7 @@ namespace SampleWebApplication.IntegrationTests
             // Assert
             var log = Assert.Single(_factory.GetTestLoggerSink().LogEntries);
             // Assert specific parameters in the log entry
-            LogValuesAssert.Contains("place", "World", log);
+            LoggingAssert.Contains("place", "World", log.Properties);
         }
 
         [Fact]
@@ -81,13 +75,13 @@ namespace SampleWebApplication.IntegrationTests
             // Assert
             var log = Assert.Single(_factory.GetTestLoggerSink().LogEntries);
             // Assert specific parameters in the log entry
-            LogValuesAssert.Contains("place", "World", log);
-            LogValuesAssert.Contains("place", "Universe", log);
+            LoggingAssert.Contains("place", "World", log.Properties);
+            LoggingAssert.Contains("place", "Universe", log.Properties);
             // or
-            LogValuesAssert.Contains(new[] {
+            LoggingAssert.Contains(new[] {
                 new KeyValuePair<string, object> ("place", "World"),
                 new KeyValuePair<string, object> ("place", "Universe")
-            }, log);
+            }, log.Properties);
         }
 
         [Fact]
@@ -115,7 +109,7 @@ namespace SampleWebApplication.IntegrationTests
             // Assert
             var log = Assert.Single(_factory.GetTestLoggerSink().LogEntries);
             // Assert specific parameters in the log scope
-            LogValuesAssert.Contains("name", "GET", log.Scope);
+            LoggingAssert.Contains("name", "GET", log.Scope.Properties);
         }
 
         [Fact]
@@ -143,7 +137,7 @@ namespace SampleWebApplication.IntegrationTests
             // Assert
             var scope = Assert.Single(_factory.GetTestLoggerSink().Scopes);
             // Assert specific parameters in the log scope
-            LogValuesAssert.Contains("name", "GET", scope);
+            LoggingAssert.Contains("name", "GET", scope.Properties);
         }
     }
 }

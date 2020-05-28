@@ -19,23 +19,26 @@ If you like this project please don't forget to *star* it on [GitHub](https//git
 
 You can find an explanation on the advantages of using this library and the importance of testing logs on the blog post "[How to test logging when using Microsoft.Extensions.Logging](https://alessio.franceschelli.me/posts/dotnet/how-to-test-logging-when-using-microsoft-extensions-logging/)".
 
+> If you are currently using version 0.5, you can _optionally_ migrate to the new syntax. See [Upgrade from 0.5](README.md#upgrade-from-0.5) for more info.
+
 ## Index
 
 * [Quick start](README.md#quick-start)
 * [Quick start for ASP.NET Core integration tests](README.md#quick-start-for-aspnet-core-integration-tests)
+* [Upgrade from 0.5](README.md#upgrade-from-0.5)
 
 ## Quickstart
 
 * Install the NuGet package [MELT](https://www.nuget.org/packages/MELT/)
 
     ```xml
-    <PackageReference Include="MELT" Version="0.4.0" />
+    <PackageReference Include="MELT" Version="0.6.0" />
     ```
 
 * Get a test logger factory
 
     ```csharp
-    var loggerFactory = MELTBuilder.CreateLoggerFactory();
+    var loggerFactory = TestLoggerFactory.Create();
     ```
 
 * Get a logger from the factory, as usual, to pass to your fixture.
@@ -46,24 +49,24 @@ You can find an explanation on the advantages of using this library and the impo
 
 ### Assert log entries
 
-The logger factory exposes a property `LogEntries` that enumerates all the logs captured.
+The logger factory exposes a property `Sink` to access the sink that collect the logs. The sink exposes a property `LogEntries` that enumerates all the logs captured.
 Each entry exposes all the relevant property for a log.
 
 For example, to test with xUnit that a single log has been emitted and it had a specific message:
 
 ```csharp
-var log = Assert.Single(loggerFactory.LogEntries);
+var log = Assert.Single(loggerFactory.Sink.LogEntries);
 Assert.Equal("The answer is 42", log.Message);
 ```
 
 ### Assert scopes
 
-The logger factory exposes a property `Scopes` that enumerates all the scopes captured.
+The logger factory exposes a property `Sink` to access the sink that collect the logs. The sink exposes a property `Scopes` that enumerates all the scopes captured.
 
 For example, to test with xUnit that a single scope has been emitted and it had a specific message:
 
 ```csharp
-var scope = Assert.Single(loggerFactory.Scopes);
+var scope = Assert.Single(loggerFactory.Sink.Scopes);
 Assert.Equal("I'm in the GET scope", scope.Message);
 ```
 
@@ -72,8 +75,8 @@ There is also a property `Scope` in each log entry to have the scope captured wi
 ### Assert message format
 
 ```csharp
-var log = Assert.Single(loggerFactory.LogEntries);
-Assert.Equal("The answer is {number}", log.Format);
+var log = Assert.Single(loggerFactory.Sink.LogEntries);
+Assert.Equal("The answer is {number}", log.OriginalFormat);
 ```
 
 ### Easily test log or scope properties with xUnit
@@ -81,10 +84,10 @@ Assert.Equal("The answer is {number}", log.Format);
 * Install the NuGet package [MELT.Xunit](https://www.nuget.org/packages/MELT.Xunit/)
 
     ```xml
-    <PackageReference Include="MELT.Xunit" Version="0.4.0" />
+    <PackageReference Include="MELT.Xunit" Version="0.6.0" />
     ```
 
-* Use the `LogValuesAssert.Contains(...)` helpers.
+* Use the `LoggingAssert.Contains(...)` helpers.
 For example, to test that a single log has been emitted and it had a property `number` with value `42`:
 
     ```csharp
@@ -94,18 +97,18 @@ For example, to test that a single log has been emitted and it had a property `n
 
 ### And much more
 
-You can assert againt all the characteristic of a log entry: `EventId`, `Exception`, `LoggerName`, `LogLevel`, `Message`, `Properties` and `Scope`.
+You can assert againt all the characteristic of a log entry: `EventId`, `Exception`, `LoggerName`, `LogLevel`, `Message`, `OriginalFormat`, `Properties` and `Scope`.
 
 ### Full example
 
-See [SampleTest](samples/SampleLibraryTests/SampleTest.cs).
+See [SampleTest](samples/SampleLibrary.Tests/SampleTest.cs) and [MoreTest](samples/SampleLibrary.Tests/MoreTest.cs)
 
 ## Quickstart for ASP.NET Core integration tests
 
 * Install the NuGet package [MELT.AspNetCore](https://www.nuget.org/packages/MELT.AspNetCore/)
 
     ```xml
-    <PackageReference Include="MELT.AspNetCore" Version="0.4.0" />
+    <PackageReference Include="MELT.AspNetCore" Version="0.6.0" />
     ```
 
 * Create a test sink using `MELTBuilder.CreateTestSink(...)`, where you can also customize the behaviour.
@@ -242,3 +245,83 @@ When used for integration tests of ASP.NET Core applications, it supports all th
 
 When used in conjunction with Serilog, it must be configured using [Serilog.Extensions.Logging](https://github.com/serilog/serilog-extensions-logging).
 
+
+## Upgrade from 0.5
+
+The library is still backward compatible, however if you follow the deprecation warnings, you will be able to easily migrate to the new syntax.
+
+Here are some common examples:
+
+Setting up logger factory for tests.
+
+```csharp
+var loggerFactory = MELTBuilder.CreateLoggerFactory();
+// become
+var loggerFactory = TestLoggerFactory.Create();
+```
+
+Setting up logger factory for tests, filtering messages by component.
+
+```csharp
+var loggerFactory = MELTBuilder.CreateLoggerFactory(options => options.FilterByTypeName<MyClass>());
+// become
+var loggerFactory = TestLoggerFactory.Create(options => options.FilterByTypeName<MyClass>());
+```
+
+Accessing captured logs from the factory
+
+```csharp
+var log = Assert.Single(loggerFactory.LogEntries);
+// become
+var log = Assert.Single(loggerFactory.Sink.LogEntries);
+```
+
+Accessing the original format of a log entry
+
+```csharp
+Assert.Equal("More is less.", log.Format);
+// become
+Assert.Equal("More is less.", log.OriginalFormat);
+```
+
+Assert against log properties
+
+```csharp
+LogValuesAssert.Contains("number", 42, log);
+// become
+LoggingAssert.Contains("number", 42, log.Properties);
+```
+
+Assert against scope properties
+
+```csharp
+LogValuesAssert.Contains("number", 42, scope);
+// become
+LoggingAssert.Contains("number", 42, scope.Properties);
+```
+
+And to assert log properties, the using is no longer needed
+
+```csharp
+using MELT.Xunit;
+// no longer needed :)
+```
+
+### Setup of ASP.NET Core Inteagration Tests
+
+Setting up the web application factory with the test logger
+
+```csharp
+_sink = MELTBuilder.CreateTestSink(options => options.FilterByNamespace(nameof(SampleWebApplication)));
+_factory = factory.WithWebHostBuilder(builder => builder.ConfigureLogging(logging => logging.AddTestLogger(_sink)));
+// become
+_factory = factory.WithWebHostBuilder(builder => builder.UseTestLogging(options => options.FilterByNamespace(nameof(SampleWebApplication))));
+```
+
+Accessing the captured logs
+
+```csharp
+var log = Assert.Single(_sink.LogEntries);
+// become
+var log = Assert.Single(_factory.GetTestLoggerSink().LogEntries);
+```
