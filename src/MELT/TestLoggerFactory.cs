@@ -29,6 +29,15 @@ namespace MELT
         {
             _loggerFactory = loggerFactory;
             _serviceProvider = serviceProvider;
+
+            var dependencyVersion = loggerFactory.GetType().Assembly.GetName().Version;
+            var abstractionsVersion = typeof(ILoggerFactory).Assembly.GetName().Version;
+            if (dependencyVersion.Major < abstractionsVersion.Major)
+            {
+                var version = $"{abstractionsVersion.Major}.{abstractionsVersion.Minor}.x";
+                throw new MissingNuGetPackageException($"\nWhen testing a project which reference\nMicrosoft.Extensions.Logging.Abstractions version {version}\n"
+                    + $"the test project must include a reference to\nMicrosoft.Extensions.Logging version {version}");
+            }
         }
 
         public ITestLoggerSink Sink => _serviceProvider.GetRequiredService<ITestLoggerSink>();

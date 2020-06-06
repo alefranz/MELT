@@ -77,5 +77,58 @@ namespace SampleLibrary.Tests
             LoggingAssert.Contains("number", 42, log.Properties);
             LoggingAssert.Contains("foo", "bar", log.Properties);
         }
+
+        [Fact]
+        public void UseScopeLogsMessage()
+        {
+            // Arrange
+            var loggerFactory = TestLoggerFactory.Create();
+            var sampleLogger = loggerFactory.CreateLogger<Sample>();
+            var moreLogger = loggerFactory.CreateLogger<More>();
+            var more = new More(new Sample(sampleLogger), moreLogger);
+
+            // Act
+            more.UseScope();
+
+            // Assert
+            Assert.Collection(loggerFactory.Sink.Scopes,
+                l => Assert.Equal("This scope's answer is 42", l.Message));
+        }
+
+        [Fact]
+        public void UseScopeLogsCorrectParameters()
+        {
+            // Arrange
+            var loggerFactory = TestLoggerFactory.Create();
+            var sampleLogger = loggerFactory.CreateLogger<Sample>();
+            var moreLogger = loggerFactory.CreateLogger<More>();
+            var more = new More(new Sample(sampleLogger), moreLogger);
+
+            // Act
+            more.UseScope();
+
+            // Assert
+            var scope = Assert.Single(loggerFactory.Sink.Scopes);
+            // Assert specific parameters in the log entry
+            LoggingAssert.Contains("number", 42, scope.Properties);
+        }
+
+        [Fact]
+        public void UseScopeLogsCorrectOriginalFormat()
+        {
+            // Arrange
+            var loggerFactory = TestLoggerFactory.Create();
+            var sampleLogger = loggerFactory.CreateLogger<Sample>();
+            var moreLogger = loggerFactory.CreateLogger<More>();
+            var more = new More(new Sample(sampleLogger), moreLogger);
+
+            // Act
+            more.UseScope();
+
+            // Assert
+            var scope = Assert.Single(loggerFactory.Sink.Scopes);
+            // Assert specific parameters in the log entry
+            Assert.Equal("This scope's answer is {number}", scope.OriginalFormat);
+        }
     }
 }

@@ -6,6 +6,7 @@ using System;
 
 namespace MELT
 {
+    [Obsolete]
     public readonly struct WriteContext
     {
         public WriteContext(LogLevel logLevel, EventId eventId, object? state, Exception? exception, object? scope, string loggerName, string? message)

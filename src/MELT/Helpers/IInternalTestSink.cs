@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 
 namespace MELT
 {
+    #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     [Obsolete]
     public interface IInternalTestSink
     {

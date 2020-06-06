@@ -24,5 +24,13 @@ namespace SampleLibrary
         {
             _logger.LogInformation("The {foo} is {number}", "bar", 42);
         }
+
+        public void UseScope()
+        {
+            using (_logger.BeginScope("This scope's answer is {number}", 42))
+            {
+                Sample.DoSomething();
+            }
+        }
     }
 }
