@@ -4,27 +4,10 @@ using System;
 
 namespace MELT
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public static class MELTBuilder
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     {
-        ///// <summary>
-        ///// Create a configured test logger sink to be passed to the test logger factory.
-        ///// </summary>
-        ///// <param name="configure">A delegate used to configure the <see cref="TestLoggerOptions"/>.</param>
-        ///// <returns>The test logger sink.</returns>
-        //public static ITestLoggerSink CreateLogSink(Action<TestLoggerOptions> configure)
-        //{
-        //    if (configure == null) throw new ArgumentNullException(nameof(configure));
-
-        //    var options = CreateOptions(configure);
-        //    return new TestSink(CreateTestSink(options));
-        //}
-
-        ///// <summary>
-        ///// Create a default test logger sink to be passed to the test logger factory.
-        ///// </summary>
-        ///// <returns>The test logger sink.</returns>
-        //public static ITestLoggerSink CreateLogSink() => new TestSink(CreateTestSink());
-
         /// <summary>
         /// Create a configured test sink to be passed to the test logger factory.
         /// </summary>
@@ -84,58 +67,9 @@ namespace MELT
             return options;
         }
 
-        internal static ITestSink CreateTestSink(TestLoggerOptions options)
-        {
-            return new TestSink(options.WriteEnabled, options.BeginEnabled);
-        }
+#pragma warning disable CS0612 // Type or member is obsolete
+        internal static ITestSink CreateTestSink(TestLoggerOptions options) => new TestSink(options.WriteEnabled, options.BeginEnabled);
+#pragma warning restore CS0612 // Type or member is obsolete
 
-        //public static ILoggerFactory CreateTestLoggerFactory()
-        //{
-        //    var serviceCollection = new ServiceCollection();
-        //    serviceCollection.AddLogging(builder => builder.AddTest());
-        //    var serviceProvider = serviceCollection.BuildServiceProvider();
-        //    var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
-        //    return new DisposableTestLoggerFactory(loggerFactory, serviceProvider);
-        //}
-
-        //public static ILoggerFactory CreateTestLoggerFactory(Action<ILoggingBuilder> configure)
-        //{
-        //    var serviceCollection = new ServiceCollection();
-        //    serviceCollection.AddLogging(builder => builder.AddTest());
-        //    serviceCollection.AddLogging(configure);
-        //    var serviceProvider = serviceCollection.BuildServiceProvider();
-        //    var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
-        //    return new DisposableTestLoggerFactory(loggerFactory, serviceProvider);
-        //}
-
-        //private class DisposableTestLoggerFactory : ILoggerFactory
-        //{
-        //    private readonly ILoggerFactory _loggerFactory;
-
-        //    private readonly ServiceProvider _serviceProvider;
-
-        //    public DisposableTestLoggerFactory(ILoggerFactory loggerFactory, ServiceProvider serviceProvider)
-        //    {
-        //        _loggerFactory = loggerFactory;
-        //        _serviceProvider = serviceProvider;
-        //    }
-
-        //    public ITestLoggerSink Sink => _serviceProvider.GetRequiredService<ITestLoggerSink>();
-
-        //    public void Dispose()
-        //    {
-        //        _serviceProvider.Dispose();
-        //    }
-
-        //    public ILogger CreateLogger(string categoryName)
-        //    {
-        //        return _loggerFactory.CreateLogger(categoryName);
-        //    }
-
-        //    public void AddProvider(ILoggerProvider provider)
-        //    {
-        //        _loggerFactory.AddProvider(provider);
-        //    }
-        //}
     }
 }

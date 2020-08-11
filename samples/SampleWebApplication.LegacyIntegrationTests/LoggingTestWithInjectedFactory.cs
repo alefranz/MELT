@@ -18,14 +18,13 @@ namespace SampleWebApplication.LegacyIntegrationTests
             _factory.GetTestSink().Clear();
             // When running on 2.x, the server is not initialized until it is explicitly started or the first client is created.
             // So we need to use:
-            // if (_factory.TryGetTestSink(out var testSink)) testSink!.Clear();
-            // The exclamation mark is needed only when using Nullable Reference Types!
+            // if (_factory.TryGetTestSink(out var testSink)) testSink.Clear();
         }
 
         [Fact]
         public async Task ShouldLogHelloWorld()
         {
-            // Arrange  
+            // Arrange
 
             // Act
             await _factory.CreateDefaultClient().GetAsync("/");
@@ -39,7 +38,7 @@ namespace SampleWebApplication.LegacyIntegrationTests
         [Fact]
         public async Task ShouldUseScope()
         {
-            // Arrange  
+            // Arrange
 
             // Act
             await _factory.CreateDefaultClient().GetAsync("/");
@@ -53,7 +52,7 @@ namespace SampleWebApplication.LegacyIntegrationTests
         [Fact]
         public async Task ShouldBeginScope()
         {
-            // Arrange  
+            // Arrange
 
             // Act
             await _factory.CreateDefaultClient().GetAsync("/");

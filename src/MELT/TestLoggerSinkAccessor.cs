@@ -5,9 +5,11 @@ namespace MELT
 {
     internal class TestLoggerSinkAccessor : ITestLoggerSink
     {
+#pragma warning disable CS0612 // Type or member is obsolete
         private readonly IInternalTestSink _sink;
 
         public TestLoggerSinkAccessor(IInternalTestSink sink)
+#pragma warning restore CS0612 // Type or member is obsolete
         {
             _sink = sink;
         }

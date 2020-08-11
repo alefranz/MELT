@@ -9,6 +9,7 @@ namespace MELT
     /// </summary>
     public class LogEntry
     {
+#pragma warning disable CS0612 // Type or member is obsolete
         private readonly WriteContext _entry;
         private string? _format;
 
@@ -41,5 +42,6 @@ namespace MELT
         public string Format => OriginalFormat;
 
         public Scope Scope => new Scope(_entry.Scope);
+#pragma warning restore CS0612 // Type or member is obsolete
     }
 }

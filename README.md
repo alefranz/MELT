@@ -170,11 +170,10 @@ See [SampleTest](samples/SampleLibrary.Tests/SampleTest.cs) and [MoreTest](sampl
             _factory = factory;
             // In this case the factory will be resused for all tests, so the sink will be shared as well.
             // We can clear the sink before each test execution, as xUnit will not run this tests in parallel.
-            _factory.GetTestSink().Clear();
+            _factory.GetTestLoggerSink().Clear();
             // When running on 2.x, the server is not initialized until it is explicitly started or the first client is created.
             // So we need to use:
-            // if (_factory.TryGetTestSink(out var testSink)) testSink!.Clear();
-            // The exclamation mark is needed only when using Nullable Reference Types!
+            // if (_factory.TryGetTestLoggerSink(out var testLoggerSink)) testLoggerSink.Clear();
         }
     }
     ```
@@ -241,12 +240,25 @@ See [LoggingTest](samples/SampleWebApplication.IntegrationTests/LoggingTest.cs) 
 This library is compatibe with [Microsoft.Extensions.Logging](https://github.com/aspnet/Extensions/tree/master/src/Logging/Logging.Testing) 2.0+.
 When used for integration tests of ASP.NET Core applications, it supports all the currently supported versions of ASP.NET Core: 2.1 LTS and 3.1 LTS, but also the now deprecated 2.2 and 3.0.
 
-### Serilog
+## Serilog
 
-When used in conjunction with Serilog, it must be configured using [Serilog.Extensions.Logging](https://github.com/serilog/serilog-extensions-logging).
+When used in conjunction with Serilog, the approach will be different based on how you have integrated Serilog into your project
+
+### When using Serilog.Extensions.Logging
+
+If you are using [Serilog.Extensions.Logging](https://github.com/serilog/serilog-extensions-logging) the integration is straightforward as this library is fully compliant with `Microsoft.Extensions.Logging`.
+
+Simply follow the main instruction as the fact that you are plugging Serilog as provider does not alter the bahaviour.
+
+### When using Serilog.AspNetCore
+
+Unfortunately, [Serilog.AspNetCore](https://github.com/serilog/serilog-aspnetcore) doesn't plug nicely into `Microsoft.Extensions.Logging` as it replace the logger factory and bring in a opinionated behaviour.
+
+However, `MELT` has specific support to allow to write tests against the serilog produced logs, also allowing you to verify the serilog behaviours (e.g. object expansion).
 
 
-## Upgrade from 0.5
+
+## Upgrade from 0.5 and below
 
 The library is still backward compatible, however if you follow the deprecation warnings, you will be able to easily migrate to the new syntax.
 
