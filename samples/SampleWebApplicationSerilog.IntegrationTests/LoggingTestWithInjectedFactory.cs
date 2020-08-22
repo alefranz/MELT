@@ -1,7 +1,7 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace SampleWebApplicationSerilog.Tests

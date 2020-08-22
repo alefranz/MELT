@@ -1,7 +1,7 @@
-using Microsoft.Extensions.Logging;
-using Xunit;
 using System;
 using MELT;
+using Microsoft.Extensions.Logging;
+using Xunit;
 
 namespace SampleLibrary.Tests
 {

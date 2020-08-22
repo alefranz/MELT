@@ -1,9 +1,9 @@
-using Microsoft.Extensions.Logging;
+using System;
 using MELT;
+using MELT.Xunit;
+using Microsoft.Extensions.Logging;
 using SampleLibrary;
 using Xunit;
-using MELT.Xunit;
-using System;
 
 namespace SampleLibrary.LegacyTests
 {

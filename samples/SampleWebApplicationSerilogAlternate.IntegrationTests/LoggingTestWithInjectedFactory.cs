@@ -1,8 +1,6 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Serilog;
-using Serilog.Events;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Serilog.Events;
 using Xunit;
 
 namespace SampleWebApplicationSerilogAlternate.IntegrationTests
@@ -50,35 +48,6 @@ namespace SampleWebApplicationSerilogAlternate.IntegrationTests
             var scope = Assert.Single(log.Scope);
             var scopeValue = Assert.IsType<ScalarValue>(scope).Value;
             Assert.Equal("I'm in the GET scope", scopeValue);
-        }
-    }
-
-    public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup>
-         where TStartup : class
-    {
-        public CustomWebApplicationFactory()
-        {
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Verbose()
-                .Enrich.FromLogContext()
-                .WriteTo.Providers(Program.Providers)
-                .CreateLogger();
-        }
-
-        protected override void ConfigureWebHost(IWebHostBuilder builder)
-        {
-            builder.UseSerilogTestLogging(options =>
-            {
-                options.FilterByNamespace(nameof(SampleWebApplicationSerilogAlternate));
-            });
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (true)
-            {
-                Log.CloseAndFlush();
-            }
         }
     }
 }

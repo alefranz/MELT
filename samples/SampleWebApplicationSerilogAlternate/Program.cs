@@ -1,9 +1,9 @@
+using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
 using Serilog.Extensions.Logging;
-using System;
 
 namespace SampleWebApplicationSerilogAlternate
 {

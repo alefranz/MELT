@@ -1,6 +1,6 @@
+using System;
 using MELT;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using System;
 
 namespace Microsoft.Extensions.Logging
 {

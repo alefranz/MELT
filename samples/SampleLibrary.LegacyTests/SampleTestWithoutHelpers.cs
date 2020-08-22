@@ -1,10 +1,10 @@
-using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Linq;
 using MELT;
+using MELT.Xunit;
+using Microsoft.Extensions.Logging;
 using SampleLibrary;
 using Xunit;
-using System.Linq;
-using MELT.Xunit;
-using System.Collections.Generic;
 
 namespace SampleLibrary.LegacyTests
 {

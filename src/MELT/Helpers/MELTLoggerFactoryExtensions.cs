@@ -1,5 +1,5 @@
-using MELT;
 using System;
+using MELT;
 
 namespace Microsoft.Extensions.Logging
 {

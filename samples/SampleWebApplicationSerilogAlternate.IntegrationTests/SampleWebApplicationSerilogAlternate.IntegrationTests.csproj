@@ -19,8 +19,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\MELT.Serilog.AspNetCore\MELT.Serilog.AspNetCore.csproj" />
-    <ProjectReference Include="..\..\src\MELT.Serilog.Xunit\MELT.Serilog.Xunit.csproj" />
-    <ProjectReference Include="..\..\src\MELT.Serilog\MELT.Serilog.csproj" />
     <ProjectReference Include="..\..\src\MELT.Xunit\MELT.Xunit.csproj" />
     <ProjectReference Include="..\SampleWebApplicationSerilogAlternate\SampleWebApplicationSerilogAlternate.csproj" />
   </ItemGroup>

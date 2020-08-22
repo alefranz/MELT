@@ -1,10 +1,10 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.Logging;
-using Serilog;
-using Serilog.Events;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Testing;
+//using Microsoft.Extensions.Logging;  // for AddSerilogTest
+using Serilog;
+using Serilog.Events;
 using Xunit;
 
 namespace SampleWebApplicationSerilogAlternate.IntegrationTests
@@ -22,9 +22,11 @@ namespace SampleWebApplicationSerilogAlternate.IntegrationTests
                 .WriteTo.Providers(Program.Providers)
                 .CreateLogger();
 
-            _factory = factory.WithWebHostBuilder(builder => builder.UseSerilogTestLogging(options => options.FilterByNamespace(nameof(SampleWebApplicationSerilogAlternate))));
+            _factory = factory.WithWebHostBuilder(builder => builder
+                .UseSerilogTestLogging(options => options.FilterByNamespace(nameof(SampleWebApplicationSerilogAlternate))));
             //or
-            _factory = factory.WithWebHostBuilder(builder => builder.ConfigureLogging(logging => logging.AddSerilogTest(options => options.FilterByNamespace(nameof(SampleWebApplicationSerilogAlternate)))));
+            //_factory = factory.WithWebHostBuilder(builder => builder
+            //    .ConfigureLogging(logging => logging.AddSerilogTest(options => options.FilterByNamespace(nameof(SampleWebApplicationSerilogAlternate)))));
         }
 
         [Fact]

@@ -1,9 +1,9 @@
-using Microsoft.Extensions.Logging;
-using Serilog.Events;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Microsoft.Extensions.Logging;
+using Serilog.Events;
 
 namespace MELT
 {

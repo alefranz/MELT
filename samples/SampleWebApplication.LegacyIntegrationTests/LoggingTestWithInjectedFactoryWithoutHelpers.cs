@@ -1,8 +1,8 @@
+using System.Threading.Tasks;
 using MELT;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace SampleWebApplication.LegacyIntegrationTests

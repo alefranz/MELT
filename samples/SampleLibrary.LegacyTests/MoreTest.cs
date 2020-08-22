@@ -1,5 +1,5 @@
-using Microsoft.Extensions.Logging;
 using MELT;
+using Microsoft.Extensions.Logging;
 using SampleLibrary;
 using Xunit;
 

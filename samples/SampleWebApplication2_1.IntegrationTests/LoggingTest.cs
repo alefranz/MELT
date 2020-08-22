@@ -1,8 +1,8 @@
+using System.Threading.Tasks;
 using MELT;
 using MELT.Xunit;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace SampleWebApplication2_1.IntegrationTests

@@ -1,6 +1,6 @@
+using System;
 using MELT;
 using Microsoft.Extensions.Logging;
-using System;
 
 namespace Microsoft.AspNetCore.Hosting
 {

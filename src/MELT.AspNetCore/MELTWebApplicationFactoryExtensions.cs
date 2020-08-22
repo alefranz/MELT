@@ -1,7 +1,7 @@
+using System;
 using MELT;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace Microsoft.AspNetCore.Mvc.Testing
 {
