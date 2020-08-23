@@ -59,6 +59,11 @@ You can find an explanation on the advantages of using this library and the impo
     <PackageReference Include="MELT" Version="0.5.0" />
     ```
 
+    > Note: due to a breaking change in `Microsoft.Extensions.Logging` 3.1, if you are testing a project that references **only** `Microsoft.Extensions.Logging.Abstractions` 3.1, you need to add a reference to `Microsoft.Extensions.Logging` 3.1 in your test project:
+    > ```xml
+    > <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.0" />
+    > ```
+
 - Get a test logger factory
 
     ```csharp
@@ -474,6 +479,11 @@ See [LoggingTest](samples/SampleWebApplicationSerilogAlternate.IntegrationTests/
 ## Upgrade from 0.4 and below
 
 The library is still backward compatible, however if you follow the deprecation warnings, you will be able to easily migrate to the new simplified syntax.
+
+> Note: due to a breaking change in `Microsoft.Extensions.Logging` 3.1, if you are testing a project that references **only** `Microsoft.Extensions.Logging.Abstractions` 3.1, you need to add a reference to `Microsoft.Extensions.Logging` 3.1 in your test project:
+> ```xml
+> <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.0" />
+> ```
 
 Here are some common examples:
 
