@@ -28,27 +28,25 @@ You can find an explanation on the advantages of using this library and the impo
 ## Index
 
 - [Quickstart](#quickstart)
+- [Assertions](#assertions)
   - [Assert log entries](#assert-log-entries)
   - [Assert scopes](#assert-scopes)
-  - [Assert message format](#assert-message-format)
+  - [Assert log original format](#assert-log-original-format)
+  - [Assert exceptions in log entries](#assert-exceptions-in-log-entries)
   - [Easily test log or scope properties with xUnit](#easily-test-log-or-scope-properties-with-xunit)
   - [And much more](#and-much-more)
   - [Full example](#full-example)
 - [Quickstart for ASP.NET Core integration tests](#quickstart-for-aspnet-core-integration-tests)
-  - [Assert log entries](#assert-log-entries-1)
-  - [Assert scopes](#assert-scopes-1)
-  - [Assert message format](#assert-message-format-1)
-  - [Easily test log or scope properties with xUnit](#easily-test-log-or-scope-properties-with-xunit-1)
-  - [And much more](#and-much-more-1)
+  - [Assert log entries and scopes](#assert-log-entries-and-scopes)
   - [Full example](#full-example-1)
 - [Compatibility](#compatibility)
 - [Serilog compatibility using Serilog.Extensions.Logging](#serilog-compatibility-using-serilogextensionslogging)
 - [Serilog compatibility using Serilog.AspNetCore](#serilog-compatibility-using-serilogaspnetcore)
-  - [Assert log entries](#assert-log-entries-2)
+  - [Assert log entries](#assert-log-entries-1)
   - [Assert scopes on a entry](#assert-scopes-on-a-entry)
-  - [Assert message format](#assert-message-format-2)
-  - [Easily test log or scope properties with xUnit](#easily-test-log-or-scope-properties-with-xunit-2)
-  - [And much more](#and-much-more-2)
+  - [Assert message format](#assert-message-format)
+  - [Easily test log or scope properties with xUnit](#easily-test-log-or-scope-properties-with-xunit-1)
+  - [And much more](#and-much-more-1)
   - [Full example](#full-example-2)
 - [Upgrade from 0.4 and below](#upgrade-from-04-and-below)
   - [Setup of ASP.NET Core Inteagration Tests](#setup-of-aspnet-core-inteagration-tests)
@@ -73,9 +71,11 @@ You can find an explanation on the advantages of using this library and the impo
     var logger = loggerFactory.CreateLogger<Sample>();
     ```
 
+## Assertions
+
 ### Assert log entries
 
-The logger factory exposes a property `Sink` to access the sink that collect the logs. The sink exposes a property `LogEntries` that enumerates all the logs captured.
+The logger factory exposes a property `Sink` to access the sink that collect the logs. The sink exposes a property `LogEntries` that enumerates all the captured logs.
 Each entry exposes all the relevant property for a log.
 
 For example, to test with xUnit that a single log has been emitted and it had a specific message:
@@ -87,7 +87,7 @@ Assert.Equal("The answer is 42", log.Message);
 
 ### Assert scopes
 
-The logger factory exposes a property `Sink` to access the sink that collect the logs. The sink exposes a property `Scopes` that enumerates all the scopes captured.
+The logger factory exposes a property `Sink` to access the sink that collect the logs. The sink exposes a property `Scopes` that enumerates all the captured scopes.
 
 For example, to test with xUnit that a single scope has been emitted and it had a specific message:
 
@@ -96,13 +96,32 @@ var scope = Assert.Single(loggerFactory.Sink.Scopes);
 Assert.Equal("I'm in the GET scope", scope.Message);
 ```
 
-There is also a property `Scope` in each log entry to have the scope captured with that entry.
+There is also a property `Scope` in each log entry to have the scope captured with that entry, however this only support the most inner scope and doesn't track it across different loggers.
 
-### Assert message format
+```csharp
+var log = Assert.Single(loggerFactory.Sink.LogEntries);
+Assert.Equal("This scope's answer is 42", log.Scope.Message);
+```
+
+### Assert log original format
+
+The original format used to generate the log entry, before the message is rendered, is captured in the property `OriginalMessage`.
 
 ```csharp
 var log = Assert.Single(loggerFactory.Sink.LogEntries);
 Assert.Equal("The answer is {number}", log.OriginalFormat);
+```
+
+### Assert exceptions in log entries
+
+The log entry expose a property `Exception` which contains the exception captured by the logger.
+
+For example, to test with xUnit that a single log has been emitted with a specific exception and assert a exception property:
+
+```csharp
+var log = Assert.Single(loggerFactory.Sink.LogEntries);
+var exception = Assert.IsType<ArgumentNullException>(log.Exception);
+Assert.Equal("foo", exception.ParamName);
 ```
 
 ### Easily test log or scope properties with xUnit
@@ -117,8 +136,8 @@ Assert.Equal("The answer is {number}", log.OriginalFormat);
 For example, to test that a single log has been emitted and it had a property `number` with value `42`:
 
     ```csharp
-    var log = Assert.Single(loggerFactory.LogEntries);
-    LogValuesAssert.Contains("number", 42, log.Properties);
+    var log = Assert.Single(loggerFactory.Sink.LogEntries);
+    LoggingAssert.Contains("number", 42, log.Properties);
     ```
 
 ### And much more
@@ -137,51 +156,53 @@ See [SampleTest](samples/SampleLibrary.Tests/SampleTest.cs) and [MoreTest](sampl
     <PackageReference Include="MELT.AspNetCore" Version="0.5.0" />
     ```
 
-- Create a test sink using `MELTBuilder.CreateTestSink(...)`, where you can also customize the behaviour.
+- Use the `UseTestLogging(...)` extension method to add a test logger to the test web host builder, where you can also customize the behaviour.
 
     For example to filter all log entries and scopes not generated by loggers consumed in the `SampleWebApplication.*` namespace (this filters the logger name so it assumes you are using `ILogger<T>` or following the default naming convention for your loggers.)
 
-    ```csharp
-    ITestSink _sink = MELTBuilder.CreateTestSink(options => options.FilterByNamespace(nameof(SampleWebApplication)));
-    ```
-
-    You can also filter by logger name using `FilterByTypeName<T>()` or `FilterByLoggerName(string name)`.
-
-- Use the `AddTestLogger(...)` extension method to add the test logger provider to the logging builder. This can be done where you are already configuring the web host builder.
-
-    Configure the logger using `WithWebHostBuilder` on the factory.
+    This can be done where you are already configuring the web host builder. Configure the logger using `WithWebHostBuilder` on the factory.
 
     ```csharp
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc.Testing;
     // ...
-    var factory = factory.WithWebHostBuilder(builder => builder.UseTestLogging(_sink));
+    _factory = factory.WithWebHostBuilder(builder => builder
+        .UseTestLogging(options => options.FilterByNamespace(nameof(SampleWebApplication))));
     ```
 
-    Alternatively, you can configure the logger builder in the `ConfigureWebHost` implementation of your custom `WebApplicationFactory<T>`.
-    If you chose so, the same sink will be used by all tests using the same factory.
-    You can clear the sink in the test constructor with `Clear()` if you like to have a clean state before each test, as xUnit will not run tests consuming the same fixture in parallel.
+    You can also filter by logger name using `FilterByTypeName<T>()` or `FilterByLoggerName(string name)`.
 
-    The logger will be automatically injected with Dependency Injection.
+    Or, if you prefer, you can use the `AddTest(...)` extension method in the `ConfigureLogging(...)` section.
 
-- Alternatively, you can set it up in your custom `WebApplicationFactory<TStartup>`.
+    ```csharp
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Mvc.Testing;
+    using Microsoft.Extensions.Logging;
+    // ...
+    _factory = factory.WithWebHostBuilder(builder => builder
+        .ConfigureLogging(logging => logging.AddTest(options => options.FilterByNamespace(nameof(SampleWebApplication)))));
+    ```
+
+- Alternatively, you can configure the logger builder in the `ConfigureWebHost` implementation in your custom `WebApplicationFactory<TStartup>`.
 
     ```csharp
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc.Testing;
 
-    public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup>
-        where TStartup : class
+    namespace SampleWebApplication.IntegrationTests
     {
-        protected override void ConfigureWebHost(IWebHostBuilder builder)
+        public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup>
+            where TStartup : class
         {
-            builder.UseTestLogging(options => options.FilterByNamespace(nameof(SampleWebApplication)));
-            // ...
+            protected override void ConfigureWebHost(IWebHostBuilder builder)
+            {
+                builder.UseTestLogging(options => options.FilterByNamespace(nameof(SampleWebApplication)));
+            }
         }
     }
     ```
 
-    You can then retrieve the sink to assert against using the extension method `GetTestSink()` on the factory.
+    You can then retrieve the sink to assert against using the extension method `GetTestLoggerSink()` on the factory.
 
     Please note that in this case, all tests sharing the same factory will get the same sink.
     You can reset it between tests with `Clear()` in the constructor of your `xUnit` tests. For example:
@@ -204,57 +225,19 @@ See [SampleTest](samples/SampleLibrary.Tests/SampleTest.cs) and [MoreTest](sampl
     }
     ```
 
-### Assert log entries
+    The logger will be automatically injected with Dependency Injection.
 
-The `sink` expose a property `LogEntries` that enumerates all the logs captured.
-Each entry exposes all the relevant property for a log.
+### Assert log entries and scopes
+
+Once you access the `sink` with `_factory.GetTestLoggerSink()` you get access to the property `LogEntries` that enumerates all the captured logs and `Scopes` whihc enumerated all the captured `Scopes`.
+You will then be able to do all the assertions like described above in [Assertions](#assertions)
 
 For example, to test with xUnit that a single log has been emitted and it had a specific message:
 
 ```csharp
-var log = Assert.Single(sink.LogEntries);
+var log = Assert.Single(_factory.GetTestLoggerSink().LogEntries);
 Assert.Equal("The answer is 42", log.Message);
 ```
-
-### Assert scopes
-
-The `sink` expose a property `Scopes` that enumerates all the scopes captured.
-
-For example, to test with xUnit that a single scope has been emitted and it had a specific message:
-
-```csharp
-var scope = Assert.Single(sink.Scopes);
-Assert.Equal("I'm in the GET scope", scope.Message);
-```
-
-There is also a property `Scope` in each log entry to have the scope captured with that entry.
-
-### Assert message format
-
-```csharp
-var log = Assert.Single(loggerFactory.LogEntries);
-Assert.Equal("The answer is {number}", log.Format);
-```
-
-### Easily test log or scope properties with xUnit
-
-- Install the NuGet package [MELT.Xunit](https://www.nuget.org/packages/MELT.Xunit/)
-
-    ```xml
-    <PackageReference Include="MELT.Xunit" Version="0.4.0" />
-    ```
-
-- Use the `LogValuesAssert.Contains(...)` helpers.
-For example, to test that a single log has been emitted and it had a property `number` with value `42`:
-
-    ```csharp
-    var log = Assert.Single(sink.LogEntries);
-    LogValuesAssert.Contains("number", 42, log.Properties);
-    ```
-
-### And much more
-
-You can assert againt all the characteristic of a log entry: `EventId`, `Exception`, `LoggerName`, `LogLevel`, `Message`, `Properties` and `Scope`.
 
 ### Full example
 
@@ -452,7 +435,7 @@ Assert.Collection(log.Scope,
 
 ```csharp
 var log = Assert.Single(loggerFactory.LogEntries);
-Assert.Equal("The answer is {number}", log.Format);
+Assert.Equal("The answer is {number}", log.OriginalFormat);
 ```
 
 ### Easily test log or scope properties with xUnit
@@ -460,7 +443,7 @@ Assert.Equal("The answer is {number}", log.Format);
 - Install the NuGet package [MELT.Xunit](https://www.nuget.org/packages/MELT.Xunit/)
 
     ```xml
-    <PackageReference Include="MELT.Xunit" Version="0.4.0" />
+    <PackageReference Include="MELT.Xunit" Version="0.5.0" />
     ```
 
 - Use the `LoggingAssert.Contains(...)` helpers.
@@ -490,7 +473,7 @@ See [LoggingTest](samples/SampleWebApplicationSerilogAlternate.IntegrationTests/
 
 ## Upgrade from 0.4 and below
 
-The library is still backward compatible, however if you follow the deprecation warnings, you will be able to easily migrate to the new syntax.
+The library is still backward compatible, however if you follow the deprecation warnings, you will be able to easily migrate to the new simplified syntax.
 
 Here are some common examples:
 

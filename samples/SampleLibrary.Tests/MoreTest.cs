@@ -79,7 +79,7 @@ namespace SampleLibrary.Tests
         }
 
         [Fact]
-        public void UseScopeLogsMessage()
+        public void UseScopeLogsScope()
         {
             // Arrange
             var loggerFactory = TestLoggerFactory.Create();
@@ -92,7 +92,7 @@ namespace SampleLibrary.Tests
 
             // Assert
             Assert.Collection(loggerFactory.Sink.Scopes,
-                l => Assert.Equal("This scope's answer is 42", l.Message));
+                scope => Assert.Equal("This scope's answer is 42", scope.Message));
         }
 
         [Fact]
@@ -129,6 +129,23 @@ namespace SampleLibrary.Tests
             var scope = Assert.Single(loggerFactory.Sink.Scopes);
             // Assert specific parameters in the log entry
             Assert.Equal("This scope's answer is {number}", scope.OriginalFormat);
+        }
+
+        [Fact]
+        public void UseLocalScopeLogsMessageWithScope()
+        {
+            // Arrange
+            var loggerFactory = TestLoggerFactory.Create();
+            var sampleLogger = loggerFactory.CreateLogger<Sample>();
+            var moreLogger = loggerFactory.CreateLogger<More>();
+            var more = new More(new Sample(sampleLogger), moreLogger);
+
+            // Act
+            more.UseLocalScope();
+
+            // Assert
+            var log = Assert.Single(loggerFactory.Sink.LogEntries);
+            Assert.Equal("This scope's answer is 42", log.Scope.Message);
         }
     }
 }

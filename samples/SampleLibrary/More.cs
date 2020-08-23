@@ -32,5 +32,13 @@ namespace SampleLibrary
                 Sample.DoSomething();
             }
         }
+
+        public void UseLocalScope()
+        {
+            using (_logger.BeginScope("This scope's answer is {number}", 42))
+            {
+                _logger.LogInformation("foo");
+            }
+        }
     }
 }

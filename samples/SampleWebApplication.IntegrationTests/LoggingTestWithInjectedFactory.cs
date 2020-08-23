@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
@@ -60,15 +59,6 @@ namespace SampleWebApplication.IntegrationTests
             var scope = Assert.Single(_factory.GetTestLoggerSink().Scopes);
             // Assert the scope rendered by a default formatter
             Assert.Equal("I'm in the GET scope", scope.Message);
-        }
-    }
-
-    public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup>
-         where TStartup : class
-    {
-        protected override void ConfigureWebHost(IWebHostBuilder builder)
-        {
-            builder.UseTestLogging(options => options.FilterByNamespace(nameof(SampleWebApplication)));
         }
     }
 }
