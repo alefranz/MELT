@@ -19,5 +19,26 @@ namespace SampleLibrary
             _logger.LogInformation("More is less.");
             Sample.DoSomething();
         }
+
+        public void DoEvenMore()
+        {
+            _logger.LogInformation("The {foo} is {number}", "bar", 42);
+        }
+
+        public void UseScope()
+        {
+            using (_logger.BeginScope("This scope's answer is {number}", 42))
+            {
+                Sample.DoSomething();
+            }
+        }
+
+        public void UseLocalScope()
+        {
+            using (_logger.BeginScope("This scope's answer is {number}", 42))
+            {
+                _logger.LogInformation("foo");
+            }
+        }
     }
 }

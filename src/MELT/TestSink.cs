@@ -8,6 +8,8 @@ using System.Linq;
 
 namespace MELT
 {
+    [Obsolete]
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class TestSink : ITestSink
     {
         private ConcurrentQueue<BeginScopeContext> _beginScopes;
@@ -30,9 +32,10 @@ namespace MELT
 
         public IProducerConsumerCollection<BeginScopeContext> BeginScopes { get => _beginScopes; }
 
-        public IProducerConsumerCollection<WriteContext> Writes { get => _writes;  }
+        public IProducerConsumerCollection<WriteContext> Writes { get => _writes; }
 
         public IEnumerable<LogEntry> LogEntries => Writes.Select(x => new LogEntry(x));
+
         public IEnumerable<BeginScope> Scopes => BeginScopes.Select(x => new BeginScope(x));
 
         public event Action<WriteContext>? MessageLogged;
@@ -63,4 +66,5 @@ namespace MELT
             _writes = new ConcurrentQueue<WriteContext>();
         }
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

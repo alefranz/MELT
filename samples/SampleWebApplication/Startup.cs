@@ -32,7 +32,14 @@ namespace SampleWebApplication
                     var logger = context.RequestServices.GetRequiredService<ILogger<Startup>>();
                     using (logger.BeginScope("I'm in the {name} scope", "GET"))
                     {
-                        logger.LogInformation("Hello {place}!", "World");
+                        if (context.Request.Query.ContainsKey("multipleValues"))
+                        {
+                            logger.LogInformation("Hello {place} and {place}!", "World", "Universe");
+                        }
+                        else
+                        {
+                            logger.LogInformation("Hello {place}!", "World");
+                        }
                         context.Response.ContentType = "text/plain";
                         await context.Response.WriteAsync("Hello World!");
                     }

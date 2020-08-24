@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace SampleWebApplication
+namespace SampleWebApplication2_1
 {
     public class Startup
     {
@@ -38,7 +38,8 @@ namespace SampleWebApplication
             app.UseHttpsRedirection();
             app.UseMvc();
 
-            app.Run(async context => {
+            app.Run(async context =>
+            {
                 var logger = context.RequestServices.GetRequiredService<ILogger<Startup>>();
                 using (logger.BeginScope("I'm in the {name} scope", "GET"))
                 {

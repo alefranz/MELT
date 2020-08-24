@@ -1,47 +1,67 @@
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using Microsoft.Extensions.Logging;
 
 namespace MELT
 {
+    /// <summary>
+    /// A captured log entry.
+    /// </summary>
     public class LogEntry
     {
+#pragma warning disable CS0612 // Type or member is obsolete
         private readonly WriteContext _entry;
         private string? _format;
 
-        public LogEntry(WriteContext entry)
+        internal LogEntry(WriteContext entry)
         {
             _entry = entry;
-
-            Properties = _entry.State as IEnumerable<KeyValuePair<string, object>> ?? Constants.EmptyProperties;
+            Properties = _entry.State as IReadOnlyList<KeyValuePair<string, object>> ?? Constants.EmptyProperties;
         }
 
+        /// <summary>
+        /// Id of this log entry.
+        /// </summary>
         public EventId EventId => _entry.EventId;
+
+        /// <summary>
+        /// Exception included in this log entry. Null if there was no exception.
+        /// </summary>
         public Exception? Exception => _entry.Exception;
+
+        /// <summary>
+        /// The name of the logger which captured this log entry.
+        /// </summary>
         public string LoggerName => _entry.LoggerName;
+
+        /// <summary>
+        /// The level used for this log entry.
+        /// </summary>
         public LogLevel LogLevel => _entry.LogLevel;
+
+        /// <summary>
+        /// The formatted message for this log entry.
+        /// </summary>
         public string? Message => _entry.Message;
-        public IEnumerable<KeyValuePair<string, object>> Properties { get; }
-        public string Format => _format ??= GetFormat();
 
-        private string GetFormat()
-        {
-            foreach (var prop in Properties)
-            {
-                if (prop.Key == "{OriginalFormat}")
-                {
-                    if (prop.Value is string value) return value;
+        /// <summary>
+        /// The properties included in this log entry.
+        /// </summary>
+        public IReadOnlyList<KeyValuePair<string, object>> Properties { get; }
 
-                    Debug.Assert(false, "{OriginalFormat} should always be string.");
-                    return Constants.NullString;
-                }
-            }
+        /// <summary>
+        /// The original format of the message for this log entry.
+        /// </summary>
+        public string OriginalFormat => _format ??= Properties.GetOriginalFormat();
 
-            Debug.Assert(false, "{OriginalFormat} should always be present.");
-            return Constants.NullString;
-        }
+        [Obsolete("The preferred alternative is " + nameof(OriginalFormat) + ".")]
+        public string Format => OriginalFormat;
 
+        /// <summary>
+        /// The closer scope for this log entry captured by the current logger.
+        /// </summary>
+        /// <remarks>This does not track scopes across loggers. For more general scope testing use <see cref="ITestLoggerSink.Scopes"/>.</remarks>
         public Scope Scope => new Scope(_entry.Scope);
+#pragma warning restore CS0612 // Type or member is obsolete
     }
 }

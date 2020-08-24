@@ -17,7 +17,7 @@ namespace MELT.Tests
         public void SetMinimumLevel_WriteEnabled(LogLevel minimumLevel, LogLevel logLevel, bool enabled)
         {
             // Arrange
-            var options = new TestSinkOptions();
+            var options = new TestLoggerOptions();
 
             // Act
             options.FilterByMinimumLevel(minimumLevel);
@@ -35,7 +35,7 @@ namespace MELT.Tests
         public void FilterByLoggerName_WriteEnabled(string loggerNameFilter, string loggerName, bool enabled)
         {
             // Arrange
-            var options = new TestSinkOptions();
+            var options = new TestLoggerOptions();
 
             // Act
             options.FilterByLoggerName(loggerNameFilter);
@@ -53,7 +53,7 @@ namespace MELT.Tests
         public void FilterByLoggerName_BeginEnabled(string loggerNameFilter, string loggerName, bool enabled)
         {
             // Arrange
-            var options = new TestSinkOptions();
+            var options = new TestLoggerOptions();
 
             // Act
             options.FilterByLoggerName(loggerNameFilter);
@@ -71,7 +71,7 @@ namespace MELT.Tests
         public void FilterByTypeName_WriteEnabled(string loggerName, bool enabled)
         {
             // Arrange
-            var options = new TestSinkOptions();
+            var options = new TestLoggerOptions();
 
             // Act
             options.FilterByTypeName<C>();
@@ -89,7 +89,7 @@ namespace MELT.Tests
         public void FilterByTypeName_BeginEnabled(string loggerName, bool enabled)
         {
             // Arrange
-            var options = new TestSinkOptions();
+            var options = new TestLoggerOptions();
 
             // Act
             options.FilterByTypeName<C>();
@@ -107,7 +107,7 @@ namespace MELT.Tests
         public void FilterByNamespace_WriteEnabled(string namespaceFilter, string loggerName, bool enabled)
         {
             // Arrange
-            var options = new TestSinkOptions();
+            var options = new TestLoggerOptions();
 
             // Act
             options.FilterByNamespace(namespaceFilter);
@@ -125,7 +125,7 @@ namespace MELT.Tests
         public void FilterByNamespace_BeginEnabled(string namespaceFilter, string loggerName, bool enabled)
         {
             // Arrange
-            var options = new TestSinkOptions();
+            var options = new TestLoggerOptions();
 
             // Act
             options.FilterByNamespace(namespaceFilter);

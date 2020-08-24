@@ -3,11 +3,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Xunit.Sdk;
+using Xunit;
 
 namespace MELT.Xunit
 {
+    [Obsolete("The recommended alternative is Xunit." + nameof(LoggingAssert) + ".")]
     public static class LogValuesAssert
     {
         /// <summary>
@@ -16,13 +16,12 @@ namespace MELT.Xunit
         /// <param name="key">The key of the item to be found.</param>
         /// <param name="value">The value of the item to be found.</param>
         /// <param name="actualValues">The actual values.</param>
+        [Obsolete("The recommended alternative is " + nameof(LoggingAssert) + "." + nameof(Contains) + "(string, object, IEnumerable<KeyValuePair<string, object>>).")]
         public static void Contains(
             string key,
             object value,
             IEnumerable<KeyValuePair<string, object>> actualValues)
-        {
-            Contains(new[] { new KeyValuePair<string, object>(key, value) }, actualValues);
-        }
+            => LoggingAssert.Contains(key, value, actualValues);
 
         /// <summary>
         /// Asserts that all the expected values are present in the actual values by ignoring
@@ -30,32 +29,11 @@ namespace MELT.Xunit
         /// </summary>
         /// <param name="expectedValues">Expected subset of values</param>
         /// <param name="actualValues">Actual set of values</param>
+        [Obsolete("The recommended alternative is " + nameof(LoggingAssert) + "." + nameof(Contains) + "(IEnumerable<KeyValuePair<string, object>>, IEnumerable<KeyValuePair<string, object>>).")]
         public static void Contains(
             IEnumerable<KeyValuePair<string, object>> expectedValues,
             IEnumerable<KeyValuePair<string, object>> actualValues)
-        {
-            if (expectedValues == null)
-            {
-                throw new ArgumentNullException(nameof(expectedValues));
-            }
-
-            if (actualValues == null)
-            {
-                throw new ArgumentNullException(nameof(actualValues));
-            }
-
-            var comparer = new LogValueComparer();
-
-            foreach (var expectedPair in expectedValues)
-            {
-                if (!actualValues.Contains(expectedPair, comparer))
-                {
-                    throw new EqualException(
-                        expected: GetString(expectedValues),
-                        actual: GetString(actualValues));
-                }
-            }
-        }
+            => LoggingAssert.Contains(expectedValues, actualValues);
 
         /// <summary>
         /// Asserts that the given key and value are present in the log entry properties.
@@ -63,6 +41,7 @@ namespace MELT.Xunit
         /// <param name="key">The key of the item to be found.</param>
         /// <param name="value">The value of the item to be found.</param>
         /// <param name="logEntry">The log entry.</param>
+        [Obsolete("The recommended alternative is " + nameof(LoggingAssert) + "." + nameof(Contains) + "(string, object, IEnumerable<KeyValuePair<string, object>>) passing log.Properties.")]
         public static void Contains(
             string key,
             object value,
@@ -77,6 +56,7 @@ namespace MELT.Xunit
         /// </summary>
         /// <param name="expectedValues">Expected subset of values</param>
         /// <param name="logEntry">The log entry.</param>
+        [Obsolete("The recommended alternative is " + nameof(LoggingAssert) + "." + nameof(Contains) + "(IEnumerable<KeyValuePair<string, object>>, IEnumerable<KeyValuePair<string, object>>) passing log.Properties.")]
         public static void Contains(
             IEnumerable<KeyValuePair<string, object>> expectedValues,
             LogEntry logEntry)
@@ -90,6 +70,7 @@ namespace MELT.Xunit
         /// <param name="key">The key of the item to be found.</param>
         /// <param name="value">The value of the item to be found.</param>
         /// <param name="scope">The scope.</param>
+        [Obsolete("The recommended alternative is " + nameof(LoggingAssert) + "." + nameof(Contains) + "(string, object, IEnumerable<KeyValuePair<string, object>>) passing scope.Properties.")]
         public static void Contains(
             string key,
             object value,
@@ -104,31 +85,12 @@ namespace MELT.Xunit
         /// </summary>
         /// <param name="expectedValues">Expected subset of values</param>
         /// <param name="scope">The scope.</param>
+        [Obsolete("The recommended alternative is " + nameof(LoggingAssert) + "." + nameof(Contains) + "(IEnumerable<KeyValuePair<string, object>>, IEnumerable<KeyValuePair<string, object>>) passing scope.Properties.")]
         public static void Contains(
             IEnumerable<KeyValuePair<string, object>> expectedValues,
             IScope scope)
         {
             Contains(expectedValues, scope.Properties);
-        }
-
-        private static string GetString(IEnumerable<KeyValuePair<string, object>> logValues)
-        {
-            return string.Join(",", logValues.Select(kvp => $"[{kvp.Key} {kvp.Value}]"));
-        }
-
-        private class LogValueComparer : IEqualityComparer<KeyValuePair<string, object>>
-        {
-            public bool Equals(KeyValuePair<string, object> x, KeyValuePair<string, object> y)
-            {
-                return string.Equals(x.Key, y.Key) && Equals(x.Value, y.Value);
-            }
-
-            public int GetHashCode(KeyValuePair<string, object> obj)
-            {
-                // We are never going to put this KeyValuePair in a hash table,
-                // so this is ok.
-                throw new NotImplementedException();
-            }
         }
     }
 }

@@ -1,18 +1,31 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 using Microsoft.Extensions.Logging;
 
 namespace MELT
 {
-    public class TestLoggerProvider : ILoggerProvider
+    /// <inheritdoc/>
+    [ProviderAlias("TestLogger")]
+    public class TestLoggerProvider : ITestLoggerProvider
     {
-        private readonly ITestSink _sink;
+        public readonly ITestSink _sink;
 
+        // TODO: keep as internal for testing
+        [Obsolete]
         public TestLoggerProvider(ITestSink sink)
         {
             _sink = sink;
         }
+
+        public TestLoggerProvider()
+        {
+            _sink = new TestSink();
+        }
+
+        /// <inheritdoc/>
+        public ITestLoggerSink Sink => _sink;
 
         public ILogger CreateLogger(string categoryName)
         {
