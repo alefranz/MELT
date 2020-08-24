@@ -4,8 +4,8 @@
   
   <PropertyGroup>
     <Authors>Alessio Franceschelli</Authors>
-    <PackageTags>Logging;Log;Logs;Microsoft.Extensions.Logging;AspNetCore</PackageTags>
-    <PackageLicenseUrl>https://github.com/alefranz/MELT/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageTags>Logging;Log;Logs;Microsoft.Extensions.Logging</PackageTags>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/alefranz/MELT</PackageProjectUrl>
     <RepositoryUrl>https://github.com/alefranz/MELT.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
