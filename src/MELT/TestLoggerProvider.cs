@@ -6,11 +6,11 @@ using Microsoft.Extensions.Logging;
 
 namespace MELT
 {
+    /// <inheritdoc/>
     [ProviderAlias("TestLogger")]
     public class TestLoggerProvider : ITestLoggerProvider
     {
         public readonly ITestSink _sink;
-
 
         // TODO: keep as internal for testing
         [Obsolete]
@@ -24,6 +24,7 @@ namespace MELT
             _sink = new TestSink();
         }
 
+        /// <inheritdoc/>
         public ITestLoggerSink Sink => _sink;
 
         public ILogger CreateLogger(string categoryName)
@@ -34,10 +35,5 @@ namespace MELT
         public void Dispose()
         {
         }
-    }
-
-    public interface ITestLoggerProvider : ILoggerProvider
-    {
-        ITestLoggerSink Sink { get; }
     }
 }

@@ -9,6 +9,7 @@ using System.Linq;
 namespace MELT
 {
     [Obsolete]
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class TestSink : ITestSink
     {
         private ConcurrentQueue<BeginScopeContext> _beginScopes;
@@ -33,10 +34,8 @@ namespace MELT
 
         public IProducerConsumerCollection<WriteContext> Writes { get => _writes; }
 
-        //[Obsolete]
         public IEnumerable<LogEntry> LogEntries => Writes.Select(x => new LogEntry(x));
 
-        //[Obsolete]
         public IEnumerable<BeginScope> Scopes => BeginScopes.Select(x => new BeginScope(x));
 
         public event Action<WriteContext>? MessageLogged;
@@ -61,33 +60,11 @@ namespace MELT
             ScopeStarted?.Invoke(context);
         }
 
-        //[Obsolete]
         public void Clear()
         {
             _beginScopes = new ConcurrentQueue<BeginScopeContext>();
             _writes = new ConcurrentQueue<WriteContext>();
         }
     }
-
-    //public class LogSink : IHaveSink
-    //{
-    //    private readonly ITestSink _sink;
-
-    //    ITestSink IHaveSink.Sink => _sink;
-
-    //    public LogSink(ITestSink sink)
-    //    {
-    //        _sink = sink;
-    //    }
-
-    //    public IEnumerable<LogEntry> LogEntries => _sink.Writes.Select(x => new LogEntry(x));
-    //    public IEnumerable<BeginScope> Scopes => _sink.BeginScopes.Select(x => new BeginScope(x));
-
-    //    public void Clear() => _sink.Clear();
-    //}
-
-    //internal interface IHaveSink
-    //{
-    //    internal ITestSink Sink { get; }
-    //}
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

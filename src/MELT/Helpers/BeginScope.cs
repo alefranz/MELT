@@ -3,8 +3,9 @@ using System.Collections.Generic;
 
 namespace MELT
 {
-    // not directly consumed
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    /// <summary>
+    /// A captured scope.
+    /// </summary>
     public class BeginScope : IScope
     {
         private readonly BeginScopeContext _scope;
@@ -16,11 +17,26 @@ namespace MELT
             _scope = scope;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string? LoggerName => _scope.LoggerName;
+
+        /// <inheritdoc/>
         public string? Message => _scope.Scope?.ToString();
+
+        /// <inheritdoc/>
         public IReadOnlyList<KeyValuePair<string, object>> Properties => _scope.Scope as IReadOnlyList<KeyValuePair<string, object>> ?? _emptyProperties;
+
+        /// <summary>
+        /// The original format of the message for this log entry.
+        /// </summary>
         public string OriginalFormat => _format ??= Properties.GetOriginalFormat();
+
+        /// <summary>
+        /// Return the <see cref="Message"/> as string representation of this scope.
+        /// </summary>
+        /// <returns>The <see cref="Message"/></returns>
         public override string? ToString() => Message;
     }
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }
