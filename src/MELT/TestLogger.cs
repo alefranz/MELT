@@ -6,8 +6,10 @@ using Microsoft.Extensions.Logging;
 
 namespace MELT
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class TestLogger : ILogger
     {
+#pragma warning disable CS0612 // Type or member is obsolete
         private readonly ITestSink _sink;
         private object? _scope;
 
@@ -16,6 +18,7 @@ namespace MELT
             Name = name ?? throw new ArgumentNullException(nameof(name));
             _sink = sink ?? throw new ArgumentNullException(nameof(sink));
         }
+#pragma warning restore CS0612 // Type or member is obsolete
 
         public string Name { get; }
 
@@ -39,65 +42,12 @@ namespace MELT
 
             var message = formatter(state, exception);
 
+#pragma warning disable CS0612 // Type or member is obsolete
             _sink.Write(new WriteContext(logLevel, eventId, state, exception, _scope, Name, message));
+#pragma warning restore CS0612 // Type or member is obsolete
         }
 
         public bool IsEnabled(LogLevel logLevel) => logLevel != LogLevel.None;
     }
-
-    //public class SerilogTestLogger : ILogger
-    //{
-    //    private readonly ITestSink _sink;
-    //    private readonly Func<LogLevel, bool>? _filter;
-
-    //    public SerilogTestLogger(string name, ITestSink sink, Func<LogLevel, bool>? filter = null)
-    //    {
-    //        _sink = sink ?? throw new ArgumentNullException(nameof(sink));
-    //        Name = name ?? throw new ArgumentNullException(nameof(name));
-    //        _filter = filter;
-    //    }
-
-    //    public string Name { get; }
-
-    //    public IDisposable BeginScope<TState>(TState state) => TestScope.Instance;
-
-    //    public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
-    //    {
-    //        if (!IsEnabled(logLevel))
-    //        {
-    //            return;
-    //        }
-
-    //        if (formatter == null) throw new ArgumentNullException(nameof(formatter));
-
-    //        var message = formatter(state, exception);
-
-    //        object? scope = null;
-
-    //        if (state is IEnumerable<KeyValuePair<string, object>> properties)
-    //        {
-    //            foreach (var prop in properties)
-    //            {
-    //                if (prop.Key == "Scope")
-    //                {
-    //                    scope = prop.Value;
-    //                    //if (prop.Value is Serilog.Events.LogEventPropertyValue scopes)
-    //                    //{
-    //                    //    scope = scopes;
-    //                    //}
-
-    //                    break;
-    //                }
-    //            }
-    //        }
-
-    //        _sink.Write(new WriteContext(logLevel, eventId, state, exception, scope ?? _scope, Name, message));
-    //    }
-
-    //    public bool IsEnabled(LogLevel logLevel)
-    //    {
-    //        if (logLevel == LogLevel.None) return false;
-    //        return _filter != null ? _filter(logLevel) : true;
-    //    }
-    //}
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }
