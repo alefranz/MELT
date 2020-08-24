@@ -13,7 +13,7 @@ namespace SampleWebApplicationSerilog.Tests
         public LoggingTestWithInjectedFactory(CustomWebApplicationFactory<Startup> factory)
         {
             _factory = factory;
-            // In this case the factory will be resused for all tests, so the sink will be shared as well.
+            // In this case, the factory will be reused for all tests, so the sink will be shared as well.
             // We can clear the sink before each test execution, as xUnit will not run this tests in parallel.
             _factory.GetTestLoggerSink().Clear();
             // When running on 2.x, the server is not initialized until it is explicitly started or the first client is created.

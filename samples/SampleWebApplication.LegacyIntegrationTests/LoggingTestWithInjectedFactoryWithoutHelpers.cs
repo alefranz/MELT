@@ -14,7 +14,7 @@ namespace SampleWebApplication.LegacyIntegrationTests
         public LoggingTestWithInjectedFactoryWithoutHelpers(CustomWebApplicationFactoryWithoutHelpers<Startup> factory)
         {
             _factory = factory;
-            // In this case the factory will be resused for all tests, so the sink will be shared as well.
+            // In this case, the factory will be reused for all tests, so the sink will be shared as well.
             // We can clear the sink before each test execution, as xUnit will not run this tests in parallel.
             _factory.Sink.Clear();
         }
@@ -22,7 +22,7 @@ namespace SampleWebApplication.LegacyIntegrationTests
         [Fact]
         public async Task ShouldLogHelloWorld()
         {
-            // Arrange  
+            // Arrange
 
             // Act
             await _factory.CreateDefaultClient().GetAsync("/");
@@ -36,7 +36,7 @@ namespace SampleWebApplication.LegacyIntegrationTests
         [Fact]
         public async Task ShouldUseScope()
         {
-            // Arrange  
+            // Arrange
 
             // Act
             await _factory.CreateDefaultClient().GetAsync("/");

@@ -43,13 +43,13 @@ You can find an explanation on the advantages of using this library and the impo
 - [Serilog compatibility using Serilog.Extensions.Logging](#serilog-compatibility-using-serilogextensionslogging)
 - [Serilog compatibility using Serilog.AspNetCore](#serilog-compatibility-using-serilogaspnetcore)
   - [Assert log entries](#assert-log-entries-1)
-  - [Assert scopes on a entry](#assert-scopes-on-a-entry)
+  - [Assert scopes on an entry](#assert-scopes-on-an-entry)
   - [Assert message format](#assert-message-format)
   - [Easily test log or scope properties with xUnit](#easily-test-log-or-scope-properties-with-xunit-1)
   - [And much more](#and-much-more-1)
   - [Full example](#full-example-2)
 - [Upgrade from 0.4 and below](#upgrade-from-04-and-below)
-  - [Setup of ASP.NET Core Inteagration Tests](#setup-of-aspnet-core-inteagration-tests)
+  - [Setup of ASP.NET Core Integration Tests](#setup-of-aspnet-core-integration-tests)
 
 ## Quickstart
 
@@ -80,7 +80,7 @@ You can find an explanation on the advantages of using this library and the impo
 
 ### Assert log entries
 
-The logger factory exposes a property `Sink` to access the sink that collect the logs. The sink exposes a property `LogEntries` that enumerates all the captured logs.
+The logger factory exposes a property `Sink` to access the sink that collects the logs. The sink exposes a property `LogEntries` that enumerates all the captured logs.
 Each entry exposes all the relevant property for a log.
 
 For example, to test with xUnit that a single log has been emitted and it had a specific message:
@@ -92,7 +92,7 @@ Assert.Equal("The answer is 42", log.Message);
 
 ### Assert scopes
 
-The logger factory exposes a property `Sink` to access the sink that collect the logs. The sink exposes a property `Scopes` that enumerates all the captured scopes.
+The logger factory exposes a property `Sink` to access the sink that collects the logs. The sink exposes a property `Scopes` that enumerates all the captured scopes.
 
 For example, to test with xUnit that a single scope has been emitted and it had a specific message:
 
@@ -119,7 +119,7 @@ Assert.Equal("The answer is {number}", log.OriginalFormat);
 
 ### Assert exceptions in log entries
 
-The log entry expose a property `Exception` which contains the exception captured by the logger.
+The log entry exposes a property `Exception` which contains the exception captured by the logger.
 
 For example, to test with xUnit that a single log has been emitted with a specific exception and assert a exception property:
 
@@ -220,7 +220,7 @@ See [SampleTest](samples/SampleLibrary.Tests/SampleTest.cs) and [MoreTest](sampl
         public LoggingTestWithInjectedFactory(CustomWebApplicationFactory<Startup> factory)
         {
             _factory = factory;
-            // In this case the factory will be resused for all tests, so the sink will be shared as well.
+            // In this case, the factory will be reused for all tests, so the sink will be shared as well.
             // We can clear the sink before each test execution, as xUnit will not run this tests in parallel.
             _factory.GetTestLoggerSink().Clear();
             // When running on 2.x, the server is not initialized until it is explicitly started or the first client is created.
@@ -234,7 +234,7 @@ See [SampleTest](samples/SampleLibrary.Tests/SampleTest.cs) and [MoreTest](sampl
 
 ### Assert log entries and scopes
 
-Once you access the `sink` with `_factory.GetTestLoggerSink()` you get access to the property `LogEntries` that enumerates all the captured logs and `Scopes` whihc enumerated all the captured `Scopes`.
+Once you access the `sink` with `_factory.GetTestLoggerSink()` you get access to the property `LogEntries` that enumerates all the captured logs and `Scopes` which enumerated all the captured `Scopes`.
 You will then be able to do all the assertions like described above in [Assertions](#assertions)
 
 For example, to test with xUnit that a single log has been emitted and it had a specific message:
@@ -258,13 +258,13 @@ When used for integration tests of ASP.NET Core applications, it supports all th
 
 If you are using [Serilog.Extensions.Logging](https://github.com/serilog/serilog-extensions-logging) the integration is straightforward as this library is fully compliant with `Microsoft.Extensions.Logging`.
 
-Simply follow the main instruction as the fact that you are plugging Serilog as provider does not alter the bahaviour.
+Simply follow the main instruction as the fact that you are plugging Serilog as the provider does not alter the behaviour.
 
 ## Serilog compatibility using Serilog.AspNetCore
 
-Unfortunately, [Serilog.AspNetCore](https://github.com/serilog/serilog-aspnetcore) doesn't plug nicely into `Microsoft.Extensions.Logging` as it replace the logger factory and bring in a opinionated behaviour.
+Unfortunately, [Serilog.AspNetCore](https://github.com/serilog/serilog-aspnetcore) doesn't plug nicely into `Microsoft.Extensions.Logging` as it replaces the logger factory and brings in an opinionated behaviour.
 
-However, `MELT` has specific support to allow to write tests against the serilog produced logs, also allowing you to verify the serilog behaviours (e.g. object expansion).
+However, `MELT` has specific support to allow to write tests against the Serilog produced logs, also allowing you to verify the Serilog behaviours (e.g. object expansion).
 
 - Modify your `Program.cs` of your ASP.NET Core applications, defining a `LoggerProviderCollection` to be able to hook into the logging from the tests later on. Then, pass it to the `UseSerilog()` extension method of the web host builder.
 
@@ -297,7 +297,7 @@ However, `MELT` has specific support to allow to write tests against the serilog
     <PackageReference Include="MELT.Serilog.AspNetCore" Version="0.5.0" />
     ```
 
-- Define a Serilog logger, setting it up to write to the providers collection we had previously added to `Program.cs`
+- Define a Serilog logger, setting it up to write to the providers' collection we had previously added to `Program.cs`
 
     ```csharp
     Log.Logger = new LoggerConfiguration()
@@ -387,7 +387,7 @@ However, `MELT` has specific support to allow to write tests against the serilog
         public LoggingTestWithInjectedFactory(CustomWebApplicationFactory<Startup> factory)
         {
             _factory = factory;
-            // In this case the factory will be resused for all tests, so the sink will be shared as well.
+            // In this case, the factory will be reused for all tests, so the sink will be shared as well.
             // We can clear the sink before each test execution, as xUnit will not run this tests in parallel.
             _factory.GetSerilogTestLoggerSink().Clear();
             // When running on 2.x, the server is not initialized until it is explicitly started or the first client is created.
@@ -413,7 +413,7 @@ Assert.Equal("Hello \"World\"!", log.Message);
 
 Please note that Serilog adds double quotes around parameters.
 
-### Assert scopes on a entry
+### Assert scopes on an entry
 
 The log entry exposes a property `Scopes` that enumerates all the scopes captured for that log entry.
 
@@ -425,7 +425,7 @@ var scope = Assert.Single(log.Scope);
 Assert.Equal(new ScalarValue("I'm in the GET scope"), scope);
 ```
 
-The scope is preserverd in the Serilog format, so you can use the Serilog `DictionaryValue`, `ScalarValue`, `SequenceValue` or `StructureValue`.
+The scope is preserved in the Serilog format, so you can use the Serilog `DictionaryValue`, `ScalarValue`, `SequenceValue` or `StructureValue`.
 
 If you have multiple nested scopes, you can assert with:
 
@@ -478,7 +478,7 @@ See [LoggingTest](samples/SampleWebApplicationSerilogAlternate.IntegrationTests/
 
 ## Upgrade from 0.4 and below
 
-The library is still backward compatible, however if you follow the deprecation warnings, you will be able to easily migrate to the new simplified syntax.
+The library is still backward compatible, however, if you follow the deprecation warnings, you will be able to easily migrate to the new simplified syntax.
 
 > Note: due to a breaking change in `Microsoft.Extensions.Logging` 3.1, if you are testing a project that references **only** `Microsoft.Extensions.Logging.Abstractions` 3.1, you need to add a reference to `Microsoft.Extensions.Logging` 3.1 in your test project:
 > ```xml
@@ -535,14 +535,14 @@ LogValuesAssert.Contains("number", 42, scope);
 LoggingAssert.Contains("number", 42, scope.Properties);
 ```
 
-And to assert log properties, the using is no longer needed
+And to assert log properties, the `using` is no longer needed
 
 ```csharp
 using MELT.Xunit;
 // no longer needed :)
 ```
 
-### Setup of ASP.NET Core Inteagration Tests
+### Setup of ASP.NET Core Integration Tests
 
 Setting up the web application factory with the test logger
 
