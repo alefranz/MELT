@@ -10,10 +10,13 @@ if (!$Version){
     }
 }
 
-Write-Host $Version
+Write-Host "Version: $Version`n"
 
-New-Item -Path ./artifacts -Force -ItemType directory
+$artifactsPath = Join-Path $PSScriptRoot artifacts
 
-$artifacts = (Get-Item ./artifacts).FullName
+if (Test-Path -Path $artifactsPath) {
+    Remove-Item $artifactsPath -Recurse
+}
+New-Item -Path $artifactsPath -ItemType directory > $null
 
-dotnet pack -c Release -o $artifacts -p:Version=$Version
+dotnet pack -c Release -o $artifactsPath -p:Version=$Version -p:GITHUB_ACTIONS=true

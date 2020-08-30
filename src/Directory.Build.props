@@ -1,7 +1,7 @@
 <Project>
 
   <Import Project="../Directory.Build.props" />
-  
+
   <PropertyGroup>
     <Authors>Alessio Franceschelli</Authors>
     <PackageTags>Logging;Log;Logs;Microsoft.Extensions.Logging</PackageTags>
@@ -11,10 +11,15 @@
     <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>https://github.com/alefranz/MELT/releases</PackageReleaseNotes>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <WarningsNotAsErrors>$(WarningsNotAsErrors);CS1591</WarningsNotAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
   <ItemGroup>
