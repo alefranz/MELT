@@ -22,7 +22,7 @@ If you like this project please don't forget to *star* it on [GitHub](https//git
 
 You can find an explanation on the advantages of using this library and the importance of testing logs on the blog post "[How to test logging when using Microsoft.Extensions.Logging](https://alessio.franceschelli.me/posts/dotnet/how-to-test-logging-when-using-microsoft-extensions-logging/)".
 
-> If you are currently using version 0.5, you can _optionally_ migrate to the new syntax. See [Upgrade from 0.5](README.md#upgrade-from-0.5) for more info.
+> If you are upgrading to version 0.5, you can _optionally_ migrate to the new syntax. See [Upgrade from 0.4 and below](#upgrade-from-04-and-below) for more info.
 
 <!-- omit in toc -->
 ## Index
@@ -41,22 +41,25 @@ You can find an explanation on the advantages of using this library and the impo
   - [Full example](#full-example-1)
 - [Compatibility](#compatibility)
 - [Serilog compatibility using Serilog.Extensions.Logging](#serilog-compatibility-using-serilogextensionslogging)
+  - [Full example](#full-example-2)
 - [Serilog compatibility using Serilog.AspNetCore](#serilog-compatibility-using-serilogaspnetcore)
   - [Assert log entries](#assert-log-entries-1)
   - [Assert scopes on an entry](#assert-scopes-on-an-entry)
   - [Assert message format](#assert-message-format)
   - [Easily test log or scope properties with xUnit](#easily-test-log-or-scope-properties-with-xunit-1)
   - [And much more](#and-much-more-1)
-  - [Full example](#full-example-2)
+  - [Full example](#full-example-3)
+- [NLog compatibility using NLog.Web.AspNetCore](#nlog-compatibility-using-nlogwebaspnetcore)
+  - [Full example](#full-example-4)
 - [Upgrade from 0.4 and below](#upgrade-from-04-and-below)
-  - [Setup of ASP.NET Core Integration Tests](#setup-of-aspnet-core-integration-tests)
+  - [Upgrade of ASP.NET Core Integration Tests](#upgrade-of-aspnet-core-integration-tests)
 
 ## Quickstart
 
 - Install the NuGet package [MELT](https://www.nuget.org/packages/MELT/)
 
     ```xml
-    <PackageReference Include="MELT" Version="0.5.0" />
+    <PackageReference Include="MELT" Version="0.5.1" />
     ```
 
     > Note: due to a breaking change in `Microsoft.Extensions.Logging` 3.1, if you are testing a project that references **only** `Microsoft.Extensions.Logging.Abstractions` 3.1, you need to add a reference to `Microsoft.Extensions.Logging` 3.1 in your test project:
@@ -134,7 +137,7 @@ Assert.Equal("foo", exception.ParamName);
 - Install the NuGet package [MELT.Xunit](https://www.nuget.org/packages/MELT.Xunit/)
 
     ```xml
-    <PackageReference Include="MELT.Xunit" Version="0.5.0" />
+    <PackageReference Include="MELT.Xunit" Version="0.5.1" />
     ```
 
 - Use the `LoggingAssert.Contains(...)` helpers.
@@ -158,7 +161,7 @@ See [SampleTest](samples/SampleLibrary.Tests/SampleTest.cs) and [MoreTest](sampl
 - Install the NuGet package [MELT.AspNetCore](https://www.nuget.org/packages/MELT.AspNetCore/)
 
     ```xml
-    <PackageReference Include="MELT.AspNetCore" Version="0.5.0" />
+    <PackageReference Include="MELT.AspNetCore" Version="0.5.1" />
     ```
 
 - Use the `UseTestLogging(...)` extension method to add a test logger to the test web host builder, where you can also customize the behaviour.
@@ -246,8 +249,8 @@ Assert.Equal("The answer is 42", log.Message);
 
 ### Full example
 
-See [LoggingTest](samples/SampleWebApplication.IntegrationTests/LoggingTest.cs) or
-[LoggingTestWithInjectedFactory](samples/SampleWebApplication.IntegrationTests/LoggingTestWithInjectedFactory.cs).
+See [LoggingTest](samples/current/SampleWebApplication.IntegrationTests/LoggingTest.cs) or
+[LoggingTestWithInjectedFactory](samples/current/SampleWebApplication.IntegrationTests/LoggingTestWithInjectedFactory.cs).
 
 ## Compatibility
 
@@ -259,6 +262,11 @@ When used for integration tests of ASP.NET Core applications, it supports all th
 If you are using [Serilog.Extensions.Logging](https://github.com/serilog/serilog-extensions-logging) the integration is straightforward as this library is fully compliant with `Microsoft.Extensions.Logging`.
 
 Simply follow the main instruction as the fact that you are plugging Serilog as the provider does not alter the behaviour.
+
+### Full example
+
+See [LoggingTest](samples/current/serilog/SampleWebApplicationSerilog.IntegrationTests/LoggingTest.cs) or
+[LoggingTestWithInjectedFactory](samples/current/serilog/SampleWebApplicationSerilog.IntegrationTests/LoggingTestWithInjectedFactory.cs).
 
 ## Serilog compatibility using Serilog.AspNetCore
 
@@ -294,7 +302,7 @@ However, `MELT` has specific support to allow to write tests against the Serilog
 - Now go back to your integration tests project, and install the NuGet package [MELT.Serilog.AspNetCore](https://www.nuget.org/packages/MELT.Serilog.AspNetCore/)
 
     ```xml
-    <PackageReference Include="MELT.Serilog.AspNetCore" Version="0.5.0" />
+    <PackageReference Include="MELT.Serilog.AspNetCore" Version="0.5.1" />
     ```
 
 - Define a Serilog logger, setting it up to write to the providers' collection we had previously added to `Program.cs`
@@ -448,7 +456,7 @@ Assert.Equal("The answer is {number}", log.OriginalFormat);
 - Install the NuGet package [MELT.Xunit](https://www.nuget.org/packages/MELT.Xunit/)
 
     ```xml
-    <PackageReference Include="MELT.Xunit" Version="0.5.0" />
+    <PackageReference Include="MELT.Xunit" Version="0.5.1" />
     ```
 
 - Use the `LoggingAssert.Contains(...)` helpers.
@@ -473,8 +481,19 @@ You can assert againt all the characteristic of a log entry: `EventId`, `Excepti
 
 ### Full example
 
-See [LoggingTest](samples/SampleWebApplicationSerilogAlternate.IntegrationTests/LoggingTest.cs) or
-[LoggingTestWithInjectedFactory](samples/SampleWebApplicationSerilogAlternate.IntegrationTests/LoggingTestWithInjectedFactory.cs).
+See [LoggingTest](samples/current/serilog/SampleWebApplicationSerilogAlternate.IntegrationTests/LoggingTest.cs) or
+[LoggingTestWithInjectedFactory](samples/current/serilog/SampleWebApplicationSerilogAlternate.IntegrationTests/LoggingTestWithInjectedFactory.cs).
+
+## NLog compatibility using NLog.Web.AspNetCore
+
+If you are using [NLog.Web.AspNetCore](https://github.com/NLog/NLog.Web) the integration is straightforward as this library is fully compliant with `Microsoft.Extensions.Logging`.
+
+Simply follow the main instruction as the fact that you are plugging NLog as the provider does not alter the behaviour.
+
+### Full example
+
+See [LoggingTest](samples/current/NLog/SampleWebApplicationNLog.IntegrationTests/LoggingTest.cs) or
+[LoggingTestWithInjectedFactory](samples/current/NLog/SampleWebApplicationNLog.IntegrationTests/LoggingTestWithInjectedFactory.cs).
 
 ## Upgrade from 0.4 and below
 
@@ -542,7 +561,7 @@ using MELT.Xunit;
 // no longer needed :)
 ```
 
-### Setup of ASP.NET Core Integration Tests
+### Upgrade of ASP.NET Core Integration Tests
 
 Setting up the web application factory with the test logger
 

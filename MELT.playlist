@@ -1,0 +1,135 @@
+<Playlist Version="2.0">
+  <Rule Name="Includes" Match="Any">
+    <Rule Match="All">
+      <Property Name="Solution" />
+      <Rule Match="Any">
+        <Rule Match="All">
+          <Property Name="Project" Value="MELT.Tests" />
+          <Rule Match="Any">
+            <Rule Match="All">
+              <Property Name="Namespace" Value="MELT.Tests" />
+              <Rule Match="Any">
+                <Rule Match="All">
+                  <Property Name="Class" Value="TestSinkOptionsTest" />
+                  <Rule Match="Any">
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="MELT.Tests.TestSinkOptionsTest.FilterByLoggerName_BeginEnabled" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.FilterByLoggerName_BeginEnabled(loggerNameFilter: &quot;a.b.c&quot;, loggerName: &quot;a.b.c&quot;, enabled: True)" />
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.FilterByLoggerName_BeginEnabled(loggerNameFilter: &quot;a.b.c&quot;, loggerName: &quot;a.b&quot;, enabled: False)" />
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.FilterByLoggerName_BeginEnabled(loggerNameFilter: &quot;a.b.c&quot;, loggerName: &quot;a.b.c.d&quot;, enabled: False)" />
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.FilterByLoggerName_BeginEnabled(loggerNameFilter: &quot;a.b.c&quot;, loggerName: &quot;a&quot;, enabled: False)" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="MELT.Tests.TestSinkOptionsTest.FilterByLoggerName_WriteEnabled" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.FilterByLoggerName_WriteEnabled(loggerNameFilter: &quot;a.b.c&quot;, loggerName: &quot;a.b.c&quot;, enabled: True)" />
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.FilterByLoggerName_WriteEnabled(loggerNameFilter: &quot;a.b.c&quot;, loggerName: &quot;a.b&quot;, enabled: False)" />
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.FilterByLoggerName_WriteEnabled(loggerNameFilter: &quot;a.b.c&quot;, loggerName: &quot;a.b.c.d&quot;, enabled: False)" />
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.FilterByLoggerName_WriteEnabled(loggerNameFilter: &quot;a.b.c&quot;, loggerName: &quot;a&quot;, enabled: False)" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="MELT.Tests.TestSinkOptionsTest.FilterByNamespace_BeginEnabled" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.FilterByNamespace_BeginEnabled(namespaceFilter: &quot;a.b&quot;, loggerName: &quot;a.b.c&quot;, enabled: True)" />
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.FilterByNamespace_BeginEnabled(namespaceFilter: &quot;a.b&quot;, loggerName: &quot;a.b&quot;, enabled: False)" />
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.FilterByNamespace_BeginEnabled(namespaceFilter: &quot;a.b&quot;, loggerName: &quot;a.b.c.d&quot;, enabled: True)" />
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.FilterByNamespace_BeginEnabled(namespaceFilter: &quot;a.b&quot;, loggerName: &quot;a&quot;, enabled: False)" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="MELT.Tests.TestSinkOptionsTest.FilterByNamespace_WriteEnabled" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.FilterByNamespace_WriteEnabled(namespaceFilter: &quot;a.b&quot;, loggerName: &quot;a.b.c&quot;, enabled: True)" />
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.FilterByNamespace_WriteEnabled(namespaceFilter: &quot;a.b&quot;, loggerName: &quot;a.b&quot;, enabled: False)" />
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.FilterByNamespace_WriteEnabled(namespaceFilter: &quot;a.b&quot;, loggerName: &quot;a.b.c.d&quot;, enabled: True)" />
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.FilterByNamespace_WriteEnabled(namespaceFilter: &quot;a.b&quot;, loggerName: &quot;a&quot;, enabled: False)" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="MELT.Tests.TestSinkOptionsTest.FilterByTypeName_BeginEnabled" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.FilterByTypeName_BeginEnabled(loggerName: &quot;A.B.C&quot;, enabled: True)" />
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.FilterByTypeName_BeginEnabled(loggerName: &quot;A.B&quot;, enabled: False)" />
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.FilterByTypeName_BeginEnabled(loggerName: &quot;A.B.C.D&quot;, enabled: False)" />
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.FilterByTypeName_BeginEnabled(loggerName: &quot;A&quot;, enabled: False)" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="MELT.Tests.TestSinkOptionsTest.FilterByTypeName_WriteEnabled" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.FilterByTypeName_WriteEnabled(loggerName: &quot;A.B.C&quot;, enabled: True)" />
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.FilterByTypeName_WriteEnabled(loggerName: &quot;A.B&quot;, enabled: False)" />
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.FilterByTypeName_WriteEnabled(loggerName: &quot;A.B.C.D&quot;, enabled: False)" />
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.FilterByTypeName_WriteEnabled(loggerName: &quot;A&quot;, enabled: False)" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="MELT.Tests.TestSinkOptionsTest.SetMinimumLevel_WriteEnabled" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.SetMinimumLevel_WriteEnabled(minimumLevel: Information, logLevel: Debug, enabled: False)" />
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.SetMinimumLevel_WriteEnabled(minimumLevel: Information, logLevel: Information, enabled: True)" />
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.SetMinimumLevel_WriteEnabled(minimumLevel: Information, logLevel: Warning, enabled: True)" />
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.SetMinimumLevel_WriteEnabled(minimumLevel: Warning, logLevel: Debug, enabled: False)" />
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.SetMinimumLevel_WriteEnabled(minimumLevel: Warning, logLevel: Information, enabled: False)" />
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.SetMinimumLevel_WriteEnabled(minimumLevel: Warning, logLevel: Warning, enabled: True)" />
+                        <Property Name="DisplayName" Value="MELT.Tests.TestSinkOptionsTest.SetMinimumLevel_WriteEnabled(minimumLevel: Warning, logLevel: Error, enabled: True)" />
+                      </Rule>
+                    </Rule>
+                  </Rule>
+                </Rule>
+              </Rule>
+            </Rule>
+          </Rule>
+        </Rule>
+        <Rule Match="All">
+          <Property Name="Project" Value="MELT.Xunit.Tests" />
+          <Rule Match="Any">
+            <Rule Match="All">
+              <Property Name="Namespace" Value="MELT.Xunit.Tests" />
+              <Rule Match="Any">
+                <Rule Match="All">
+                  <Property Name="Class" Value="LogValuesAssertTest" />
+                  <Rule Match="Any">
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="MELT.Xunit.Tests.LogValuesAssertTest.Asserts_Failure_ExpectedValues_MoreThan_ActualValues" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="MELT.Xunit.Tests.LogValuesAssertTest.Asserts_Failure_ExpectedValues_MoreThan_ActualValues" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="MELT.Xunit.Tests.LogValuesAssertTest.Asserts_Success_ExpectedValues_SubsetOf_ActualValues" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="MELT.Xunit.Tests.LogValuesAssertTest.Asserts_Success_ExpectedValues_SubsetOf_ActualValues" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="MELT.Xunit.Tests.LogValuesAssertTest.Asserts_Success_IgnoringOrderOfItems" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="MELT.Xunit.Tests.LogValuesAssertTest.Asserts_Success_IgnoringOrderOfItems" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="MELT.Xunit.Tests.LogValuesAssertTest.Asserts_Success_OnSpecifiedKeyAndValue" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="MELT.Xunit.Tests.LogValuesAssertTest.Asserts_Success_OnSpecifiedKeyAndValue" />
+                      </Rule>
+                    </Rule>
+                    <Rule Match="All">
+                      <Property Name="TestWithNormalizedFullyQualifiedName" Value="MELT.Xunit.Tests.LogValuesAssertTest.DefaultComparer_Performs_CaseSensitiveComparision" />
+                      <Rule Match="Any">
+                        <Property Name="DisplayName" Value="MELT.Xunit.Tests.LogValuesAssertTest.DefaultComparer_Performs_CaseSensitiveComparision" />
+                      </Rule>
+                    </Rule>
+                  </Rule>
+                </Rule>
+              </Rule>
+            </Rule>
+          </Rule>
+        </Rule>
+      </Rule>
+    </Rule>
+  </Rule>
+</Playlist>
