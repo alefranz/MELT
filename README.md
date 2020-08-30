@@ -1,6 +1,6 @@
 _Testing Library for Microsoft Extensions Logging._
 
-[![Build Status](https://github.com/alefranz/MELT/workflows/Build/badge.svg?branch=master)](https://github.com/alefranz/MELT/actions?query=branch%3Amaster)
+[![Build Status](https://github.com/alefranz/MELT/workflows/Build/badge.svg?branch=main)](https://github.com/alefranz/MELT/actions?query=branch%3Amain)
 [![MELT Nuget](https://img.shields.io/nuget/v/MELT?label=MELT&logo=nuget)](https://www.nuget.org/packages/MELT/)
 [![MELT.AspNetCore Nuget](https://img.shields.io/nuget/v/MELT.AspNetCore?label=MELT.AspNetCore&logo=nuget)](https://www.nuget.org/packages/MELT.AspNetCore/)
 [![MELT.Serilog Nuget](https://img.shields.io/nuget/v/MELT.Serilog?label=MELT.Serilog&logo=nuget)](https://www.nuget.org/packages/MELT.Serilog/)
@@ -15,7 +15,7 @@ It is a solution to easily test logs.
 
 It is a repackaging with a sweetened API and some omissions of [Microsoft.Extensions.Logging.Testing](https://github.com/aspnet/Extensions/tree/master/src/Logging/Logging.Testing), a library used internally in [ASP.NET Core](https://github.com/aspnet/AspNetCore) for testing the logging, given that [there is currently no plan to offer an official package for it](https://github.com/aspnet/Extensions/issues/672#issuecomment-532850535).
 
-It is licensed under [Apache License 2.0](https://github.com/alefranz/MELT/blob/master/LICENSE).
+It is licensed under [Apache License 2.0](https://github.com/alefranz/MELT/blob/main/LICENSE).
 Most of the code is copyrighted by the .NET Foundation as mentioned in the files headers.
 
 If you like this project please don't forget to *star* it on [GitHub](https//github.com/alefranz/MELT) or let me know with a [tweet](https://twitter.com/AleFranz).
