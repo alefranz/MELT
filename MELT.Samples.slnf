@@ -1,0 +1,15 @@
+{
+  "solution": {
+    "path": "MELT.sln",
+    "projects": [
+      "samples\\current\\SampleLibrary.Tests\\SampleLibrary.Tests.csproj",
+      "samples\\current\\SampleLibrary\\SampleLibrary.csproj",
+      "samples\\current\\SampleWebApplication.IntegrationTests\\SampleWebApplication.IntegrationTests.csproj",
+      "samples\\current\\SampleWebApplication\\SampleWebApplication.csproj",
+      "samples\\current\\serilog\\SampleWebApplicationSerilog.IntegrationTests\\SampleWebApplicationSerilog.IntegrationTests.csproj",
+      "samples\\current\\serilog\\SampleWebApplicationSerilogAlternate.IntegrationTests\\SampleWebApplicationSerilogAlternate.IntegrationTests.csproj",
+      "samples\\current\\serilog\\SampleWebApplicationSerilogAlternate\\SampleWebApplicationSerilogAlternate.csproj",
+      "samples\\current\\serilog\\SampleWebApplicationSerilog\\SampleWebApplicationSerilog.csproj"
+    ]
+  }
+}

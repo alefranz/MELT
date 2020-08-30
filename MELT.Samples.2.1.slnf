@@ -1,0 +1,9 @@
+{
+  "solution": {
+    "path": "MELT.sln",
+    "projects": [
+      "samples\\2.1\\SampleWebApplication2_1.IntegrationTests\\SampleWebApplication2_1.IntegrationTests.csproj",
+      "samples\\2.1\\SampleWebApplication2_1\\SampleWebApplication2_1.csproj"
+    ]
+  }
+}
