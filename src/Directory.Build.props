@@ -4,7 +4,7 @@
 
   <PropertyGroup>
     <Authors>Alessio Franceschelli</Authors>
-    <PackageTags>Logging;Log;Logs;Microsoft.Extensions.Logging</PackageTags>
+    <PackageTags>Logging;Log;Logs;Microsoft.Extensions.Logging;Testing</PackageTags>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/alefranz/MELT</PackageProjectUrl>
     <RepositoryUrl>https://github.com/alefranz/MELT.git</RepositoryUrl>
