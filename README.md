@@ -1,3 +1,9 @@
+# MELT
+
+<!-- markdownlint-disable no-inline-html -->
+<img align="right" width="128" height="128" src="logo.png">
+<!-- markdownlint-enable no-inline-html -->
+
 _Testing Library for Microsoft Extensions Logging._
 
 [![Build Status](https://github.com/alefranz/MELT/workflows/Build/badge.svg?branch=main)](https://github.com/alefranz/MELT/actions?query=branch%3Amain)
