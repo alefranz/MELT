@@ -7,6 +7,7 @@
     <PackageTags>Logging;Log;Logs;Microsoft.Extensions.Logging;Testing</PackageTags>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/alefranz/MELT</PackageProjectUrl>
+    <PackageIcon>logo.png</PackageIcon>
     <RepositoryUrl>https://github.com/alefranz/MELT.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>https://github.com/alefranz/MELT/releases</PackageReleaseNotes>
@@ -24,6 +25,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)../logo.png" Pack="true" PackagePath="" />
   </ItemGroup>
 
 </Project>
