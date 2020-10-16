@@ -26,7 +26,7 @@ namespace MELT
         public string? Message => _scope.Scope?.ToString();
 
         /// <inheritdoc/>
-        public IReadOnlyList<KeyValuePair<string, object>> Properties => _scope.Scope as IReadOnlyList<KeyValuePair<string, object>> ?? _emptyProperties;
+        public IEnumerable<KeyValuePair<string, object>> Properties => _scope.Scope as IEnumerable<KeyValuePair<string, object>> ?? _emptyProperties;
 
         /// <summary>
         /// The original format of the message for this log entry.

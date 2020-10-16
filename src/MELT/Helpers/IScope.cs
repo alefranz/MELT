@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace MELT
@@ -17,6 +16,6 @@ namespace MELT
         /// A list of <see cref="KeyValuePair{TKey, TValue}" /> that represents the properties of the captured scope.
         /// </summary>
         /// <remarks> Properties are in order and multiple properties can have the same key.</remarks>
-        IReadOnlyList<KeyValuePair<string, object>> Properties { get; }
+        IEnumerable<KeyValuePair<string, object>> Properties { get; }
     }
 }

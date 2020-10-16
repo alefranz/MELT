@@ -147,5 +147,24 @@ namespace SampleLibrary.Tests
             var log = Assert.Single(loggerFactory.Sink.LogEntries);
             Assert.Equal("This scope's answer is 42", log.Scope.Message);
         }
+
+        [Fact]
+        public void TraceLogsMessageWithScope()
+        {
+            // Arrange
+            var loggerFactory = TestLoggerFactory.Create();
+            var sampleLogger = loggerFactory.CreateLogger<Sample>();
+            var moreLogger = loggerFactory.CreateLogger<More>();
+            var more = new More(new Sample(sampleLogger), moreLogger);
+
+            // Act
+            more.Trace();
+
+            // Assert
+            var log = Assert.Single(loggerFactory.Sink.LogEntries);
+            Assert.Equal("This log entry is at trace level", log.Message);
+            LoggingAssert.Contains("level", "trace", log.Properties);
+            LoggingAssert.Contains("foo", "bar", log.Scope.Properties);
+        }
     }
 }

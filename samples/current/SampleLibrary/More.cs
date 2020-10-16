@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 
 namespace SampleLibrary
 {
@@ -38,6 +39,14 @@ namespace SampleLibrary
             using (_logger.BeginScope("This scope's answer is {number}", 42))
             {
                 _logger.LogInformation("foo");
+            }
+        }
+
+        public void Trace()
+        {
+            using (_logger.BeginScope(new Dictionary<string, object> { { "foo", "bar" } }))
+            {
+                _logger.LogTrace("This log entry is at {level} level", "trace");
             }
         }
     }
