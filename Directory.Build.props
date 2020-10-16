@@ -2,9 +2,16 @@
 
   <PropertyGroup>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+
     <WarningsNotAsErrors>612;618</WarningsNotAsErrors>
     <LangVersion>8.0</LangVersion>
     <Nullable>Enable</Nullable>
   </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <StyleCopTreatErrorsAsWarnings>True</StyleCopTreatErrorsAsWarnings>
+  </PropertyGroup>
+
+  <ItemGroup><PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="All" /></ItemGroup>
 
 </Project>
