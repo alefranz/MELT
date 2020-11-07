@@ -5,7 +5,7 @@ namespace MELT
 {
     internal static class PropertiesExtensions
     {
-        public static string GetOriginalFormat(this IReadOnlyList<KeyValuePair<string, object>> properties)
+        public static string GetOriginalFormat(this IEnumerable<KeyValuePair<string, object>> properties)
         {
             foreach (var prop in properties)
             {
