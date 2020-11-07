@@ -15,7 +15,7 @@ jobs:
     - name: Setup .NET Core 3.1
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.401
+        dotnet-version: 3.1.403
     - name: Install dotnet-format
       run: dotnet tool install --global dotnet-format
     - name: Format
@@ -28,13 +28,13 @@ jobs:
     - name: Setup .NET Core 2.1
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 2.1.809
+        dotnet-version: 2.1.811
     - name: Setup .NET Core 3.1
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.401
+        dotnet-version: 3.1.403
     - name: .NET Core SxS
-      run: rsync -a ${DOTNET_ROOT/3.1.401/2.1.809}/* $DOTNET_ROOT/
+      run: rsync -a ${DOTNET_ROOT/3.1.403/2.1.811}/* $DOTNET_ROOT/
     - name: Build
       run: dotnet build --configuration Release
     - name: Test
@@ -49,7 +49,7 @@ jobs:
     - name: Setup .NET Core 3.1
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.401
+        dotnet-version: 3.1.403
     - name: Determine version
       run: echo "::set-env name=VERSION::$(git describe --tags --dirty)"
     - name: Pack
@@ -66,7 +66,7 @@ jobs:
     - name: Setup .NET Core 3.1
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.401
+        dotnet-version: 3.1.403
     - uses: actions/download-artifact@v1
       with:
         name: artifacts
