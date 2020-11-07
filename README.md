@@ -65,7 +65,7 @@ You can find an explanation on the advantages of using this library and the impo
 - Install the NuGet package [MELT](https://www.nuget.org/packages/MELT/)
 
     ```xml
-    <PackageReference Include="MELT" Version="0.5.2" />
+    <PackageReference Include="MELT" Version="0.6.0" />
     ```
 
     > Note: due to a breaking change in `Microsoft.Extensions.Logging` 3.1, if you are testing a project that references **only** `Microsoft.Extensions.Logging.Abstractions` 3.1, you need to add a reference to `Microsoft.Extensions.Logging` 3.1 in your test project:
@@ -144,7 +144,7 @@ Assert.Equal("foo", exception.ParamName);
 - Install the NuGet package [MELT.Xunit](https://www.nuget.org/packages/MELT.Xunit/)
 
     ```xml
-    <PackageReference Include="MELT.Xunit" Version="0.5.2" />
+    <PackageReference Include="MELT.Xunit" Version="0.6.0" />
     ```
 
 - Use the `LoggingAssert.Contains(...)` helpers.
@@ -168,7 +168,7 @@ See [SampleTest](samples/SampleLibrary.Tests/SampleTest.cs) and [MoreTest](sampl
 - Install the NuGet package [MELT.AspNetCore](https://www.nuget.org/packages/MELT.AspNetCore/)
 
     ```xml
-    <PackageReference Include="MELT.AspNetCore" Version="0.5.2" />
+    <PackageReference Include="MELT.AspNetCore" Version="0.6.0" />
     ```
 
 - Use the `UseTestLogging(...)` extension method to add a test logger to the test web host builder, where you can also customize the behaviour.
@@ -309,7 +309,7 @@ However, `MELT` has specific support to allow to write tests against the Serilog
 - Now go back to your integration tests project, and install the NuGet package [MELT.Serilog.AspNetCore](https://www.nuget.org/packages/MELT.Serilog.AspNetCore/)
 
     ```xml
-    <PackageReference Include="MELT.Serilog.AspNetCore" Version="0.5.2" />
+    <PackageReference Include="MELT.Serilog.AspNetCore" Version="0.6.0" />
     ```
 
 - Define a Serilog logger, setting it up to write to the providers' collection we had previously added to `Program.cs`
@@ -463,7 +463,7 @@ Assert.Equal("The answer is {number}", log.OriginalFormat);
 - Install the NuGet package [MELT.Xunit](https://www.nuget.org/packages/MELT.Xunit/)
 
     ```xml
-    <PackageReference Include="MELT.Xunit" Version="0.5.2" />
+    <PackageReference Include="MELT.Xunit" Version="0.6.0" />
     ```
 
 - Use the `LoggingAssert.Contains(...)` helpers.
