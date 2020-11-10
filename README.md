@@ -68,7 +68,7 @@ You can find an explanation on the advantages of using this library and the impo
     <PackageReference Include="MELT" Version="0.6.0" />
     ```
 
-    > Note: due to a breaking change in `Microsoft.Extensions.Logging` 3.1, if you are testing a project that references **only** `Microsoft.Extensions.Logging.Abstractions` 3.1, you need to add a reference to `Microsoft.Extensions.Logging` 3.1 in your test project:
+    > Note: due to a breaking change in `Microsoft.Extensions.Logging` 3.1, if you are testing a project that references **only** `Microsoft.Extensions.Logging.Abstractions` 3.1+, you need to add a reference to `Microsoft.Extensions.Logging` 3.1+ in your test project:
     >
     > ```xml
     > <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.0" />
@@ -262,7 +262,7 @@ See [LoggingTest](samples/current/SampleWebApplication.IntegrationTests/LoggingT
 ## Compatibility
 
 This library is compatibe with [Microsoft.Extensions.Logging](https://github.com/aspnet/Extensions/tree/master/src/Logging/Logging.Testing) 2.0+.
-When used for integration tests of ASP.NET Core applications, it supports all the currently supported versions of ASP.NET Core: 2.1 LTS and 3.1 LTS, but also the now deprecated 2.2 and 3.0.
+When used for integration tests of ASP.NET Core applications, it supports all the currently supported versions of ASP.NET Core: 2.1 LTS, 3.1 LTS and 5.0, but also the now deprecated 2.2 and 3.0.
 
 ## Serilog compatibility using Serilog.Extensions.Logging
 
@@ -506,7 +506,7 @@ See [LoggingTest](samples/current/NLog/SampleWebApplicationNLog.IntegrationTests
 
 The library is still backward compatible, however, if you follow the deprecation warnings, you will be able to easily migrate to the new simplified syntax.
 
-> Note: due to a breaking change in `Microsoft.Extensions.Logging` 3.1, if you are testing a project that references **only** `Microsoft.Extensions.Logging.Abstractions` 3.1, you need to add a reference to `Microsoft.Extensions.Logging` 3.1 in your test project:
+> Note: due to a breaking change in `Microsoft.Extensions.Logging` 3.1, if you are testing a project that references **only** `Microsoft.Extensions.Logging.Abstractions` 3.1+, you need to add a reference to `Microsoft.Extensions.Logging` 3.1+ in your test project:
 >
 > ```xml
 > <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.0" />

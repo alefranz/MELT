@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Logging;
 using Xunit;
 
-namespace SampleWebApplication.LegacyIntegrationTests
+namespace SampleWebApplication3_1.LegacyIntegrationTests
 {
     public class LoggingTestWithInjectedFactoryWithoutHelpers : IClassFixture<CustomWebApplicationFactoryWithoutHelpers<Startup>>
     {
@@ -51,7 +51,7 @@ namespace SampleWebApplication.LegacyIntegrationTests
     public class CustomWebApplicationFactoryWithoutHelpers<TStartup> : WebApplicationFactory<TStartup>
          where TStartup : class
     {
-        public ITestSink Sink { get; } = MELTBuilder.CreateTestSink(options => options.FilterByNamespace(nameof(SampleWebApplication)));
+        public ITestSink Sink { get; } = MELTBuilder.CreateTestSink(options => options.FilterByNamespace(nameof(SampleWebApplication3_1)));
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {

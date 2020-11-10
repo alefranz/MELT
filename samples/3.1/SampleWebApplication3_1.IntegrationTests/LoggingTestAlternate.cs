@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Logging;
 using Xunit;
 
-namespace SampleWebApplication.IntegrationTests
+namespace SampleWebApplication3_1.IntegrationTests
 {
     public class LoggingTestAlternate : IClassFixture<WebApplicationFactory<Startup>>
     {
@@ -15,7 +15,7 @@ namespace SampleWebApplication.IntegrationTests
             _factory = factory.WithWebHostBuilder(builder =>
                 builder.ConfigureLogging(logging =>
                     logging.AddTest(options =>
-                        options.FilterByNamespace(nameof(SampleWebApplication)))));
+                        options.FilterByNamespace(nameof(SampleWebApplication3_1)))));
         }
 
         [Fact]
