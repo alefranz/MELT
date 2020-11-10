@@ -19,7 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\MELT.Xunit\MELT.Xunit.csproj" />
     <ProjectReference Include="..\..\..\src\MELT.AspNetCore\MELT.AspNetCore.csproj" />
-    <ProjectReference Include="..\..\current\SampleWebApplication\SampleWebApplication.csproj" />
+    <ProjectReference Include="..\..\3.1\SampleWebApplication3_1\SampleWebApplication3_1.csproj" />
   </ItemGroup>
 
 </Project>

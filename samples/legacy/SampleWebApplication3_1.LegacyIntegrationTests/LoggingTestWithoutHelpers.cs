@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Logging;
 using Xunit;
 
-namespace SampleWebApplication.LegacyIntegrationTests
+namespace SampleWebApplication3_1.LegacyIntegrationTests
 {
     public class LoggingTestWithoutHelpers : IClassFixture<WebApplicationFactory<Startup>>
     {
@@ -18,7 +18,7 @@ namespace SampleWebApplication.LegacyIntegrationTests
         public LoggingTestWithoutHelpers(WebApplicationFactory<Startup> factory)
         {
             // Creates a sink that capture only log entry generated in our namespace
-            _sink = new TestSink(x => x.LoggerName.StartsWith($"{nameof(SampleWebApplication)}."));
+            _sink = new TestSink(x => x.LoggerName.StartsWith($"{nameof(SampleWebApplication3_1)}."));
 
             // Wires the TestSink in the TestHost
             _factory = factory.WithWebHostBuilder(builder => builder.ConfigureLogging(logging => logging.AddProvider(new TestLoggerProvider(_sink))));
@@ -27,7 +27,7 @@ namespace SampleWebApplication.LegacyIntegrationTests
         [Fact]
         public async Task ShouldLogHelloWorld()
         {
-            // Arrange  
+            // Arrange
 
             // Act
             await _factory.CreateDefaultClient().GetAsync("/");
@@ -42,7 +42,7 @@ namespace SampleWebApplication.LegacyIntegrationTests
         [Fact]
         public async Task ShouldLogWithWorldAsPlace()
         {
-            // Arrange  
+            // Arrange
 
             // Act
             await _factory.CreateDefaultClient().GetAsync("/");
@@ -58,7 +58,7 @@ namespace SampleWebApplication.LegacyIntegrationTests
         [Fact]
         public async Task ShouldUseScope()
         {
-            // Arrange  
+            // Arrange
 
             // Act
             await _factory.CreateDefaultClient().GetAsync("/");
@@ -74,7 +74,7 @@ namespace SampleWebApplication.LegacyIntegrationTests
         [Fact]
         public async Task ShouldUseScopeWithParameter()
         {
-            // Arrange  
+            // Arrange
 
             // Act
             await _factory.CreateDefaultClient().GetAsync("/");

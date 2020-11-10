@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Logging;
 using Xunit;
 
-namespace SampleWebApplication.IntegrationTests
+namespace SampleWebApplication3_1.IntegrationTests
 {
     public class LoggingTest : IClassFixture<WebApplicationFactory<Startup>>
     {
@@ -13,19 +13,19 @@ namespace SampleWebApplication.IntegrationTests
 
         public LoggingTest(WebApplicationFactory<Startup> factory)
         {
-            _factory = factory.WithWebHostBuilder(builder => builder.UseTestLogging(options => options.FilterByNamespace(nameof(SampleWebApplication))));
+            _factory = factory.WithWebHostBuilder(builder => builder.UseTestLogging(options => options.FilterByNamespace(nameof(SampleWebApplication3_1))));
 
             // or
             //_factory = factory.WithWebHostBuilder(builder =>
             //    builder.ConfigureLogging(logging =>
             //        logging.AddTest(options =>
-            //            options.FilterByNamespace(nameof(SampleWebApplication)))));
+            //            options.FilterByNamespace(nameof(SampleWebApplication3_1)))));
         }
 
         [Fact]
         public async Task ShouldLogHelloWorld()
         {
-            // Arrange  
+            // Arrange
 
             // Act
             await _factory.CreateDefaultClient().GetAsync("/");
@@ -39,7 +39,7 @@ namespace SampleWebApplication.IntegrationTests
         [Fact]
         public async Task ShouldLogWithWorldAsPlace()
         {
-            // Arrange  
+            // Arrange
 
             // Act
             await _factory.CreateDefaultClient().GetAsync("/");
@@ -53,7 +53,7 @@ namespace SampleWebApplication.IntegrationTests
         [Fact]
         public async Task ShouldLogHelloWorldAndUniverse()
         {
-            // Arrange  
+            // Arrange
 
             // Act
             await _factory.CreateDefaultClient().GetAsync("/?multipleValues=1");
@@ -67,7 +67,7 @@ namespace SampleWebApplication.IntegrationTests
         [Fact]
         public async Task ShouldLogWithMultipleValuesForPlace()
         {
-            // Arrange  
+            // Arrange
 
             // Act
             await _factory.CreateDefaultClient().GetAsync("/?multipleValues=1");
@@ -87,7 +87,7 @@ namespace SampleWebApplication.IntegrationTests
         [Fact]
         public async Task ShouldUseScope()
         {
-            // Arrange  
+            // Arrange
 
             // Act
             await _factory.CreateDefaultClient().GetAsync("/");
@@ -101,7 +101,7 @@ namespace SampleWebApplication.IntegrationTests
         [Fact]
         public async Task ShouldUseScopeWithParameter()
         {
-            // Arrange  
+            // Arrange
 
             // Act
             await _factory.CreateDefaultClient().GetAsync("/");
@@ -115,7 +115,7 @@ namespace SampleWebApplication.IntegrationTests
         [Fact]
         public async Task ShouldBeginScope()
         {
-            // Arrange  
+            // Arrange
 
             // Act
             await _factory.CreateDefaultClient().GetAsync("/");
@@ -129,7 +129,7 @@ namespace SampleWebApplication.IntegrationTests
         [Fact]
         public async Task ShouldBeginScopeWithParameter()
         {
-            // Arrange  
+            // Arrange
 
             // Act
             await _factory.CreateDefaultClient().GetAsync("/");
