@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 using Microsoft.Extensions.Logging;
 
 namespace MELT
@@ -61,7 +63,13 @@ namespace MELT
         /// The closer scope for this log entry captured by the current logger.
         /// </summary>
         /// <remarks>This does not track scopes across loggers. For more general scope testing use <see cref="ITestLoggerSink.Scopes"/>.</remarks>
+        [Obsolete("Use FullScope")]
         public Scope Scope => new Scope(_entry.Scope);
 #pragma warning restore CS0612 // Type or member is obsolete
+
+        /// <summary>
+        /// The full scope 
+        /// </summary>
+        public IEnumerable<Scope> FullScope => _entry.FullScope.Select(x => new Scope(x));
     }
 }

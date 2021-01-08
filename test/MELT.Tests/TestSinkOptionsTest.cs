@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using A.B;
 using Microsoft.Extensions.Logging;
 using Xunit;
@@ -24,7 +25,7 @@ namespace MELT.Tests
 
             // Assert
             Assert.NotNull(options.WriteEnabled);
-            Assert.Equal(enabled, options.WriteEnabled!(new WriteContext(logLevel, 0, null, null, null, string.Empty, string.Empty)));
+            Assert.Equal(enabled, options.WriteEnabled!(new WriteContext(logLevel, 0, null, null, null, string.Empty, string.Empty, ImmutableStack<object?>.Empty)));
         }
 
         [Theory]
@@ -42,7 +43,7 @@ namespace MELT.Tests
 
             // Assert
             Assert.NotNull(options.WriteEnabled);
-            Assert.Equal(enabled, options.WriteEnabled!(new WriteContext(0, 0, null, null, null, loggerName, string.Empty)));
+            Assert.Equal(enabled, options.WriteEnabled!(new WriteContext(0, 0, null, null, null, loggerName, string.Empty, ImmutableStack<object?>.Empty)));
         }
 
         [Theory]
@@ -78,7 +79,7 @@ namespace MELT.Tests
 
             // Assert
             Assert.NotNull(options.WriteEnabled);
-            Assert.Equal(enabled, options.WriteEnabled!(new WriteContext(0, 0, null, null, null, loggerName, string.Empty)));
+            Assert.Equal(enabled, options.WriteEnabled!(new WriteContext(0, 0, null, null, null, loggerName, string.Empty, ImmutableStack<object?>.Empty)));
         }
 
         [Theory]
@@ -114,7 +115,7 @@ namespace MELT.Tests
 
             // Assert
             Assert.NotNull(options.WriteEnabled);
-            Assert.Equal(enabled, options.WriteEnabled!(new WriteContext(0, 0, null, null, null, loggerName, string.Empty)));
+            Assert.Equal(enabled, options.WriteEnabled!(new WriteContext(0, 0, null, null, null, loggerName, string.Empty, ImmutableStack<object?>.Empty)));
         }
 
         [Theory]

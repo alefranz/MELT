@@ -4,6 +4,8 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Linq;
 
 namespace MELT
@@ -30,13 +32,23 @@ namespace MELT
 
         public Func<BeginScopeContext, bool>? BeginEnabled { get; set; }
 
+
         public IProducerConsumerCollection<BeginScopeContext> BeginScopes { get => _beginScopes; }
 
         public IProducerConsumerCollection<WriteContext> Writes { get => _writes; }
 
         public IEnumerable<LogEntry> LogEntries => Writes.Select(x => new LogEntry(x));
 
+        /// <summary>
+        /// All scopes that were created
+        /// </summary>
         public IEnumerable<BeginScope> Scopes => BeginScopes.Select(x => new BeginScope(x));
+
+        /// <summary>
+        /// All the current scopes.
+        /// </summary>
+        public ImmutableStack<object?> CurrentScope { get; private set; } = ImmutableStack<object?>.Empty;
+
 
         public event Action<WriteContext>? MessageLogged;
 
@@ -51,19 +63,60 @@ namespace MELT
             MessageLogged?.Invoke(context);
         }
 
-        public void BeginScope(BeginScopeContext context)
+        public IDisposable BeginScope(BeginScopeContext context)
         {
             if (BeginEnabled == null || BeginEnabled(context))
             {
                 _beginScopes.Enqueue(context);
             }
             ScopeStarted?.Invoke(context);
+
+            var oldScope = CurrentScope;
+            CurrentScope = CurrentScope.Push(context.Scope);
+            return new TestScope(this, oldScope);
         }
+
+
 
         public void Clear()
         {
             _beginScopes = new ConcurrentQueue<BeginScopeContext>();
             _writes = new ConcurrentQueue<WriteContext>();
+        }
+
+
+        private void EndScope(ImmutableStack<object?> previousScope)
+        {
+            var previousScopeCount = previousScope.Count();
+            //TODO also dispose of all scopes move deeply nested than this one to prevent this possibility
+            Debug.Assert(previousScopeCount < CurrentScope.Count(), "Scopes were exited in the wrong order");
+            Debug.Assert(previousScope.Reverse().SequenceEqual(CurrentScope.Reverse().Take(previousScopeCount)));
+
+            CurrentScope = previousScope;
+        }
+
+        private sealed class TestScope : IDisposable
+        {
+            public TestSink TestSink { get; }
+
+            public ImmutableStack<object?> PreviousScope { get; }
+            //This class is nested so that it can access the EndScope method
+
+            public TestScope(TestSink testSink, ImmutableStack<object?> previousScope)
+            {
+                TestSink = testSink;
+                PreviousScope = previousScope;
+            }
+
+            private bool _disposed = false;
+
+            /// <inheritdoc />
+            public void Dispose()
+            {
+                if (_disposed) return;
+                _disposed = true;
+                TestSink.EndScope(PreviousScope);
+            }
         }
     }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

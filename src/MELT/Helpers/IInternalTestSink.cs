@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Immutable;
 
 namespace MELT
 {
@@ -21,7 +22,9 @@ namespace MELT
 
         void Write(WriteContext context);
 
-        void BeginScope(BeginScopeContext context);
+        IDisposable BeginScope(BeginScopeContext context);
+
+        ImmutableStack<object?> CurrentScope { get; }
 
         void Clear();
     }
