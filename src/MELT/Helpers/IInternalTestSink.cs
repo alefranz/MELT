@@ -24,7 +24,7 @@ namespace MELT
 
         IDisposable BeginScope(BeginScopeContext context);
 
-        ImmutableStack<object?> CurrentScope { get; }
+        ImmutableStack<object?> CurrentScopeData { get; }
 
         void Clear();
     }

@@ -47,7 +47,7 @@ namespace MELT
             var message = formatter(state, exception);
 
 #pragma warning disable CS0612 // Type or member is obsolete
-            _sink.Write(new WriteContext(logLevel, eventId, state, exception, _scope, Name, message, _sink.CurrentScope));
+            _sink.Write(new WriteContext(logLevel, eventId, state, exception, _scope, Name, message, _sink.CurrentScopeData));
 #pragma warning restore CS0612 // Type or member is obsolete
         }
 

@@ -5,7 +5,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Diagnostics;
 using System.Linq;
 
 namespace MELT
@@ -47,8 +46,12 @@ namespace MELT
         /// <summary>
         /// All the current scopes.
         /// </summary>
-        public ImmutableStack<object?> CurrentScope { get; private set; } = ImmutableStack<object?>.Empty;
+        public ImmutableStack<object?> CurrentScopeData => _currentScope.ScopeData;
 
+        private (ImmutableStack<object?> ScopeData, ImmutableHashSet<TestScope> ActiveScopes) _currentScope =
+            (ImmutableStack<object?>.Empty, ImmutableHashSet<TestScope>.Empty);
+
+        private readonly object _scopeLock = new {};
 
         public event Action<WriteContext>? MessageLogged;
 
@@ -65,15 +68,23 @@ namespace MELT
 
         public IDisposable BeginScope(BeginScopeContext context)
         {
+            TestScope testScope;
+            lock (_scopeLock)
+            {
+                var oldScope = _currentScope;
+                testScope = new TestScope(this, oldScope);
+                _currentScope = (oldScope.ScopeData.Push(context.Scope), oldScope.ActiveScopes.Add(testScope));
+            }
+
+
             if (BeginEnabled == null || BeginEnabled(context))
             {
                 _beginScopes.Enqueue(context);
             }
             ScopeStarted?.Invoke(context);
 
-            var oldScope = CurrentScope;
-            CurrentScope = CurrentScope.Push(context.Scope);
-            return new TestScope(this, oldScope);
+
+            return testScope;
         }
 
 
@@ -85,24 +96,24 @@ namespace MELT
         }
 
 
-        private void EndScope(ImmutableStack<object?> previousScope)
+        private void EndScope(TestScope testScope)
         {
-            var previousScopeCount = previousScope.Count();
-            //TODO also dispose of all scopes move deeply nested than this one to prevent this possibility
-            Debug.Assert(previousScopeCount < CurrentScope.Count(), "Scopes were exited in the wrong order");
-            Debug.Assert(previousScope.Reverse().SequenceEqual(CurrentScope.Reverse().Take(previousScopeCount)));
-
-            CurrentScope = previousScope;
+            lock (_scopeLock)
+            {
+                if (_currentScope.ActiveScopes.Contains(testScope))
+                    _currentScope = testScope.PreviousScope;
+                //Else the test scope had already been exited - we could throw an exception here
+            }
         }
 
         private sealed class TestScope : IDisposable
         {
             public TestSink TestSink { get; }
 
-            public ImmutableStack<object?> PreviousScope { get; }
+            public (ImmutableStack<object?> ScopeData, ImmutableHashSet<TestScope> ActiveScopes) PreviousScope { get; }
             //This class is nested so that it can access the EndScope method
 
-            public TestScope(TestSink testSink, ImmutableStack<object?> previousScope)
+            public TestScope(TestSink testSink, (ImmutableStack<object?> ScopeData, ImmutableHashSet<TestScope> ActiveScopes) previousScope)
             {
                 TestSink = testSink;
                 PreviousScope = previousScope;
@@ -115,7 +126,7 @@ namespace MELT
             {
                 if (_disposed) return;
                 _disposed = true;
-                TestSink.EndScope(PreviousScope);
+                TestSink.EndScope(this);
             }
         }
     }
