@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.Collections.Immutable;
 using Microsoft.Extensions.Logging;
 
 namespace MELT
@@ -14,7 +13,7 @@ namespace MELT
         private readonly ITestSink _sink;
 
         /// <summary>
-        /// The most recent scope, even if it has be exited.
+        /// The most recent scope, even if it has been exited.
         /// </summary>
         [Obsolete]
         private object? _scope;
@@ -34,7 +33,7 @@ namespace MELT
             return _sink.BeginScope(new BeginScopeContext(Name, state));
         }
 
-        
+
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
         {
@@ -54,7 +53,7 @@ namespace MELT
 
         public bool IsEnabled(LogLevel logLevel) => logLevel != LogLevel.None;
 
-        
+
     }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

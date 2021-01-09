@@ -122,6 +122,53 @@ namespace MELT.Tests
             }
         }
 
+        [Fact]
+        public void ClosingAScope_ShouldCloseAllInnerScopes()
+        {
+            //Arrange
+            var loggerFactory = TestLoggerFactory.Create();
+            var logger = loggerFactory.CreateLogger("Test");
+
+            //Act
+
+            var scopeA = logger.BeginScope("Scope A");
+            logger.LogInformation("Message 1");
+            var scopeB = logger.BeginScope("Scope B");
+            logger.LogInformation("Message 2");
+            var scopeC = logger.BeginScope("Scope C");
+            logger.LogInformation("Message 3");
+            scopeB.Dispose();
+            logger.LogInformation("Message 4");
+            scopeC.Dispose();
+            logger.LogInformation("Message 5");
+            scopeA.Dispose();
+            logger.LogInformation("Message 6");
+
+            //Assert
+
+            var expectations = new List<(string expectedMessage, string[] expectedScopes)>()
+            {
+                ("Message 1", new []{"Scope A"} ),
+                ("Message 2", new []{"Scope B","Scope A"} ),
+                ("Message 3", new []{"Scope C", "Scope B","Scope A"} ),
+                ("Message 4", new []{"Scope A"} ),
+                ("Message 5", new []{"Scope A"} ),
+                ("Message 6", new string[]{} ),
+            };
+
+            Assert.Equal(expectations.Count, loggerFactory.Sink.LogEntries.Count());
+
+
+            foreach (var (logEntry, (expectedMessage, expectedScope)) in loggerFactory.Sink.LogEntries.Zip(expectations))
+            {
+                Assert.Equal(logEntry.Message, expectedMessage);
+
+
+                Assert.Equal(expectedScope, logEntry.FullScope.Select(x => x.Message));
+
+                Assert.Equal(expectedMessage, logEntry.Message);
+            }
+        }
 
         [Fact]
         public void MessagesLoggedInScopesByDifferentLoggers_ShouldHaveCorrectScopes()
