@@ -63,7 +63,7 @@ namespace MELT
         /// The closer scope for this log entry captured by the current logger.
         /// </summary>
         /// <remarks>This does not track scopes across loggers. For more general scope testing use <see cref="ITestLoggerSink.Scopes"/>.</remarks>
-        [Obsolete("Use FullScope")]
+        [Obsolete("The recommended alternative is " + nameof(FullScope) + ".")]
         public Scope Scope => new Scope(_entry.Scope);
 #pragma warning restore CS0612 // Type or member is obsolete
 
