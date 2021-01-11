@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 
 namespace MELT
@@ -48,8 +47,7 @@ namespace MELT
         /// </summary>
         public IEnumerable<BeginScope> CurrentScopeData => _currentScope.ScopeData;
 
-        private (ImmutableStack<BeginScope> ScopeData, ImmutableHashSet<TestScope> ActiveScopes) _currentScope =
-            (ImmutableStack<BeginScope>.Empty, ImmutableHashSet<TestScope>.Empty);
+        private (IReadOnlyCollection<BeginScope> ScopeData, IReadOnlyCollection<TestScope> ActiveScopes) _currentScope = (new List<BeginScope>(), new List<TestScope>());
 
         private readonly object _scopeLock = new {};
 
@@ -73,7 +71,13 @@ namespace MELT
             {
                 var oldScope = _currentScope;
                 testScope = new TestScope(this, oldScope);
-                _currentScope = (oldScope.ScopeData.Push(new BeginScope(context)), oldScope.ActiveScopes.Add(testScope));
+
+                //In principle, using Immutable collections here would prevent copying the collections
+                //But the number of scopes is low enough that it probably isn't worth the extra dependency
+                var newScopeData = oldScope.ScopeData.Prepend(new BeginScope(context)).ToList();
+
+                var newActiveScopes = oldScope.ActiveScopes.Append(testScope).ToList();
+                _currentScope = (newScopeData,newActiveScopes);
             }
 
 
@@ -110,10 +114,10 @@ namespace MELT
         {
             public TestSink TestSink { get; }
 
-            public (ImmutableStack<BeginScope> ScopeData, ImmutableHashSet<TestScope> ActiveScopes) PreviousScope { get; }
+            public (IReadOnlyCollection<BeginScope> ScopeData, IReadOnlyCollection<TestScope> ActiveScopes) PreviousScope { get; }
             //This class is nested so that it can access the EndScope method
 
-            public TestScope(TestSink testSink, (ImmutableStack<BeginScope> ScopeData, ImmutableHashSet<TestScope> ActiveScopes) previousScope)
+            public TestScope(TestSink testSink, (IReadOnlyCollection<BeginScope> ScopeData, IReadOnlyCollection<TestScope> ActiveScopes) previousScope)
             {
                 TestSink = testSink;
                 PreviousScope = previousScope;
