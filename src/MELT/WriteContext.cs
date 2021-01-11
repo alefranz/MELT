@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.Collections.Immutable;
+using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 
 namespace MELT
@@ -10,7 +10,8 @@ namespace MELT
     [Obsolete]
     public readonly struct WriteContext
     {
-        public WriteContext(LogLevel logLevel, EventId eventId, object? state, Exception? exception, object? scope, string loggerName, string? message, ImmutableStack<object?> fullScope)
+        public WriteContext(LogLevel logLevel, EventId eventId, object? state, Exception? exception, object? scope,
+            string loggerName, string? message, IEnumerable<object?> fullScope)
         {
             LogLevel = logLevel;
             EventId = eventId;
@@ -43,6 +44,6 @@ namespace MELT
         /// <summary>
         /// The full scope when the event was logged.
         /// </summary>
-        public ImmutableStack<object?> FullScope { get; }
+        public IEnumerable<object?> FullScope { get; }
     }
 }

@@ -46,7 +46,7 @@ namespace MELT
         /// <summary>
         /// All the current scopes.
         /// </summary>
-        public ImmutableStack<object?> CurrentScopeData => _currentScope.ScopeData;
+        public IEnumerable<object?> CurrentScopeData => _currentScope.ScopeData;
 
         private (ImmutableStack<object?> ScopeData, ImmutableHashSet<TestScope> ActiveScopes) _currentScope =
             (ImmutableStack<object?>.Empty, ImmutableHashSet<TestScope>.Empty);

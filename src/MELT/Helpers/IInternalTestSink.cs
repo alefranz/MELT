@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Immutable;
+using System.Collections.Generic;
 
 namespace MELT
 {
@@ -24,7 +24,7 @@ namespace MELT
 
         IDisposable BeginScope(BeginScopeContext context);
 
-        ImmutableStack<object?> CurrentScopeData { get; }
+        IEnumerable<object?> CurrentScopeData { get; }
 
         void Clear();
     }
