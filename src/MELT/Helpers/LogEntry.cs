@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
 using Microsoft.Extensions.Logging;
 
 namespace MELT
@@ -68,8 +66,8 @@ namespace MELT
 #pragma warning restore CS0612 // Type or member is obsolete
 
         /// <summary>
-        /// The full scope 
+        /// The full scope
         /// </summary>
-        public IEnumerable<Scope> FullScope => _entry.FullScope.Select(x => new Scope(x));
+        public IEnumerable<IScope> FullScope => _entry.FullScope;
     }
 }

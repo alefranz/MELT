@@ -24,7 +24,7 @@ namespace MELT
 
         IDisposable BeginScope(BeginScopeContext context);
 
-        IEnumerable<object?> CurrentScopeData { get; }
+        IEnumerable<BeginScope> CurrentScopeData { get; }
 
         void Clear();
     }

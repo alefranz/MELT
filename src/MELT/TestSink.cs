@@ -46,10 +46,10 @@ namespace MELT
         /// <summary>
         /// All the current scopes.
         /// </summary>
-        public IEnumerable<object?> CurrentScopeData => _currentScope.ScopeData;
+        public IEnumerable<BeginScope> CurrentScopeData => _currentScope.ScopeData;
 
-        private (ImmutableStack<object?> ScopeData, ImmutableHashSet<TestScope> ActiveScopes) _currentScope =
-            (ImmutableStack<object?>.Empty, ImmutableHashSet<TestScope>.Empty);
+        private (ImmutableStack<BeginScope> ScopeData, ImmutableHashSet<TestScope> ActiveScopes) _currentScope =
+            (ImmutableStack<BeginScope>.Empty, ImmutableHashSet<TestScope>.Empty);
 
         private readonly object _scopeLock = new {};
 
@@ -73,7 +73,7 @@ namespace MELT
             {
                 var oldScope = _currentScope;
                 testScope = new TestScope(this, oldScope);
-                _currentScope = (oldScope.ScopeData.Push(context.Scope), oldScope.ActiveScopes.Add(testScope));
+                _currentScope = (oldScope.ScopeData.Push(new BeginScope(context)), oldScope.ActiveScopes.Add(testScope));
             }
 
 
@@ -110,10 +110,10 @@ namespace MELT
         {
             public TestSink TestSink { get; }
 
-            public (ImmutableStack<object?> ScopeData, ImmutableHashSet<TestScope> ActiveScopes) PreviousScope { get; }
+            public (ImmutableStack<BeginScope> ScopeData, ImmutableHashSet<TestScope> ActiveScopes) PreviousScope { get; }
             //This class is nested so that it can access the EndScope method
 
-            public TestScope(TestSink testSink, (ImmutableStack<object?> ScopeData, ImmutableHashSet<TestScope> ActiveScopes) previousScope)
+            public TestScope(TestSink testSink, (ImmutableStack<BeginScope> ScopeData, ImmutableHashSet<TestScope> ActiveScopes) previousScope)
             {
                 TestSink = testSink;
                 PreviousScope = previousScope;

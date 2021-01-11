@@ -25,7 +25,7 @@ namespace MELT.Tests
 
             // Assert
             Assert.NotNull(options.WriteEnabled);
-            Assert.Equal(enabled, options.WriteEnabled!(new WriteContext(logLevel, 0, null, null, null, string.Empty, string.Empty, ImmutableStack<object?>.Empty)));
+            Assert.Equal(enabled, options.WriteEnabled!(new WriteContext(logLevel, 0, null, null, null, string.Empty, string.Empty, System.Array.Empty<IScope>())));
         }
 
         [Theory]
@@ -43,7 +43,7 @@ namespace MELT.Tests
 
             // Assert
             Assert.NotNull(options.WriteEnabled);
-            Assert.Equal(enabled, options.WriteEnabled!(new WriteContext(0, 0, null, null, null, loggerName, string.Empty, ImmutableStack<object?>.Empty)));
+            Assert.Equal(enabled, options.WriteEnabled!(new WriteContext(0, 0, null, null, null, loggerName, string.Empty, System.Array.Empty<IScope>())));
         }
 
         [Theory]
@@ -79,7 +79,7 @@ namespace MELT.Tests
 
             // Assert
             Assert.NotNull(options.WriteEnabled);
-            Assert.Equal(enabled, options.WriteEnabled!(new WriteContext(0, 0, null, null, null, loggerName, string.Empty, ImmutableStack<object?>.Empty)));
+            Assert.Equal(enabled, options.WriteEnabled!(new WriteContext(0, 0, null, null, null, loggerName, string.Empty, System.Array.Empty<IScope>())));
         }
 
         [Theory]
@@ -115,7 +115,7 @@ namespace MELT.Tests
 
             // Assert
             Assert.NotNull(options.WriteEnabled);
-            Assert.Equal(enabled, options.WriteEnabled!(new WriteContext(0, 0, null, null, null, loggerName, string.Empty, ImmutableStack<object?>.Empty)));
+            Assert.Equal(enabled, options.WriteEnabled!(new WriteContext(0, 0, null, null, null, loggerName, string.Empty, System.Array.Empty<IScope>())));
         }
 
         [Theory]
