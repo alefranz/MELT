@@ -20,6 +20,9 @@ jobs:
       run: dotnet tool install --global dotnet-format
     - name: Format
       run: dotnet format --check
+    - name: Suggest automatic fix
+      if: ${{ failure() }}
+      run: echo Run 'dotnet format' to automatically fix formatting. Run 'dotnet tool install --global dotnet-format' to install it.
   build:
     runs-on: ubuntu-latest
     steps:
