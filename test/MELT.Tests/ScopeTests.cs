@@ -27,8 +27,8 @@ namespace MELT.Tests
 
             var scope = Assert.Single(entry.FullScope);
 
-            Assert.Equal("Scope 1",scope.Message);
-            Assert.Equal("Message 1",entry.Message);
+            Assert.Equal("Scope 1", scope.Message);
+            Assert.Equal("Message 1", entry.Message);
         }
 
         [Fact]
@@ -70,7 +70,7 @@ namespace MELT.Tests
             //Assert
             var entry = Assert.Single(loggerFactory.Sink.LogEntries);
 
-            Assert.Equal(new[]{"Scope 2", "Scope 1"}, entry.FullScope.Select(x=>x.Message));
+            Assert.Equal(new[] { "Scope 2", "Scope 1" }, entry.FullScope.Select(x => x.Message));
 
 
             Assert.Equal("Message 1", entry.Message);
@@ -101,7 +101,7 @@ namespace MELT.Tests
 
             //Assert
 
-            var expectations = new List<(string expectedMessage,  string[]  expectedScopes)>()
+            var expectations = new List<(string expectedMessage, string[] expectedScopes)>()
             {
                 ("Message 1", new []{"Outer Scope"} ),
                 ("Message 2", new []{"Inner Scope","Outer Scope"} ),
@@ -116,7 +116,7 @@ namespace MELT.Tests
                 Assert.Equal(logEntry.Message, expectedMessage);
 
 
-                Assert.Equal(expectedScope, logEntry.FullScope.Select(x=>x.Message));
+                Assert.Equal(expectedScope, logEntry.FullScope.Select(x => x.Message));
 
                 Assert.Equal(expectedMessage, logEntry.Message);
             }

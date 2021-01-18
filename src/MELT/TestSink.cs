@@ -49,7 +49,7 @@ namespace MELT
 
         private (IReadOnlyCollection<BeginScope> ScopeData, IReadOnlyCollection<TestScope> ActiveScopes) _currentScope = (new List<BeginScope>(), new List<TestScope>());
 
-        private readonly object _scopeLock = new {};
+        private readonly object _scopeLock = new { };
 
         public event Action<WriteContext>? MessageLogged;
 
@@ -77,7 +77,7 @@ namespace MELT
                 var newScopeData = oldScope.ScopeData.Prepend(new BeginScope(context)).ToList();
 
                 var newActiveScopes = oldScope.ActiveScopes.Append(testScope).ToList();
-                _currentScope = (newScopeData,newActiveScopes);
+                _currentScope = (newScopeData, newActiveScopes);
             }
 
 
