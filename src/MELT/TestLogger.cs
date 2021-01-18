@@ -33,8 +33,6 @@ namespace MELT
             return _sink.BeginScope(new BeginScopeContext(Name, state));
         }
 
-
-
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
         {
             if (!IsEnabled(logLevel))
@@ -52,8 +50,6 @@ namespace MELT
         }
 
         public bool IsEnabled(LogLevel logLevel) => logLevel != LogLevel.None;
-
-
     }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

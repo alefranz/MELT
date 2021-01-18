@@ -30,7 +30,6 @@ namespace MELT
 
         public Func<BeginScopeContext, bool>? BeginEnabled { get; set; }
 
-
         public IProducerConsumerCollection<BeginScopeContext> BeginScopes { get => _beginScopes; }
 
         public IProducerConsumerCollection<WriteContext> Writes { get => _writes; }
@@ -80,25 +79,20 @@ namespace MELT
                 _currentScope = (newScopeData, newActiveScopes);
             }
 
-
             if (BeginEnabled == null || BeginEnabled(context))
             {
                 _beginScopes.Enqueue(context);
             }
             ScopeStarted?.Invoke(context);
 
-
             return testScope;
         }
-
-
 
         public void Clear()
         {
             _beginScopes = new ConcurrentQueue<BeginScopeContext>();
             _writes = new ConcurrentQueue<WriteContext>();
         }
-
 
         private void EndScope(TestScope testScope)
         {
@@ -112,10 +106,10 @@ namespace MELT
 
         private sealed class TestScope : IDisposable
         {
+            //This class is nested so that it can access the EndScope method
             public TestSink TestSink { get; }
 
             public (IReadOnlyCollection<BeginScope> ScopeData, IReadOnlyCollection<TestScope> ActiveScopes) PreviousScope { get; }
-            //This class is nested so that it can access the EndScope method
 
             public TestScope(TestSink testSink, (IReadOnlyCollection<BeginScope> ScopeData, IReadOnlyCollection<TestScope> ActiveScopes) previousScope)
             {

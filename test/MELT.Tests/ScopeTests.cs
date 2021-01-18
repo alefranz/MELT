@@ -24,7 +24,6 @@ namespace MELT.Tests
 
             //Assert
             var entry = Assert.Single(loggerFactory.Sink.LogEntries);
-
             var scope = Assert.Single(entry.FullScope);
 
             Assert.Equal("Scope 1", scope.Message);
@@ -71,12 +70,8 @@ namespace MELT.Tests
             var entry = Assert.Single(loggerFactory.Sink.LogEntries);
 
             Assert.Equal(new[] { "Scope 2", "Scope 1" }, entry.FullScope.Select(x => x.Message));
-
-
             Assert.Equal("Message 1", entry.Message);
         }
-
-
 
         [Fact]
         public void MessagesLoggedInScopes_ShouldHaveCorrectScopes()
@@ -86,21 +81,17 @@ namespace MELT.Tests
             var logger = loggerFactory.CreateLogger("Test");
 
             //Act
-
             using (logger.BeginScope("Outer Scope"))
             {
                 logger.LogInformation("Message 1");
-
                 using (logger.BeginScope("Inner Scope"))
                 {
                     logger.LogInformation("Message 2");
                 }
-
                 logger.LogInformation("Message 3");
             }
 
             //Assert
-
             var expectations = new List<(string expectedMessage, string[] expectedScopes)>()
             {
                 ("Message 1", new []{"Outer Scope"} ),
@@ -110,14 +101,10 @@ namespace MELT.Tests
 
             Assert.Equal(expectations.Count, loggerFactory.Sink.LogEntries.Count());
 
-
             foreach (var (logEntry, (expectedMessage, expectedScope)) in loggerFactory.Sink.LogEntries.Zip(expectations))
             {
                 Assert.Equal(logEntry.Message, expectedMessage);
-
-
                 Assert.Equal(expectedScope, logEntry.FullScope.Select(x => x.Message));
-
                 Assert.Equal(expectedMessage, logEntry.Message);
             }
         }
@@ -130,7 +117,6 @@ namespace MELT.Tests
             var logger = loggerFactory.CreateLogger("Test");
 
             //Act
-
             var scopeA = logger.BeginScope("Scope A");
             logger.LogInformation("Message 1");
             var scopeB = logger.BeginScope("Scope B");
@@ -145,7 +131,6 @@ namespace MELT.Tests
             logger.LogInformation("Message 6");
 
             //Assert
-
             var expectations = new List<(string expectedMessage, string[] expectedScopes)>()
             {
                 ("Message 1", new []{"Scope A"} ),
@@ -158,14 +143,10 @@ namespace MELT.Tests
 
             Assert.Equal(expectations.Count, loggerFactory.Sink.LogEntries.Count());
 
-
             foreach (var (logEntry, (expectedMessage, expectedScope)) in loggerFactory.Sink.LogEntries.Zip(expectations))
             {
                 Assert.Equal(logEntry.Message, expectedMessage);
-
-
                 Assert.Equal(expectedScope, logEntry.FullScope.Select(x => x.Message));
-
                 Assert.Equal(expectedMessage, logEntry.Message);
             }
         }
@@ -179,16 +160,13 @@ namespace MELT.Tests
             var loggerB = loggerFactory.CreateLogger("Test-B");
 
             //Act
-
             using (loggerA.BeginScope("A Scope"))
             {
                 loggerA.LogInformation("Message 1");
-
                 using (loggerB.BeginScope("B Scope"))
                 {
                     loggerA.LogInformation("Message 2");
                 }
-
                 loggerA.LogInformation("Message 3");
                 loggerB.LogInformation("Message 4");
             }
@@ -197,7 +175,6 @@ namespace MELT.Tests
             loggerB.LogInformation("Message 6");
 
             //Assert
-
             var expectations = new List<(string expectedMessage, string[] expectedScopes)>()
             {
                 ("Message 1", new []{"A Scope"} ),
@@ -210,17 +187,12 @@ namespace MELT.Tests
 
             Assert.Equal(expectations.Count, loggerFactory.Sink.LogEntries.Count());
 
-
             foreach (var (logEntry, (expectedMessage, expectedScope)) in loggerFactory.Sink.LogEntries.Zip(expectations))
             {
                 Assert.Equal(logEntry.Message, expectedMessage);
-
-
                 Assert.Equal(expectedScope, logEntry.FullScope.Select(x => x.Message));
-
                 Assert.Equal(expectedMessage, logEntry.Message);
             }
         }
-
     }
 }
