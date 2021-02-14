@@ -11,6 +11,11 @@ namespace MELT
     {
 #pragma warning disable CS0612 // Type or member is obsolete
         private readonly ITestSink _sink;
+
+        /// <summary>
+        /// The most recent scope, even if it has been exited.
+        /// </summary>
+        [Obsolete]
         private object? _scope;
 
         public TestLogger(string name, ITestSink sink)
@@ -25,10 +30,7 @@ namespace MELT
         public IDisposable BeginScope<TState>(TState state)
         {
             _scope = state;
-
-            _sink.BeginScope(new BeginScopeContext(Name, state));
-
-            return TestScope.Instance;
+            return _sink.BeginScope(new BeginScopeContext(Name, state));
         }
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
@@ -43,7 +45,7 @@ namespace MELT
             var message = formatter(state, exception);
 
 #pragma warning disable CS0612 // Type or member is obsolete
-            _sink.Write(new WriteContext(logLevel, eventId, state, exception, _scope, Name, message));
+            _sink.Write(new WriteContext(logLevel, eventId, state, exception, _scope, Name, message, _sink.CurrentScopeData));
 #pragma warning restore CS0612 // Type or member is obsolete
         }
 
