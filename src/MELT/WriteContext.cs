@@ -11,7 +11,7 @@ namespace MELT
     public readonly struct WriteContext
     {
         public WriteContext(LogLevel logLevel, EventId eventId, object? state, Exception? exception, object? scope,
-            string loggerName, string? message, IEnumerable<IScope> fullScope)
+            string loggerName, string? message, IEnumerable<object?> scopes)
         {
             LogLevel = logLevel;
             EventId = eventId;
@@ -20,7 +20,7 @@ namespace MELT
             Scope = scope;
             LoggerName = loggerName;
             Message = message;
-            FullScope = fullScope;
+            Scopes = scopes;
         }
 
         public LogLevel LogLevel { get; }
@@ -34,7 +34,7 @@ namespace MELT
         /// <summary>
         /// The most recent scope to have been created by the logger.
         /// </summary>
-        [Obsolete("Use FullScope instead")]
+        [Obsolete("The preferred alternative is " + nameof(Scopes) + ".")]
         public object? Scope { get; }
 
         public string LoggerName { get; }
@@ -44,6 +44,6 @@ namespace MELT
         /// <summary>
         /// The full scope when the event was logged.
         /// </summary>
-        public IEnumerable<IScope> FullScope { get; }
+        public IEnumerable<object?> Scopes { get; }
     }
 }

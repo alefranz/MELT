@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 
 namespace MELT
 {
@@ -22,9 +21,7 @@ namespace MELT
 
         void Write(WriteContext context);
 
-        IDisposable BeginScope(BeginScopeContext context);
-
-        IEnumerable<BeginScope> CurrentScopeData { get; }
+        void BeginScope(BeginScopeContext context);
 
         void Clear();
     }

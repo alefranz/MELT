@@ -24,7 +24,7 @@ namespace MELT.Tests
 
             //Assert
             var entry = Assert.Single(loggerFactory.Sink.LogEntries);
-            var scope = Assert.Single(entry.FullScope);
+            var scope = Assert.Single(entry.Scopes);
 
             Assert.Equal("Scope 1", scope.Message);
             Assert.Equal("Message 1", entry.Message);
@@ -46,7 +46,7 @@ namespace MELT.Tests
             //Assert
             var entry = Assert.Single(loggerFactory.Sink.LogEntries);
 
-            Assert.Empty(entry.FullScope);
+            Assert.Empty(entry.Scopes);
             Assert.Equal("Message 1", entry.Message);
         }
 
@@ -69,7 +69,7 @@ namespace MELT.Tests
             //Assert
             var entry = Assert.Single(loggerFactory.Sink.LogEntries);
 
-            Assert.Equal(new[] { "Scope 2", "Scope 1" }, entry.FullScope.Select(x => x.Message));
+            Assert.Equal(new[] { "Scope 1", "Scope 2" }, entry.Scopes.Select(x => x.Message));
             Assert.Equal("Message 1", entry.Message);
         }
 
@@ -104,7 +104,7 @@ namespace MELT.Tests
             foreach (var (logEntry, (expectedMessage, expectedScope)) in loggerFactory.Sink.LogEntries.Zip(expectations))
             {
                 Assert.Equal(logEntry.Message, expectedMessage);
-                Assert.Equal(expectedScope, logEntry.FullScope.Select(x => x.Message));
+                Assert.Equal(expectedScope, logEntry.Scopes.Select(x => x.Message));
                 Assert.Equal(expectedMessage, logEntry.Message);
             }
         }
@@ -146,7 +146,7 @@ namespace MELT.Tests
             foreach (var (logEntry, (expectedMessage, expectedScope)) in loggerFactory.Sink.LogEntries.Zip(expectations))
             {
                 Assert.Equal(logEntry.Message, expectedMessage);
-                Assert.Equal(expectedScope, logEntry.FullScope.Select(x => x.Message));
+                Assert.Equal(expectedScope, logEntry.Scopes.Select(x => x.Message));
                 Assert.Equal(expectedMessage, logEntry.Message);
             }
         }
@@ -190,7 +190,7 @@ namespace MELT.Tests
             foreach (var (logEntry, (expectedMessage, expectedScope)) in loggerFactory.Sink.LogEntries.Zip(expectations))
             {
                 Assert.Equal(logEntry.Message, expectedMessage);
-                Assert.Equal(expectedScope, logEntry.FullScope.Select(x => x.Message));
+                Assert.Equal(expectedScope, logEntry.Scopes.Select(x => x.Message));
                 Assert.Equal(expectedMessage, logEntry.Message);
             }
         }

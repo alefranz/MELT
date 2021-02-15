@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
@@ -85,6 +86,7 @@ namespace SampleWebApplication.IntegrationTests
         }
 
         [Fact]
+        [Obsolete("LogEntry.Scope")]
         public async Task ShouldUseScope()
         {
             // Arrange
@@ -99,6 +101,7 @@ namespace SampleWebApplication.IntegrationTests
         }
 
         [Fact]
+        [Obsolete("LogEntry.Scope")]
         public async Task ShouldUseScopeWithParameter()
         {
             // Arrange
