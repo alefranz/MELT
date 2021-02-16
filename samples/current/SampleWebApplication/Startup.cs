@@ -53,6 +53,32 @@ namespace SampleWebApplication
                         await context.Response.WriteAsync("Hello World!");
                     }
                 });
+
+                endpoints.MapGet("/incorrectlyDisposedScopes", async context =>
+                {
+                    var logger = context.RequestServices.GetRequiredService<ILogger<Startup>>();
+
+                    using (var a = logger.BeginScope("A"))
+                    {
+                        var b = logger.BeginScope("B");
+                        var c = logger.BeginScope("C");
+
+                        logger.LogInformation("Hello {place}!", "World");
+
+                        b.Dispose();
+
+                        logger.LogInformation("Hello {place}!", "World");
+
+                        c.Dispose();
+
+                        logger.LogInformation("Hello {place}!", "World");
+
+                        context.Response.ContentType = "text/plain";
+                        await context.Response.WriteAsync("Hello World!");
+                    }
+
+                    logger.LogInformation("Hello {place}!", "World");
+                });
             });
         }
     }
