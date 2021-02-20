@@ -209,7 +209,8 @@ namespace MELT.Tests
         [Fact]
         public async Task MessagesLoggedInScopesInDifferentAsyncScopes_ShouldHaveCorrectScopes()
         {
-            async Task DoAsync(SemaphoreSlim scopeCreated, SemaphoreSlim ready, ILogger logger, string name, CancellationToken cancellationToken)
+            static async Task LogAsync(SemaphoreSlim scopeCreated, SemaphoreSlim ready, ILogger logger,
+                string name, CancellationToken cancellationToken)
             {
                 using (logger.BeginScope(name))
                 {
@@ -227,8 +228,8 @@ namespace MELT.Tests
             using var cts = Debugger.IsAttached ? new CancellationTokenSource() : new CancellationTokenSource(TimeSpan.FromSeconds(2));
 
             //Act
-            var taskA = DoAsync(semaphoreB, semaphoreA, logger, "A", cts.Token);
-            var taskB = DoAsync(semaphoreA, semaphoreB, logger, "B", cts.Token);
+            var taskA = LogAsync(semaphoreB, semaphoreA, logger, "A", cts.Token);
+            var taskB = LogAsync(semaphoreA, semaphoreB, logger, "B", cts.Token);
 
             await Task.WhenAll(taskA, taskB);
 
