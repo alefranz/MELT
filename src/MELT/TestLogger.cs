@@ -65,7 +65,7 @@ namespace MELT
             while (scope != null)
             {
                 scopes.Push(scope.State);
-                scope = scope.Parent;                
+                scope = scope.Parent;
             }
 
             return scopes;
