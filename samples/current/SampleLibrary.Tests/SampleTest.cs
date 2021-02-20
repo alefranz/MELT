@@ -60,24 +60,6 @@ namespace SampleLibrary.Tests
         }
 
         [Fact]
-        public void DoSomethingLogsScope()
-        {
-            // Arrange
-            var loggerFactory = TestLoggerFactory.Create();
-
-            var logger = loggerFactory.CreateLogger<Sample>();
-            var sample = new Sample(logger);
-
-            // Act
-            sample.DoSomething();
-
-            // Assert
-            var log = Assert.Single(loggerFactory.Sink.LogEntries);
-            // Assert the message rendered by a default formatter
-            Assert.Single("The answer is 42", log.Scopes);
-        }
-
-        [Fact]
         public void DoExceptionalLogsException()
         {
             // Arrange

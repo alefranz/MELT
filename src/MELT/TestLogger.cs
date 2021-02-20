@@ -53,7 +53,7 @@ namespace MELT
             var scopes = GetScopes();
 
 #pragma warning disable CS0612 // Type or member is obsolete
-            _sink.Write(new WriteContext(logLevel, eventId, state, exception, _currentScope, Name, message, scopes));
+            _sink.Write(new WriteContext(logLevel, eventId, state, exception, _currentScope.Value?.State, Name, message, scopes));
 #pragma warning restore CS0612 // Type or member is obsolete
         }
 
