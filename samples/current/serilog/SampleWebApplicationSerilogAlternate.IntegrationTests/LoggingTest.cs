@@ -66,7 +66,7 @@ namespace SampleWebApplicationSerilogAlternate.IntegrationTests
 
             // Assert
             var log = Assert.Single(_factory.GetSerilogTestLoggerSink().LogEntries);
-            var scope = Assert.Single(log.Scope);
+            var scope = Assert.Single(log.Scopes);
             Assert.Equal(new ScalarValue("I'm in the GET scope"), scope);
 
         }
@@ -83,14 +83,14 @@ namespace SampleWebApplicationSerilogAlternate.IntegrationTests
             var log = Assert.Single(_factory.GetSerilogTestLoggerSink().LogEntries);
 
             // Assert the scopes
-            Assert.Collection(log.Scope,
+            Assert.Collection(log.Scopes,
                 x => Assert.Equal(new ScalarValue("A top level scope"), x),
                 x => Assert.Equal(new ScalarValue("I'm in the GET scope"), x)
             );
             // or
-            Assert.Equal(2, log.Scope.Count);
-            Assert.Equal(new ScalarValue("A top level scope"), log.Scope[0]);
-            Assert.Equal(new ScalarValue("I'm in the GET scope"), log.Scope[1]);
+            Assert.Equal(2, log.Scopes.Count);
+            Assert.Equal(new ScalarValue("A top level scope"), log.Scopes[0]);
+            Assert.Equal(new ScalarValue("I'm in the GET scope"), log.Scopes[1]);
         }
 
         [Fact]
@@ -104,7 +104,7 @@ namespace SampleWebApplicationSerilogAlternate.IntegrationTests
             // Assert
             var log = Assert.Single(_factory.GetSerilogTestLoggerSink().LogEntries);
             // If the scope is a dictionary, it will only add the properties, not a scope
-            Assert.Empty(log.Scope);
+            Assert.Empty(log.Scopes);
             LoggingAssert.Contains("foo", "bar", log.Properties);
             LoggingAssert.Contains("answer", 42, log.Properties);
         }

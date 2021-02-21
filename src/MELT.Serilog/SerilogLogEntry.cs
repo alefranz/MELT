@@ -45,9 +45,12 @@ namespace MELT
             return Constants.NullString;
         }
 
-        public IReadOnlyList<LogEventPropertyValue> Scope => _scope ??= GetSerilogScope();
+        [Obsolete("The recommended alternative is " + nameof(Scopes) + ".")]
+        public IReadOnlyList<LogEventPropertyValue> Scope => _scope ??= GetSerilogScopes();
 
-        private IReadOnlyList<LogEventPropertyValue> GetSerilogScope()
+        public IReadOnlyList<LogEventPropertyValue> Scopes => _scope ??= GetSerilogScopes();
+
+        private IReadOnlyList<LogEventPropertyValue> GetSerilogScopes()
         {
             var scopeSequence = Properties.SingleOrDefault(x => x.Key == "Scope").Value as SequenceValue;
             return scopeSequence?.Elements ?? _emptyProperties;

@@ -57,6 +57,7 @@ You can find an explanation on the advantages of using this library and the impo
   - [Full example](#full-example-3)
 - [NLog compatibility using NLog.Web.AspNetCore](#nlog-compatibility-using-nlogwebaspnetcore)
   - [Full example](#full-example-4)
+- [Upgrade from 0.6](#upgrade-from-06)
 - [Upgrade from 0.4 and below](#upgrade-from-04-and-below)
   - [Upgrade of ASP.NET Core Integration Tests](#upgrade-of-aspnet-core-integration-tests)
 
@@ -93,7 +94,7 @@ You can find an explanation on the advantages of using this library and the impo
 The logger factory exposes a property `Sink` to access the sink that collects the logs. The sink exposes a property `LogEntries` that enumerates all the captured logs.
 Each entry exposes all the relevant property for a log.
 
-For example, to test with xUnit that a single log has been emitted and it had a specific message:
+For example, to test with xUnit that a single log has been emitted and it has a specific message:
 
 ```csharp
 var log = Assert.Single(loggerFactory.Sink.LogEntries);
@@ -102,20 +103,22 @@ Assert.Equal("The answer is 42", log.Message);
 
 ### Assert scopes
 
-The logger factory exposes a property `Sink` to access the sink that collects the logs. The sink exposes a property `Scopes` that enumerates all the captured scopes.
+Each log entry exposes a property `Scopes` to have the scopes active for the particular logger captured with that entry.
+_Note that the scopes of a log entry are local to a specific logger and async context._
+
+```csharp
+var log = Assert.Single(loggerFactory.Sink.LogEntries);
+var log = Assert.Single(log.Scopes);
+Assert.Equal("This scope's answer is 42", scope.Message);
+```
+
+It is also possible to get all the scopes generated across all loggers. The logger factory exposes a property `Sink` to access the sink that collects the logs. The sink exposes a property `Scopes` that enumerates all the captured scopes.
 
 For example, to test with xUnit that a single scope has been emitted and it had a specific message:
 
 ```csharp
 var scope = Assert.Single(loggerFactory.Sink.Scopes);
 Assert.Equal("I'm in the GET scope", scope.Message);
-```
-
-There is also a property `Scope` in each log entry to have the scope captured with that entry, however this only support the most inner scope and doesn't track it across different loggers.
-
-```csharp
-var log = Assert.Single(loggerFactory.Sink.LogEntries);
-Assert.Equal("This scope's answer is 42", log.Scope.Message);
 ```
 
 ### Assert log original format
@@ -501,6 +504,21 @@ Simply follow the main instruction as the fact that you are plugging NLog as the
 
 See [LoggingTest](samples/current/NLog/SampleWebApplicationNLog.IntegrationTests/LoggingTest.cs) or
 [LoggingTestWithInjectedFactory](samples/current/NLog/SampleWebApplicationNLog.IntegrationTests/LoggingTestWithInjectedFactory.cs).
+
+## Upgrade from 0.6
+
+If you follow the deprecation warnings on `LogEntry.Scope`, you will be able to easily migrate to the new `LogEntry.Scopes`, which contains all the scopes active for the specific log entry, which means the scopes that were active for the particular logger and async context when the log entry had been generated.
+
+Also notes that the `LogEntry.Scope` now returns the inner scope for the speicifc logger and async context, instead of the previously unexpected behaviour of returning the latest scope created on the specific logger, even if not active for that entry.
+
+Asserting scope.
+
+```csharp
+Assert.Equal("I'm in the GET scope", log.Scope.Message);
+// become
+var scope = Assert.Single(log.Scopes);
+Assert.Equal("I'm in the GET scope", scope.Message);
+```
 
 ## Upgrade from 0.4 and below
 

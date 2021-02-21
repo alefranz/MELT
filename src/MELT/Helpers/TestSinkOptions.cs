@@ -3,10 +3,13 @@ using Microsoft.Extensions.Logging;
 
 namespace MELT
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class TestLoggerOptions
     {
+#pragma warning disable CS0612 // Type or member is obsolete
         internal Func<WriteContext, bool>? WriteEnabled { get; set; }
         internal Func<BeginScopeContext, bool>? BeginEnabled { get; set; }
+#pragma warning restore CS0612 // Type or member is obsolete
 
         public TestLoggerOptions FilterByNamespace(string namespacePrefix)
         {
@@ -30,7 +33,9 @@ namespace MELT
             return this;
         }
 
+#pragma warning disable CS0612 // Type or member is obsolete
         private void AddWriteEnabledRule(Func<WriteContext, bool> func)
+#pragma warning restore CS0612 // Type or member is obsolete
         {
             if (WriteEnabled is null)
             {
@@ -43,7 +48,9 @@ namespace MELT
             }
         }
 
+#pragma warning disable CS0612 // Type or member is obsolete
         private void AddBeginEnabledRule(Func<BeginScopeContext, bool> func)
+#pragma warning restore CS0612 // Type or member is obsolete
         {
             if (BeginEnabled is null)
             {
@@ -56,4 +63,5 @@ namespace MELT
             }
         }
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

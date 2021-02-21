@@ -43,8 +43,9 @@ namespace SampleWebApplication.IntegrationTests
 
             // Assert
             var log = Assert.Single(_factory.GetTestLoggerSink().LogEntries);
+            var scope = Assert.Single(log.Scopes);
             // Assert the scope rendered by a default formatter
-            Assert.Equal("I'm in the GET scope", log.Scope.Message);
+            Assert.Equal("I'm in the GET scope", scope.Message);
         }
 
         [Fact]

@@ -2,6 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Threading;
 using Microsoft.Extensions.Logging;
 
 namespace MELT
@@ -12,11 +15,7 @@ namespace MELT
 #pragma warning disable CS0612 // Type or member is obsolete
         private readonly ITestSink _sink;
 
-        /// <summary>
-        /// The most recent scope, even if it has been exited.
-        /// </summary>
-        [Obsolete]
-        private object? _scope;
+        private readonly AsyncLocal<TestScope> _currentScope = new AsyncLocal<TestScope>();
 
         public TestLogger(string name, ITestSink sink)
         {
@@ -29,8 +28,15 @@ namespace MELT
 
         public IDisposable BeginScope<TState>(TState state)
         {
-            _scope = state;
-            return _sink.BeginScope(new BeginScopeContext(Name, state));
+#pragma warning disable CS0612 // Type or member is obsolete
+            _sink.BeginScope(new BeginScopeContext(Name, state));
+
+            var parent = _currentScope.Value;
+            var newScope = new TestScope(this, state, parent);
+            _currentScope.Value = newScope;
+
+            return newScope;
+#pragma warning restore CS0612 // Type or member is obsolete
         }
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
@@ -44,12 +50,54 @@ namespace MELT
 
             var message = formatter(state, exception);
 
+            var scopes = GetScopes();
+
 #pragma warning disable CS0612 // Type or member is obsolete
-            _sink.Write(new WriteContext(logLevel, eventId, state, exception, _scope, Name, message, _sink.CurrentScopeData));
+            _sink.Write(new WriteContext(logLevel, eventId, state, exception, _currentScope.Value?.State, Name, message, scopes));
 #pragma warning restore CS0612 // Type or member is obsolete
         }
 
+        private IEnumerable<object?> GetScopes()
+        {
+            var scopes = new Stack<object?>();
+
+            var scope = _currentScope.Value;
+            while (scope != null)
+            {
+                scopes.Push(scope.State);
+                scope = scope.Parent;
+            }
+
+            return scopes;
+        }
+
         public bool IsEnabled(LogLevel logLevel) => logLevel != LogLevel.None;
+
+        internal class TestScope : IDisposable
+        {
+            private readonly TestLogger _logger;
+            private bool _isDisposed;
+
+            internal TestScope(TestLogger logger, object? state, TestScope parent)
+            {
+                _logger = logger;
+                State = state;
+                Parent = parent;
+            }
+
+            public TestScope Parent { get; }
+
+            public object? State { get; }
+
+            public void Dispose()
+            {
+                if (!_isDisposed)
+                {
+                    _logger._currentScope.Value = Parent;
+                    _isDisposed = true;
+                }
+            }
+        }
     }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

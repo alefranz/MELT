@@ -145,7 +145,8 @@ namespace SampleLibrary.Tests
 
             // Assert
             var log = Assert.Single(loggerFactory.Sink.LogEntries);
-            Assert.Equal("This scope's answer is 42", log.Scope.Message);
+            var scope = Assert.Single(log.Scopes);
+            Assert.Equal("This scope's answer is 42", scope.Message);
         }
 
         [Fact]
@@ -164,7 +165,8 @@ namespace SampleLibrary.Tests
             var log = Assert.Single(loggerFactory.Sink.LogEntries);
             Assert.Equal("This log entry is at trace level", log.Message);
             LoggingAssert.Contains("level", "trace", log.Properties);
-            LoggingAssert.Contains("foo", "bar", log.Scope.Properties);
+            var scope = Assert.Single(log.Scopes);
+            LoggingAssert.Contains("foo", "bar", scope.Properties);
         }
     }
 }
