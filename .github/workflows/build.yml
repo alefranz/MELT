@@ -53,7 +53,7 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Determine version
-      run: echo "::set-env name=VERSION::$(git describe --tags --dirty)"
+      run: echo "VERSION=$(git describe --tags --dirty)" >> $GITHUB_ENV
     - name: Pack
       run: dotnet pack --output ./artifacts --configuration Release -p:Version=$VERSION
     - uses: actions/upload-artifact@v1
