@@ -57,6 +57,7 @@ You can find an explanation on the advantages of using this library and the impo
   - [Full example](#full-example-3)
 - [NLog compatibility using NLog.Web.AspNetCore](#nlog-compatibility-using-nlogwebaspnetcore)
   - [Full example](#full-example-4)
+- [Upgrade from 0.6](#upgrade-from-06)
 - [Upgrade from 0.4 and below](#upgrade-from-04-and-below)
   - [Upgrade of ASP.NET Core Integration Tests](#upgrade-of-aspnet-core-integration-tests)
 
@@ -503,6 +504,21 @@ Simply follow the main instruction as the fact that you are plugging NLog as the
 
 See [LoggingTest](samples/current/NLog/SampleWebApplicationNLog.IntegrationTests/LoggingTest.cs) or
 [LoggingTestWithInjectedFactory](samples/current/NLog/SampleWebApplicationNLog.IntegrationTests/LoggingTestWithInjectedFactory.cs).
+
+## Upgrade from 0.6
+
+If you follow the deprecation warnings on `LogEntry.Scope`, you will be able to easily migrate to the new `LogEntry.Scopes`, which contains all the scopes active for the specific log entry, which means the scopes that were active for the particular logger and async context when the log entry had been generated.
+
+Also notes that the `LogEntry.Scope` now returns the inner scope for the speicifc logger and async context, instead of the previously unexpected behaviour of returning the latest scope created on the specific logger, even if not active for that entry.
+
+Asserting scope.
+
+```csharp
+Assert.Equal("I'm in the GET scope", log.Scope.Message);
+// become
+var scope = Assert.Single(log.Scopes);
+Assert.Equal("I'm in the GET scope", scope.Message);
+```
 
 ## Upgrade from 0.4 and below
 
