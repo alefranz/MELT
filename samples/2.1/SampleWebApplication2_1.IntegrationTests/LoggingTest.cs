@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using MELT;
-using MELT.Xunit;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
@@ -9,13 +8,13 @@ namespace SampleWebApplication2_1.IntegrationTests
 {
     public class LoggingTest : IClassFixture<WebApplicationFactory<Startup>>
     {
-        private readonly ITestSink _sink;
         private readonly WebApplicationFactory<Startup> _factory;
 
         public LoggingTest(WebApplicationFactory<Startup> factory)
         {
-            _sink = MELTBuilder.CreateTestSink(options => options.FilterByNamespace(nameof(SampleWebApplication2_1)));
-            _factory = factory.WithWebHostBuilder(builder => builder.UseTestLogging(_sink));
+            _factory = factory.WithWebHostBuilder(
+                builder => builder.UseTestLogging(
+                    options => options.FilterByNamespace(nameof(SampleWebApplication2_1))));
         }
 
         [Fact]
@@ -27,7 +26,7 @@ namespace SampleWebApplication2_1.IntegrationTests
             await _factory.CreateDefaultClient().GetAsync("/");
 
             // Assert
-            var log = Assert.Single(_sink.LogEntries);
+            var log = Assert.Single(_factory.GetTestLoggerSink().LogEntries);
             // Assert the message rendered by a default formatter
             Assert.Equal("Hello World!", log.Message);
         }
@@ -41,9 +40,9 @@ namespace SampleWebApplication2_1.IntegrationTests
             await _factory.CreateDefaultClient().GetAsync("/");
 
             // Assert
-            var log = Assert.Single(_sink.LogEntries);
+            var log = Assert.Single(_factory.GetTestLoggerSink().LogEntries);
             // Assert specific parameters in the log entry
-            LogValuesAssert.Contains("place", "World", log);
+            LoggingAssert.Contains("place", "World", log.Properties);
         }
 
         [Fact]
@@ -55,9 +54,10 @@ namespace SampleWebApplication2_1.IntegrationTests
             await _factory.CreateDefaultClient().GetAsync("/");
 
             // Assert
-            var log = Assert.Single(_sink.LogEntries);
+            var log = Assert.Single(_factory.GetTestLoggerSink().LogEntries);
+            var scope = Assert.Single(log.Scopes);
             // Assert the scope rendered by a default formatter
-            Assert.Equal("I'm in the GET scope", log.Scope.Message);
+            Assert.Equal("I'm in the GET scope", scope.Message);
         }
 
         [Fact]
@@ -69,9 +69,10 @@ namespace SampleWebApplication2_1.IntegrationTests
             await _factory.CreateDefaultClient().GetAsync("/");
 
             // Assert
-            var log = Assert.Single(_sink.LogEntries);
+            var log = Assert.Single(_factory.GetTestLoggerSink().LogEntries);
+            var scope = Assert.Single(log.Scopes);
             // Assert specific parameters in the log scope
-            LogValuesAssert.Contains("name", "GET", log.Scope);
+            LoggingAssert.Contains("name", "GET", scope.Properties);
         }
 
         [Fact]
@@ -83,7 +84,7 @@ namespace SampleWebApplication2_1.IntegrationTests
             await _factory.CreateDefaultClient().GetAsync("/");
 
             // Assert
-            var scope = Assert.Single(_sink.Scopes);
+            var scope = Assert.Single(_factory.GetTestLoggerSink().Scopes);
             // Assert the scope rendered by a default formatter
             Assert.Equal("I'm in the GET scope", scope.Message);
         }
@@ -97,9 +98,9 @@ namespace SampleWebApplication2_1.IntegrationTests
             await _factory.CreateDefaultClient().GetAsync("/");
 
             // Assert
-            var scope = Assert.Single(_sink.Scopes);
+            var scope = Assert.Single(_factory.GetTestLoggerSink().Scopes);
             // Assert specific parameters in the log scope
-            LogValuesAssert.Contains("name", "GET", scope);
+            LoggingAssert.Contains("name", "GET", scope.Properties);
         }
     }
 }

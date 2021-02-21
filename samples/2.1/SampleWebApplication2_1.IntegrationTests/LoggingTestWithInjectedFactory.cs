@@ -14,7 +14,7 @@ namespace SampleWebApplication2_1.IntegrationTests
             _factory = factory;
             // In this case, the factory will be reused for all tests, so the sink will be shared as well.
             // We can clear the sink before each test execution, as xUnit will not run this tests in parallel.
-            if (_factory.TryGetTestSink(out var testSink)) testSink!.Clear();  // or simply testSink.Clear(); when not using Nullable Reference Types
+            if (_factory.TryGetTestLoggerSink(out var testSink)) testSink!.Clear();  // or simply testSink.Clear(); when not using Nullable Reference Types
         }
 
         [Fact]
@@ -26,7 +26,7 @@ namespace SampleWebApplication2_1.IntegrationTests
             await _factory.CreateDefaultClient().GetAsync("/");
 
             // Assert
-            var log = Assert.Single(_factory.GetTestSink().LogEntries);
+            var log = Assert.Single(_factory.GetTestLoggerSink().LogEntries);
             // Assert the message rendered by a default formatter
             Assert.Equal("Hello World!", log.Message);
         }
@@ -40,9 +40,10 @@ namespace SampleWebApplication2_1.IntegrationTests
             await _factory.CreateDefaultClient().GetAsync("/");
 
             // Assert
-            var log = Assert.Single(_factory.GetTestSink().LogEntries);
+            var log = Assert.Single(_factory.GetTestLoggerSink().LogEntries);
+            var scope = Assert.Single(log.Scopes);
             // Assert the scope rendered by a default formatter
-            Assert.Equal("I'm in the GET scope", log.Scope.Message);
+            Assert.Equal("I'm in the GET scope", scope.Message);
         }
     }
 

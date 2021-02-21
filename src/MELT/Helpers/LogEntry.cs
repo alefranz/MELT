@@ -59,9 +59,8 @@ namespace MELT
         public string Format => OriginalFormat;
 
         /// <summary>
-        /// The latest scope initiated on the current logger at the time of this log entry being captured, not necessarily active.
+        /// The inner scope for this log entry.
         /// </summary>
-        /// <remarks>This does not track scopes across loggers. For more general scope testing use <see cref="ITestLoggerSink.Scopes"/>.</remarks>
         [Obsolete("The recommended alternative is " + nameof(Scopes) + ".")]
         public Scope Scope => new Scope(_entry.Scope);
 #pragma warning restore CS0612 // Type or member is obsolete
