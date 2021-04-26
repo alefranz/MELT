@@ -5,6 +5,9 @@
     <WarningsNotAsErrors>612;618</WarningsNotAsErrors>
     <LangVersion>8.0</LangVersion>
     <Nullable>Enable</Nullable>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)/keypair.snk</AssemblyOriginatorKeyFile>
+    <PublicKey>0024000004800000940000000602000000240000525341310004000001000100257f564226e170a487175c87cf92f4251d13d1f3ec7410794ff894900068c6b556a7568c6fa37bfbf333711d7da93822fb6ab33704d8882f0ce789209e8c25e138346890cf19b954677457dc456bce48ecac32cee73848a930e9551a011d2ec1e42310ec75d0635c0df963415c0ad262277e58d051b2e945ac841b0d890b66cb</PublicKey>
   </PropertyGroup>
 
 </Project>
