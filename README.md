@@ -1,7 +1,7 @@
 # MELT
 
 <!-- markdownlint-disable no-inline-html -->
-<img align="right" width="128" height="128" src="logo.png">
+<img align="right" width="256" height="256" src="logo_large.png">
 <!-- markdownlint-enable no-inline-html -->
 
 _Testing Library for Microsoft Extensions Logging._
