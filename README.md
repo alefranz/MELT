@@ -164,7 +164,7 @@ You can assert againt all the characteristic of a log entry: `EventId`, `Excepti
 
 ### Full example
 
-See [SampleTest](samples/SampleLibrary.Tests/SampleTest.cs) and [MoreTest](samples/SampleLibrary.Tests/MoreTest.cs)
+See [Samples](https://github.com/alefranz/MELT/tree/main/samples)
 
 ## Quickstart for ASP.NET Core integration tests
 
