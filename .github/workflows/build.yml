@@ -19,7 +19,7 @@ jobs:
     - name: Install dotnet-format
       run: dotnet tool install --global dotnet-format
     - name: Format
-      run: dotnet format --check
+      run: dotnet format --check MELT.sln
   build:
     runs-on: ubuntu-latest
     steps:
