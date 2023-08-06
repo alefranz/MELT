@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29123.89
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.33927.210
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{49161A77-61F0-442B-8874-A5FF7D2368C2}"
 	ProjectSection(SolutionItems) = preProject
@@ -75,9 +75,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApplication3_1", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApplication3_1.IntegrationTests", "samples\3.1\SampleWebApplication3_1.IntegrationTests\SampleWebApplication3_1.IntegrationTests.csproj", "{E37446E1-7760-4AD0-B703-B635454E5B3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleWebApplication", "samples\current\SampleWebApplication\SampleWebApplication.csproj", "{975360DF-04D6-41AB-84EE-3AE5D7A5B2DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApplication", "samples\current\SampleWebApplication\SampleWebApplication.csproj", "{975360DF-04D6-41AB-84EE-3AE5D7A5B2DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleWebApplication.IntegrationTests", "samples\current\SampleWebApplication.IntegrationTests\SampleWebApplication.IntegrationTests.csproj", "{008667F2-0263-4A13-B9F2-BA10D948EBDB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApplication.IntegrationTests", "samples\current\SampleWebApplication.IntegrationTests\SampleWebApplication.IntegrationTests.csproj", "{008667F2-0263-4A13-B9F2-BA10D948EBDB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "xunit-2.4.2", "xunit-2.4.2", "{ABCE4D92-5106-4849-BCD2-88472585C07F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleLibraryX", "samples\xunit-2.4.2\SampleLibraryX\SampleLibraryX.csproj", "{97C0C780-AF0B-4103-9315-002899C32BE8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleLibraryX.Tests", "samples\xunit-2.4.2\SampleLibraryX.Tests\SampleLibraryX.Tests.csproj", "{8990E486-C322-4741-97D0-94AA7D9F3323}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -181,6 +187,14 @@ Global
 		{008667F2-0263-4A13-B9F2-BA10D948EBDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{008667F2-0263-4A13-B9F2-BA10D948EBDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{008667F2-0263-4A13-B9F2-BA10D948EBDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97C0C780-AF0B-4103-9315-002899C32BE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97C0C780-AF0B-4103-9315-002899C32BE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97C0C780-AF0B-4103-9315-002899C32BE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97C0C780-AF0B-4103-9315-002899C32BE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8990E486-C322-4741-97D0-94AA7D9F3323}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8990E486-C322-4741-97D0-94AA7D9F3323}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8990E486-C322-4741-97D0-94AA7D9F3323}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8990E486-C322-4741-97D0-94AA7D9F3323}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -216,6 +230,9 @@ Global
 		{E37446E1-7760-4AD0-B703-B635454E5B3C} = {E77E65BC-8A95-4113-BB22-BE56D6226157}
 		{975360DF-04D6-41AB-84EE-3AE5D7A5B2DA} = {F08BF453-6A58-486F-8D06-FF08A82D386B}
 		{008667F2-0263-4A13-B9F2-BA10D948EBDB} = {F08BF453-6A58-486F-8D06-FF08A82D386B}
+		{ABCE4D92-5106-4849-BCD2-88472585C07F} = {B33EF166-2895-47CF-BF2C-740C271A250E}
+		{97C0C780-AF0B-4103-9315-002899C32BE8} = {ABCE4D92-5106-4849-BCD2-88472585C07F}
+		{8990E486-C322-4741-97D0-94AA7D9F3323} = {ABCE4D92-5106-4849-BCD2-88472585C07F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {954CCC12-511A-4435-AE51-C19A527D4654}
