@@ -65,11 +65,11 @@ namespace SampleWebApplication
 
                         logger.LogInformation("Hello {place}!", "World");
 
-                        b.Dispose();
+                        b?.Dispose();
 
                         logger.LogInformation("Hello {place}!", "World");
 
-                        c.Dispose();
+                        c?.Dispose();
 
                         logger.LogInformation("Hello {place}!", "World");
 

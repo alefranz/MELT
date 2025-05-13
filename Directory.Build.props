@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <WarningsNotAsErrors>612;618</WarningsNotAsErrors>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>default</LangVersion>
     <Nullable>Enable</Nullable>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)/keypair.snk</AssemblyOriginatorKeyFile>
