@@ -1,7 +1,7 @@
 # MELT
 
 <!-- markdownlint-disable no-inline-html -->
-<img align="right" width="256" height="256" src="logo_large.png">
+<img align="right" width="256" height="256" src="logo_large.png" alt="A stylized 3D tree with golden-yellow spherical foliage on a wooden stump against a purple background">
 <!-- markdownlint-enable no-inline-html -->
 
 _Testing Library for Microsoft Extensions Logging._
@@ -24,7 +24,7 @@ It is a repackaging with a sweetened API and some omissions of [Microsoft.Extens
 It is licensed under [Apache License 2.0](https://github.com/alefranz/MELT/blob/main/LICENSE).
 Most of the code is copyrighted by the .NET Foundation as mentioned in the files headers.
 
-If you like this project please don't forget to *star* it on [GitHub](https//github.com/alefranz/MELT) or let me know with a [tweet](https://twitter.com/AleFranz).
+If you like this project please don't forget to **star** it on [GitHub](https//github.com/alefranz/MELT) or let me know with a [tweet](https://twitter.com/AleFranz).
 
 You can find an explanation on the advantages of using this library and the importance of testing logs on the blog post "[How to test logging when using Microsoft.Extensions.Logging](https://alessio.franceschelli.me/posts/dotnet/how-to-test-logging-when-using-microsoft-extensions-logging/)".
 
