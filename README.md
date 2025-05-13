@@ -28,6 +28,8 @@ If you like this project please don't forget to *star* it on [GitHub](https//git
 
 You can find an explanation on the advantages of using this library and the importance of testing logs on the blog post "[How to test logging when using Microsoft.Extensions.Logging](https://alessio.franceschelli.me/posts/dotnet/how-to-test-logging-when-using-microsoft-extensions-logging/)".
 
+This project supports all currently supported version of .NET and ASP.NET Core, [including full framework](samples/2.1/SampleWebApplication2_1.IntegrationTests/).
+
 > If you are upgrading to version 0.5, you can _optionally_ migrate to the new syntax. See [Upgrade from 0.4 and below](#upgrade-from-04-and-below) for more info.
 
 <!-- omit in toc -->
