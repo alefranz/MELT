@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Xunit.Sdk;
 
 namespace Xunit
@@ -50,9 +51,9 @@ namespace Xunit
             {
                 if (!actualValues.Contains(expectedPair, comparer))
                 {
-                    throw new EqualException(
-                        expected: GetString(expectedValues),
-                        actual: GetString(actualValues));
+                    throw new XunitException("LoggingAssert.Contains() Failure: Values differ" + Environment.NewLine +
+                        "Expected: " + GetString(expectedValues) + Environment.NewLine +
+                        "Actual:   " + GetString(actualValues));
                 }
             }
         }

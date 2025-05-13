@@ -1,6 +1,7 @@
 // Copyright(c) .NET Foundation.All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using MELT.Xunit;
@@ -117,11 +118,13 @@ namespace MELT.Xunit.Tests
             IEnumerable<KeyValuePair<string, object>> actualValues)
         {
             // Act && Assert
-            var equalException = Assert.Throws<EqualException>(
+            var equalException = Assert.Throws<XunitException>(
                 () => LogValuesAssert.Contains(expectedValues, actualValues));
 
-            Assert.Equal(GetString(expectedValues), equalException.Expected);
-            Assert.Equal(GetString(actualValues), equalException.Actual);
+            Assert.Equal("LoggingAssert.Contains() Failure: Values differ" + Environment.NewLine +
+                "Expected: " + GetString(expectedValues) + Environment.NewLine +
+                "Actual:   " + GetString(actualValues),
+                equalException.Message);
         }
 
         [Fact]
@@ -205,11 +208,13 @@ namespace MELT.Xunit.Tests
             IEnumerable<KeyValuePair<string, object>> actualValues)
         {
             // Act && Assert
-            var equalException = Assert.Throws<EqualException>(
+            var equalException = Assert.Throws<XunitException>(
                 () => LogValuesAssert.Contains(expectedValues, actualValues));
 
-            Assert.Equal(GetString(expectedValues), equalException.Expected);
-            Assert.Equal(GetString(actualValues), equalException.Actual);
+            Assert.Equal("LoggingAssert.Contains() Failure: Values differ" + Environment.NewLine +
+                "Expected: " + GetString(expectedValues) + Environment.NewLine +
+                "Actual:   " + GetString(actualValues),
+                equalException.Message);
         }
 
         private string GetString(IEnumerable<KeyValuePair<string, object>> logValues)
