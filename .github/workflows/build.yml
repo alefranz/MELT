@@ -19,7 +19,7 @@ jobs:
       with:
         dotnet-version: 9.0.x
     - name: Format
-      run: dotnet format --verify-no-changes MELT.sln
+      run: dotnet format --verify-no-changes MELT.CI.slnf
   build:
     runs-on: ubuntu-latest
     steps:
@@ -29,6 +29,11 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 9.0.x
+    - name: Debug
+      shell: pwsh
+      run: |
+        dotnet nuget locals all --clear
+        dotnet nuget list source
     - name: Build
       run: dotnet build --configuration Release MELT.CI.slnf
     - name: Test
