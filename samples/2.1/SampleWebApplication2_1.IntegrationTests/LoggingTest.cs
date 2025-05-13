@@ -1,12 +1,9 @@
 using System;
 using System.Threading.Tasks;
-using MELT;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using System.Net.Http;
-using Xunit;
-using System.Net.Http.Headers;
 using Microsoft.AspNetCore.TestHost;
+using Xunit;
 
 namespace SampleWebApplication2_1.IntegrationTests
 {
