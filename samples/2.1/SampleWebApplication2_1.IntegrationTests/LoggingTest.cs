@@ -1,8 +1,12 @@
+using System;
 using System.Threading.Tasks;
 using MELT;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using System.Net.Http;
 using Xunit;
+using System.Net.Http.Headers;
+using Microsoft.AspNetCore.TestHost;
 
 namespace SampleWebApplication2_1.IntegrationTests
 {
@@ -13,14 +17,15 @@ namespace SampleWebApplication2_1.IntegrationTests
         public LoggingTest(WebApplicationFactory<Startup> factory)
         {
             _factory = factory.WithWebHostBuilder(
-                builder => builder.UseTestLogging(
-                    options => options.FilterByNamespace(nameof(SampleWebApplication2_1))));
+                builder => builder
+                    .UseSolutionRelativeContentRoot(Environment.CurrentDirectory)
+                    .UseTestLogging(options => options.FilterByNamespace(nameof(SampleWebApplication2_1))));
         }
 
         [Fact]
         public async Task ShouldLogHelloWorld()
         {
-            // Arrange  
+            // Arrange
 
             // Act
             await _factory.CreateDefaultClient().GetAsync("/");
@@ -34,7 +39,7 @@ namespace SampleWebApplication2_1.IntegrationTests
         [Fact]
         public async Task ShouldLogWithWorldAsPlace()
         {
-            // Arrange  
+            // Arrange
 
             // Act
             await _factory.CreateDefaultClient().GetAsync("/");
@@ -48,7 +53,7 @@ namespace SampleWebApplication2_1.IntegrationTests
         [Fact]
         public async Task ShouldUseScope()
         {
-            // Arrange  
+            // Arrange
 
             // Act
             await _factory.CreateDefaultClient().GetAsync("/");
@@ -63,7 +68,7 @@ namespace SampleWebApplication2_1.IntegrationTests
         [Fact]
         public async Task ShouldUseScopeWithParameter()
         {
-            // Arrange  
+            // Arrange
 
             // Act
             await _factory.CreateDefaultClient().GetAsync("/");
@@ -78,7 +83,7 @@ namespace SampleWebApplication2_1.IntegrationTests
         [Fact]
         public async Task ShouldBeginScope()
         {
-            // Arrange  
+            // Arrange
 
             // Act
             await _factory.CreateDefaultClient().GetAsync("/");
@@ -92,7 +97,7 @@ namespace SampleWebApplication2_1.IntegrationTests
         [Fact]
         public async Task ShouldBeginScopeWithParameter()
         {
-            // Arrange  
+            // Arrange
 
             // Act
             await _factory.CreateDefaultClient().GetAsync("/");
