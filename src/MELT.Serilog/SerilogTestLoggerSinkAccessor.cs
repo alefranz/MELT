@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace MELT
 {
-    #pragma warning disable CS0612 // Type or member is obsolete
+#pragma warning disable CS0612 // Type or member is obsolete
     internal class SerilogTestLoggerSinkAccessor : ISerilogTestLoggerSink
     {
         private readonly IInternalTestSink _sink;
