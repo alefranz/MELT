@@ -10,28 +10,44 @@ namespace MELT
     [ProviderAlias("TestLogger")]
     public class TestLoggerProvider : ITestLoggerProvider
     {
-        public readonly ITestSink _sink;
+#pragma warning disable CS0612 // Type or member is obsolete
+        private readonly ITestSink _sink;
+#pragma warning restore CS0612 // Type or member is obsolete
 
         // TODO: keep as internal for testing
-        [Obsolete]
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestLoggerProvider"/> class with the specified <see cref="ITestSink"/>.
+        /// </summary>
+        /// <param name="sink">The <see cref="ITestSink"/> to use for logging.</param>
+        /// <remarks>
+        /// This constructor is obsolete. Use the parameterless constructor instead.
+        /// </remarks>
+        [Obsolete("This constructor is obsolete. Use the parameterless constructor instead.")]
         public TestLoggerProvider(ITestSink sink)
         {
             _sink = sink;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestLoggerProvider"/> class with a default <see cref="ITestLoggerSink"/>.
+        /// </summary>
         public TestLoggerProvider()
         {
+#pragma warning disable CS0612 // Type or member is obsolete
             _sink = new TestSink();
+#pragma warning restore CS0612 // Type or member is obsolete
         }
 
         /// <inheritdoc/>
         public ITestLoggerSink Sink => _sink;
 
+        /// <inheritdoc/>
         public ILogger CreateLogger(string categoryName)
         {
             return new TestLogger(categoryName, _sink);
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
         }

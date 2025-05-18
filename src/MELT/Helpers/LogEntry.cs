@@ -55,6 +55,9 @@ namespace MELT
         /// </summary>
         public string OriginalFormat => _format ??= Properties.GetOriginalFormat();
 
+        /// <summary>
+        /// The format string for this log entry. Prefer using <see cref="OriginalFormat"/>.
+        /// </summary>
         [Obsolete("The preferred alternative is " + nameof(OriginalFormat) + ".")]
         public string Format => OriginalFormat;
 
