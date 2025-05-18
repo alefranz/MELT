@@ -22,7 +22,7 @@ namespace MELT
         }
 
         /// <summary>
-        ///
+        /// Gets the name of the logger associated with this scope.
         /// </summary>
         public string? LoggerName => _scope.LoggerName;
 
