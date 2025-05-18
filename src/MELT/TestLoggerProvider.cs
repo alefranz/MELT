@@ -10,9 +10,11 @@ namespace MELT
     [ProviderAlias("TestLogger")]
     public class TestLoggerProvider : ITestLoggerProvider
     {
-#pragma warning disable CS0612 // Type or member is obsolete
-        private readonly ITestSink _sink;
-#pragma warning restore CS0612 // Type or member is obsolete
+        /// <summary>
+        /// The <see cref="ITestSink"/> instance used for logging.
+        /// </summary>
+        [Obsolete("This field is obsolete. Use the Sink property instead.")]
+        public readonly ITestSink _sink;
 
         // TODO: keep as internal for testing
         /// <summary>
