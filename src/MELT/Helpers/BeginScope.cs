@@ -8,17 +8,21 @@ namespace MELT
     /// </summary>
     public class BeginScope : IScope
     {
+#pragma warning disable CS0612 // Type or member is obsolete
         private readonly BeginScopeContext _scope;
+#pragma warning restore CS0612 // Type or member is obsolete
         private string? _format;
         private static readonly KeyValuePair<string, object>[] _emptyProperties = new KeyValuePair<string, object>[0];
 
+#pragma warning disable CS0612 // Type or member is obsolete
         internal BeginScope(BeginScopeContext scope)
+#pragma warning restore CS0612 // Type or member is obsolete
         {
             _scope = scope;
         }
 
         /// <summary>
-        /// 
+        /// Gets the name of the logger associated with this scope.
         /// </summary>
         public string? LoggerName => _scope.LoggerName;
 
