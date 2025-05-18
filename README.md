@@ -1,12 +1,11 @@
 # MELT
 
 <!-- markdownlint-disable no-inline-html -->
-<img align="right" width="256" height="256" src="logo_large.png" alt="A stylized 3D tree with golden-yellow spherical foliage on a wooden stump against a purple background">
+<img align="right" width="256" height="256" src="logo_large.png" alt="A stylized 3D tree with golden-yellow spherical foliage on a wooden stump against a purple background" />
 <!-- markdownlint-enable no-inline-html -->
 
 _Testing Library for Microsoft Extensions Logging._
 
-[![Build Status](https://github.com/alefranz/MELT/workflows/Build/badge.svg?branch=main)](https://github.com/alefranz/MELT/actions?query=branch%3Amain)
 [![MELT Nuget](https://img.shields.io/nuget/v/MELT?label=MELT&logo=nuget)](https://www.nuget.org/packages/MELT/)
 [![MELT.AspNetCore Nuget](https://img.shields.io/nuget/v/MELT.AspNetCore?label=MELT.AspNetCore&logo=nuget)](https://www.nuget.org/packages/MELT.AspNetCore/)
 [![MELT.Serilog Nuget](https://img.shields.io/nuget/v/MELT.Serilog?label=MELT.Serilog&logo=nuget)](https://www.nuget.org/packages/MELT.Serilog/)
@@ -30,7 +29,9 @@ You can find an explanation on the advantages of using this library and the impo
 
 This project supports all currently supported versions of .NET and ASP.NET Core, [including full framework](samples/2.1/SampleWebApplication2_1.IntegrationTests/). Please refer to the documentation for examples and compatibility details.
 
-> If you are upgrading to version 0.5, you can _optionally_ migrate to the new syntax. See [Upgrade from 0.4 and below](#upgrade-from-04-and-below) for more info.
+> If you are upgrading from version 0.4 or below, you can _optionally_ migrate to the new syntax. See [Upgrade from 0.4 and below](#upgrade-from-04-and-below) for more info.
+>
+> If you are upgrading from version 0.6, you can _optionally_ migrate to the new accessors for getting all scopes. See [Upgrade from 0.6](#upgrade-from-06) for more info.
 
 <!-- omit in toc -->
 ## Index
@@ -68,7 +69,7 @@ This project supports all currently supported versions of .NET and ASP.NET Core,
 - Install the NuGet package [MELT](https://www.nuget.org/packages/MELT/)
 
     ```xml
-    <PackageReference Include="MELT" Version="0.9.0" />
+    <PackageReference Include="MELT" Version="1.0.0" />
     ```
 
     > Note: due to a breaking change in `Microsoft.Extensions.Logging` 3.1, if you are testing a project that references **only** `Microsoft.Extensions.Logging.Abstractions` 3.1+, you need to add a reference to `Microsoft.Extensions.Logging` 3.1+ in your test project:
@@ -149,7 +150,7 @@ Assert.Equal("foo", exception.ParamName);
 - Install the NuGet package [MELT.Xunit](https://www.nuget.org/packages/MELT.Xunit/)
 
     ```xml
-    <PackageReference Include="MELT.Xunit" Version="0.9.0" />
+    <PackageReference Include="MELT.Xunit" Version="1.0.0" />
     ```
 
 - Use the `LoggingAssert.Contains(...)` helpers.
@@ -173,7 +174,7 @@ See [Samples](https://github.com/alefranz/MELT/tree/main/samples)
 - Install the NuGet package [MELT.AspNetCore](https://www.nuget.org/packages/MELT.AspNetCore/)
 
     ```xml
-    <PackageReference Include="MELT.AspNetCore" Version="0.9.0" />
+    <PackageReference Include="MELT.AspNetCore" Version="1.0.0" />
     ```
 
 - Use the `UseTestLogging(...)` extension method to add a test logger to the test web host builder, where you can also customize the behaviour.
@@ -314,7 +315,7 @@ However, `MELT` has specific support to allow to write tests against the Serilog
 - Now go back to your integration tests project, and install the NuGet package [MELT.Serilog.AspNetCore](https://www.nuget.org/packages/MELT.Serilog.AspNetCore/)
 
     ```xml
-    <PackageReference Include="MELT.Serilog.AspNetCore" Version="0.9.0" />
+    <PackageReference Include="MELT.Serilog.AspNetCore" Version="1.0.0" />
     ```
 
 - Define a Serilog logger, setting it up to write to the providers' collection we had previously added to `Program.cs`
@@ -468,7 +469,7 @@ Assert.Equal("The answer is {number}", log.OriginalFormat);
 - Install the NuGet package [MELT.Xunit](https://www.nuget.org/packages/MELT.Xunit/)
 
     ```xml
-    <PackageReference Include="MELT.Xunit" Version="0.9.0" />
+    <PackageReference Include="MELT.Xunit" Version="1.0.0" />
     ```
 
 - Use the `LoggingAssert.Contains(...)` helpers.
