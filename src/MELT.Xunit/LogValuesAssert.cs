@@ -7,6 +7,9 @@ using Xunit;
 
 namespace MELT.Xunit
 {
+    /// <summary>
+    /// Provides assertion methods for verifying logging values.
+    /// </summary>
     [Obsolete("The recommended alternative is Xunit." + nameof(LoggingAssert) + ".")]
     public static class LogValuesAssert
     {

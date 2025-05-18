@@ -9,6 +9,9 @@ using Xunit.Sdk;
 
 namespace Xunit
 {
+    /// <summary>
+    /// Provides assertion methods for verifying logging-related behaviors.
+    /// </summary>
     public static class LoggingAssert
     {
         /// <summary>

@@ -4,6 +4,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Microsoft.AspNetCore.Hosting
 {
+    /// <summary>
+    /// Extension methods for <see cref="IWebHostBuilder"/> to add Serilog test logging capabilities.
+    /// </summary>
     public static class MELTSerilogWebHostBuilderExtensions
     {
         /// <summary>
