@@ -40,9 +40,9 @@ namespace Microsoft.Extensions.Logging
             builder.Services.TryAddSingleton<IInternalTestSink>(sink);
 #pragma warning restore CS0612 // Type or member is obsolete
             builder.Services.TryAddTransient<ISerilogTestLoggerSink, SerilogTestLoggerSinkAccessor>();
-#pragma warning disable CS0612 // Type or member is obsolete
+#pragma warning disable CS0618 // Type or member is obsolete
             return builder.AddProvider(new TestLoggerProvider(sink));
-#pragma warning restore CS0612 // Type or member is obsolete
+#pragma warning restore CS0618 // Type or member is obsolete
         }
     }
 }

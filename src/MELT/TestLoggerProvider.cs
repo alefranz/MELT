@@ -36,17 +36,23 @@ namespace MELT
         public TestLoggerProvider()
         {
 #pragma warning disable CS0612 // Type or member is obsolete
+#pragma warning disable CS0618 // Type or member is obsolete
             _sink = new TestSink();
+#pragma warning restore CS0618 // Type or member is obsolete
 #pragma warning restore CS0612 // Type or member is obsolete
         }
 
         /// <inheritdoc/>
+#pragma warning disable CS0618 // Type or member is obsolete
         public ITestLoggerSink Sink => _sink;
+#pragma warning restore CS0618 // Type or member is obsolete
 
         /// <inheritdoc/>
         public ILogger CreateLogger(string categoryName)
         {
+#pragma warning disable CS0618 // Type or member is obsolete
             return new TestLogger(categoryName, _sink);
+#pragma warning restore CS0618 // Type or member is obsolete
         }
 
         /// <inheritdoc/>
