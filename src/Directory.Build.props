@@ -7,6 +7,7 @@
     <PackageTags>Logging;Log;Logs;Microsoft.Extensions.Logging;Testing</PackageTags>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/alefranz/MELT</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>logo.png</PackageIcon>
     <RepositoryUrl>https://github.com/alefranz/MELT.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -33,6 +34,7 @@
 
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)../logo.png" Pack="true" PackagePath="" />
+    <None Include="$(MSBuildThisFileDirectory)../docs/README.md" Pack="true" PackagePath="" />
   </ItemGroup>
 
 </Project>
