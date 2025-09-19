@@ -1,9 +1,10 @@
 using System;
 using MELT;
 using Microsoft.Extensions.Logging;
+using SampleLibrary;
 using Xunit;
 
-namespace SampleLibraryX.Tests
+namespace SampleLibraryX3.Tests
 {
     public class SampleTest
     {

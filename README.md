@@ -11,6 +11,7 @@ _Testing Library for Microsoft Extensions Logging._
 [![MELT.Serilog Nuget](https://img.shields.io/nuget/v/MELT.Serilog?label=MELT.Serilog&logo=nuget)](https://www.nuget.org/packages/MELT.Serilog/)
 [![MELT.Serilog.AspNetCore Nuget](https://img.shields.io/nuget/v/MELT.Serilog.AspNetCore?label=MELT.Serilog.AspNetCore&logo=nuget)](https://www.nuget.org/packages/MELT.Serilog.AspNetCore/)
 [![MELT.Xunit Nuget](https://img.shields.io/nuget/v/MELT.Xunit?label=MELT.Xunit&logo=nuget)](https://www.nuget.org/packages/MELT.Xunit/)
+[![MELT.Xunit.v3 Nuget](https://img.shields.io/nuget/v/MELT.Xunit.v3?label=MELT.Xunit.v3&logo=nuget)](https://www.nuget.org/packages/MELT.Xunit.v3/)
 
 <!-- omit in toc -->
 ## About MELT
@@ -31,6 +32,6 @@ This project supports all currently supported versions of .NET and ASP.NET Core,
 
 ## Documentation
 
-- [MELT Quickstart](https://github.com/alefranz/MELT/blob/v1.0.0/docs/README.md#quickstart)
-- [MELT Quickstart for ASP.NET Core integration tests](https://github.com/alefranz/MELT/blob/v1.0.0/docs/README.md#quickstart-for-aspnet-core-integration-tests)
-- [Full MELT Documentation](https://github.com/alefranz/MELT/blob/v1.0.0/docs/README.md)
+- [MELT Quickstart](https://github.com/alefranz/MELT/blob/v1.1.0-preview.1/docs/README.md#quickstart)
+- [MELT Quickstart for ASP.NET Core integration tests](https://github.com/alefranz/MELT/blob/v1.1.0-preview.1/docs/README.md#quickstart-for-aspnet-core-integration-tests)
+- [Full MELT Documentation](https://github.com/alefranz/MELT/blob/v1.1.0-preview.1/docs/README.md)
