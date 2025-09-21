@@ -3,7 +3,6 @@ using System.Linq;
 using MELT;
 using MELT.Xunit;
 using Microsoft.Extensions.Logging;
-using SampleLibrary;
 using Xunit;
 
 namespace SampleLibrary.LegacyTests
@@ -23,7 +22,7 @@ namespace SampleLibrary.LegacyTests
             sample.DoSomething();
 
             // Assert
-            Assert.Equal(1, sink.Writes.Count);
+            Assert.Single(sink.Writes);
             var log = sink.Writes.Single();
             // Assert the message rendered by a default formatter
             Assert.Equal("The answer is 42", log.Message);
@@ -42,7 +41,7 @@ namespace SampleLibrary.LegacyTests
             sample.DoSomething();
 
             // Assert
-            Assert.Equal(1, sink.Writes.Count);
+            Assert.Single(sink.Writes);
             var log = sink.Writes.Single();
             var state = Assert.IsAssignableFrom<IEnumerable<KeyValuePair<string, object>>>(log.State);
             // Assert the the log format template
@@ -62,7 +61,7 @@ namespace SampleLibrary.LegacyTests
             sample.DoSomething();
 
             // Assert
-            Assert.Equal(1, sink.Writes.Count);
+            Assert.Single(sink.Writes);
             var log = sink.Writes.Single();
             var state = Assert.IsAssignableFrom<IEnumerable<KeyValuePair<string, object>>>(log.State);
             // Assert specific parameters in the log entry

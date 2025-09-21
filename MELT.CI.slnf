@@ -1,4 +1,4 @@
-﻿{
+{
   "solution": {
     "path": "MELT.sln",
     "projects": [
@@ -14,15 +14,17 @@
       "samples\\current\\serilog\\SampleWebApplicationSerilog\\SampleWebApplicationSerilog.csproj",
       "samples\\legacy\\SampleLibrary.HandRolledTests\\SampleLibrary.HandRolledTests.csproj",
       "samples\\legacy\\SampleLibrary.LegacyTests\\SampleLibrary.LegacyTests.csproj",
-      "samples\\xunit-2.4.2\\SampleLibraryX.Tests\\SampleLibraryX.Tests.csproj",
-      "samples\\xunit-2.4.2\\SampleLibraryX\\SampleLibraryX.csproj",
+      "samples\\xunit-2-latest\\SampleLibraryX.Tests\\SampleLibraryX.Tests.csproj",
+      "samples\\xunit-3\\SampleLibraryX3.Tests\\SampleLibraryX3.Tests.csproj",
       "src\\MELT.AspNetCore\\MELT.AspNetCore.csproj",
       "src\\MELT.Serilog.AspNetCore\\MELT.Serilog.AspNetCore.csproj",
       "src\\MELT.Serilog\\MELT.Serilog.csproj",
+      "src\\MELT.Xunit.v3\\MELT.Xunit.v3.csproj",
       "src\\MELT.Xunit\\MELT.Xunit.csproj",
       "src\\MELT\\MELT.csproj",
       "test\\MELT.Tests\\MELT.Tests.csproj",
-      "test\\MELT.Xunit.Tests\\MELT.Xunit.Tests.csproj"
+      "test\\MELT.Xunit.Tests\\MELT.Xunit.Tests.csproj",
+      "test\\MELT.Xunit.v3.Tests\\MELT.Xunit.v3.Tests.csproj"
     ]
   }
 }

@@ -1,5 +1,6 @@
 using MELT;
 using Microsoft.Extensions.Logging;
+using SampleLibrary;
 using Xunit;
 
 namespace SampleLibraryX.Tests
