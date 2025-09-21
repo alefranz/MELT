@@ -34,6 +34,6 @@ This project supports all currently supported versions of .NET and ASP.NET Core,
 
 ## Documentation
 
-- [MELT Quickstart](https://github.com/alefranz/MELT/blob/v1.1.0-preview.1/docs/README.md#quickstart)
-- [MELT Quickstart for ASP.NET Core integration tests](https://github.com/alefranz/MELT/blob/v1.1.0-preview.1/docs/README.md#quickstart-for-aspnet-core-integration-tests)
-- [Full MELT Documentation](https://github.com/alefranz/MELT/blob/v1.1.0-preview.1/docs/README.md)
+- [MELT Quickstart](https://github.com/alefranz/MELT/blob/v1.1.0/docs/README.md#quickstart)
+- [MELT Quickstart for ASP.NET Core integration tests](https://github.com/alefranz/MELT/blob/v1.1.0/docs/README.md#quickstart-for-aspnet-core-integration-tests)
+- [Full MELT Documentation](https://github.com/alefranz/MELT/blob/v1.1.0/docs/README.md)

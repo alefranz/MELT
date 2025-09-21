@@ -12,7 +12,7 @@ If you like this project please don't forget to **star** it on [GitHub](https://
 
 You can find an explanation on the advantages of using this library and the importance of testing logs on the blog post "[How to test logging when using Microsoft.Extensions.Logging](https://alessio.franceschelli.me/posts/dotnet/how-to-test-logging-when-using-microsoft-extensions-logging/)".
 
-This project supports all currently supported versions of .NET and ASP.NET Core, [including full framework](https://github.com/alefranz/MELT/blob/v1.1.0-preview.1/samples/2.1/SampleWebApplication2_1.IntegrationTests/). Please refer to the documentation for examples and compatibility details.
+This project supports all currently supported versions of .NET and ASP.NET Core, [including full framework](https://github.com/alefranz/MELT/blob/v1.1.0/samples/2.1/SampleWebApplication2_1.IntegrationTests/). Please refer to the documentation for examples and compatibility details.
 
 > If you are upgrading from version 0.4 or below, you can _optionally_ migrate to the new syntax. See [Upgrade from 0.4 and below](#upgrade-from-04-and-below) for more info.
 >
@@ -56,7 +56,7 @@ This project supports all currently supported versions of .NET and ASP.NET Core,
 - Install the NuGet package [MELT](https://www.nuget.org/packages/MELT/)
 
     ```xml
-    <PackageReference Include="MELT" Version="1.1.0-preview.1" />
+    <PackageReference Include="MELT" Version="1.1.0" />
     ```
 
     > Note: due to a breaking change in `Microsoft.Extensions.Logging` 3.1, if you are testing a project that references **only** `Microsoft.Extensions.Logging.Abstractions` 3.1+, you need to add a reference to `Microsoft.Extensions.Logging` 3.1+ in your test project:
@@ -137,7 +137,7 @@ Assert.Equal("foo", exception.ParamName);
 - Install the NuGet package [MELT.Xunit.v3](https://www.nuget.org/packages/MELT.Xunit.v3/)
 
     ```xml
-    <PackageReference Include="MELT.Xunit.v3" Version="1.1.0-preview.1" />
+    <PackageReference Include="MELT.Xunit.v3" Version="1.1.0" />
     ```
 
 - Use the `LoggingAssert.Contains(...)` helpers.
@@ -153,7 +153,7 @@ For example, to test that a single log has been emitted and it had a property `n
 - Install the NuGet package [MELT.Xunit](https://www.nuget.org/packages/MELT.Xunit/)
 
     ```xml
-    <PackageReference Include="MELT.Xunit" Version="1.1.0-preview.1" />
+    <PackageReference Include="MELT.Xunit" Version="1.1.0" />
     ```
 
 - Use the `LoggingAssert.Contains(...)` helpers.
@@ -170,14 +170,14 @@ You can assert againt all the characteristic of a log entry: `EventId`, `Excepti
 
 ### Full example
 
-See [Samples](https://github.com/alefranz/MELT/tree/v1.1.0-preview.1/samples)
+See [Samples](https://github.com/alefranz/MELT/tree/v1.1.0/samples)
 
 ## Quickstart for ASP.NET Core integration tests
 
 - Install the NuGet package [MELT.AspNetCore](https://www.nuget.org/packages/MELT.AspNetCore/)
 
     ```xml
-    <PackageReference Include="MELT.AspNetCore" Version="1.1.0-preview.1" />
+    <PackageReference Include="MELT.AspNetCore" Version="1.1.0" />
     ```
 
 - Use the `UseTestLogging(...)` extension method to add a test logger to the test web host builder, where you can also customize the behaviour.
@@ -265,8 +265,8 @@ Assert.Equal("The answer is 42", log.Message);
 
 ### Full example
 
-See [LoggingTest](https://github.com/alefranz/MELT/blob/v1.1.0-preview.1/samples/current/SampleWebApplication.IntegrationTests/LoggingTest.cs) or
-[LoggingTestWithInjectedFactory](https://github.com/alefranz/MELT/blob/v1.1.0-preview.1/samples/current/SampleWebApplication.IntegrationTests/LoggingTestWithInjectedFactory.cs).
+See [LoggingTest](https://github.com/alefranz/MELT/blob/v1.1.0/samples/current/SampleWebApplication.IntegrationTests/LoggingTest.cs) or
+[LoggingTestWithInjectedFactory](https://github.com/alefranz/MELT/blob/v1.1.0/samples/current/SampleWebApplication.IntegrationTests/LoggingTestWithInjectedFactory.cs).
 
 ## Compatibility
 
@@ -285,8 +285,8 @@ Simply follow the main instruction as the fact that you are plugging Serilog as 
 
 ### Full example
 
-See [LoggingTest](https://github.com/alefranz/MELT/blob/v1.1.0-preview.1/samples/current/serilog/SampleWebApplicationSerilog.IntegrationTests/LoggingTest.cs) or
-[LoggingTestWithInjectedFactory](https://github.com/alefranz/MELT/blob/v1.1.0-preview.1/samples/current/serilog/SampleWebApplicationSerilog.IntegrationTests/LoggingTestWithInjectedFactory.cs).
+See [LoggingTest](https://github.com/alefranz/MELT/blob/v1.1.0/samples/current/serilog/SampleWebApplicationSerilog.IntegrationTests/LoggingTest.cs) or
+[LoggingTestWithInjectedFactory](https://github.com/alefranz/MELT/blob/v1.1.0/samples/current/serilog/SampleWebApplicationSerilog.IntegrationTests/LoggingTestWithInjectedFactory.cs).
 
 ## Serilog compatibility using Serilog.AspNetCore
 
@@ -322,7 +322,7 @@ However, `MELT` has specific support to allow to write tests against the Serilog
 - Now go back to your integration tests project, and install the NuGet package [MELT.Serilog.AspNetCore](https://www.nuget.org/packages/MELT.Serilog.AspNetCore/)
 
     ```xml
-    <PackageReference Include="MELT.Serilog.AspNetCore" Version="1.1.0-preview.1" />
+    <PackageReference Include="MELT.Serilog.AspNetCore" Version="1.1.0" />
     ```
 
 - Define a Serilog logger, setting it up to write to the providers' collection we had previously added to `Program.cs`
@@ -476,7 +476,7 @@ Assert.Equal("The answer is {number}", log.OriginalFormat);
 - Install the NuGet package [MELT.Xunit.v3](https://www.nuget.org/packages/MELT.Xunit.v3/)
 
     ```xml
-    <PackageReference Include="MELT.Xunit.v3" Version="1.1.0-preview.1" />
+    <PackageReference Include="MELT.Xunit.v3" Version="1.1.0" />
     ```
 
 - Use the `LoggingAssert.Contains(...)` helpers.
@@ -500,7 +500,7 @@ Assert.Equal("The answer is {number}", log.OriginalFormat);
 - Install the NuGet package [MELT.Xunit](https://www.nuget.org/packages/MELT.Xunit/)
 
     ```xml
-    <PackageReference Include="MELT.Xunit" Version="1.1.0-preview.1" />
+    <PackageReference Include="MELT.Xunit" Version="1.1.0" />
     ```
 
 - Use the `LoggingAssert.Contains(...)` helpers.
@@ -525,8 +525,8 @@ You can assert againt all the characteristic of a log entry: `EventId`, `Excepti
 
 ### Full example
 
-See [LoggingTest](https://github.com/alefranz/MELT/blob/v1.1.0-preview.1/samples/current/serilog/SampleWebApplicationSerilogAlternate.IntegrationTests/LoggingTest.cs) or
-[LoggingTestWithInjectedFactory](https://github.com/alefranz/MELT/blob/v1.1.0-preview.1/samples/current/serilog/SampleWebApplicationSerilogAlternate.IntegrationTests/LoggingTestWithInjectedFactory.cs).
+See [LoggingTest](https://github.com/alefranz/MELT/blob/v1.1.0/samples/current/serilog/SampleWebApplicationSerilogAlternate.IntegrationTests/LoggingTest.cs) or
+[LoggingTestWithInjectedFactory](https://github.com/alefranz/MELT/blob/v1.1.0/samples/current/serilog/SampleWebApplicationSerilogAlternate.IntegrationTests/LoggingTestWithInjectedFactory.cs).
 
 ## NLog compatibility using NLog.Web.AspNetCore
 
@@ -536,8 +536,8 @@ Simply follow the main instruction as the fact that you are plugging NLog as the
 
 ### Full example
 
-See [LoggingTest](https://github.com/alefranz/MELT/blob/v1.1.0-preview.1/samples/current/NLog/SampleWebApplicationNLog.IntegrationTests/LoggingTest.cs) or
-[LoggingTestWithInjectedFactory](https://github.com/alefranz/MELT/blob/v1.1.0-preview.1/samples/current/NLog/SampleWebApplicationNLog.IntegrationTests/LoggingTestWithInjectedFactory.cs).
+See [LoggingTest](https://github.com/alefranz/MELT/blob/v1.1.0/samples/current/NLog/SampleWebApplicationNLog.IntegrationTests/LoggingTest.cs) or
+[LoggingTestWithInjectedFactory](https://github.com/alefranz/MELT/blob/v1.1.0/samples/current/NLog/SampleWebApplicationNLog.IntegrationTests/LoggingTestWithInjectedFactory.cs).
 
 ## Upgrade from 0.6
 
