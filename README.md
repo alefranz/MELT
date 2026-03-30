@@ -6,7 +6,7 @@
 
 _Testing Library for Microsoft Extensions Logging._
 
-![NuGet Downloads](https://img.shields.io/nuget/dt/MELT)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/MELT)](https://www.nuget.org/packages/MELT/)
 
 [![MELT Nuget](https://img.shields.io/nuget/v/MELT?label=MELT&logo=nuget)](https://www.nuget.org/packages/MELT/)
 [![MELT.AspNetCore Nuget](https://img.shields.io/nuget/v/MELT.AspNetCore?label=MELT.AspNetCore&logo=nuget)](https://www.nuget.org/packages/MELT.AspNetCore/)
