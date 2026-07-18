@@ -19,7 +19,7 @@ jobs:
       with:
         dotnet-version: 9.0.x
     - name: Format
-      run: dotnet format --verify-no-changes MELT.CI.slnf
+      run: dotnet format --verify-no-changes MELT.sln
   build:
     runs-on: ubuntu-latest
     steps:
@@ -30,9 +30,9 @@ jobs:
       with:
         dotnet-version: 9.0.x
     - name: Build
-      run: dotnet build --configuration Release MELT.CI.slnf
+      run: dotnet build --configuration Release MELT.sln
     - name: Test
-      run: dotnet test --no-build --configuration Release MELT.CI.slnf
+      run: dotnet test --no-build --configuration Release MELT.sln
   pack:
     runs-on: ubuntu-latest
     needs: build
@@ -49,7 +49,7 @@ jobs:
     - name: Determine version
       run: echo "VERSION=$(git describe --tags --dirty | sed 's/^v//')" >> $GITHUB_ENV
     - name: Pack
-      run: dotnet pack --output ./artifacts --configuration Release -p:Version=$VERSION MELT.CI.slnf
+      run: dotnet pack --output ./artifacts --configuration Release -p:Version=$VERSION MELT.sln
     - uses: actions/upload-artifact@v4
       with:
         name: artifacts

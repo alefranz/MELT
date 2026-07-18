@@ -30,7 +30,7 @@ If you like this project please don't forget to **star** it on [GitHub](https://
 
 You can find an explanation on the advantages of using this library and the importance of testing logs on the blog post "[How to test logging when using Microsoft.Extensions.Logging](https://alessio.franceschelli.me/posts/dotnet/how-to-test-logging-when-using-microsoft-extensions-logging/)".
 
-This project supports all currently supported versions of .NET and ASP.NET Core, [including full framework](samples/2.1/SampleWebApplication2_1.IntegrationTests/). Please refer to the documentation for examples and compatibility details.
+Please refer to the documentation for examples and compatibility details.
 
 ## Documentation
 
