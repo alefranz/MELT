@@ -21,7 +21,7 @@ namespace MELT
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddLogging(builder => builder.AddTestLogger(sink));
             _serviceProvider = serviceCollection.BuildServiceProvider();
-            _loggerFactory = _serviceProvider.GetService<ILoggerFactory>();
+            _loggerFactory = _serviceProvider.GetRequiredService<ILoggerFactory>();
         }
 
         [Obsolete]
@@ -84,7 +84,7 @@ namespace MELT
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddLogging(builder => builder.AddTest().SetMinimumLevel(LogLevel.Trace));
             var serviceProvider = serviceCollection.BuildServiceProvider();
-            var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+            var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
             return new TestLoggerFactory(loggerFactory, serviceProvider);
         }
 
@@ -99,7 +99,7 @@ namespace MELT
             serviceCollection.AddLogging(builder => builder.AddTest().SetMinimumLevel(LogLevel.Trace));
             serviceCollection.AddLogging(configure);
             var serviceProvider = serviceCollection.BuildServiceProvider();
-            var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+            var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
             return new TestLoggerFactory(loggerFactory, serviceProvider);
         }
 
@@ -113,7 +113,7 @@ namespace MELT
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddLogging(builder => builder.AddTest(configure).SetMinimumLevel(LogLevel.Trace));
             var serviceProvider = serviceCollection.BuildServiceProvider();
-            var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+            var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
             return new TestLoggerFactory(loggerFactory, serviceProvider);
         }
     }
