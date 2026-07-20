@@ -37,3 +37,19 @@ Please refer to the documentation for examples and compatibility details.
 - [MELT Quickstart](https://github.com/alefranz/MELT/blob/v1.1.0/docs/README.md#quickstart)
 - [MELT Quickstart for ASP.NET Core integration tests](https://github.com/alefranz/MELT/blob/v1.1.0/docs/README.md#quickstart-for-aspnet-core-integration-tests)
 - [Full MELT Documentation](https://github.com/alefranz/MELT/blob/v1.1.0/docs/README.md)
+
+## Dependency maintenance
+
+Dependabot opens monthly pull requests for NuGet packages and GitHub Actions.
+Development-only and sample-only NuGet dependencies are grouped to keep reviews
+manageable.
+
+This library does not commit NuGet lock files. Direct package references specify
+exact versions, while normal restore intentionally exercises each supported
+target's transitive dependency resolution. The regular pull-request workflow,
+including Dependabot pull requests, validates those updates with the same SDK
+matrix as other changes.
+
+Dependabot does not update consumer-facing package references. Their versions
+define MELT's compatibility floors, so changes to them require a deliberate
+review of the supported targets, dependency graph, and release policy.
