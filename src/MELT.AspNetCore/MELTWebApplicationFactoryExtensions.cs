@@ -21,7 +21,7 @@ namespace Microsoft.AspNetCore.Mvc.Testing
         public static bool TryGetTestSink<TStartup>(this WebApplicationFactory<TStartup> factory, out ITestSink? testSink)
             where TStartup : class
         {
-            if (TryGetServices(factory, out var services))
+            if (TryGetServices(factory, out var services) && services != null)
             {
                 testSink = services.GetService<ITestSink>();
                 return testSink != null;
@@ -53,7 +53,7 @@ namespace Microsoft.AspNetCore.Mvc.Testing
         public static bool TryGetTestLoggerSink<TStartup>(this WebApplicationFactory<TStartup> factory, out ITestLoggerSink? loggerSink)
             where TStartup : class
         {
-            if (TryGetServices(factory, out var services))
+            if (TryGetServices(factory, out var services) && services != null)
             {
                 loggerSink = services.GetService<ITestLoggerSink>();
                 return loggerSink != null;

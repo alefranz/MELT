@@ -29,6 +29,9 @@ reviewed independently.
 - Set the Microsoft.Extensions.Logging, Logging.Abstractions, and dependency
   injection package references used by the core packages to a minimum version
   of `8.0.0`. Do not use version ranges.
+- Set the MELT Serilog package references to Serilog `3.1.1` and
+  Serilog.Extensions.Logging `8.0.0`. Keep Serilog `3.1.1` as the supported
+  minimum while validating the latest supported major line separately.
 - Build and test the v2 baseline on .NET 8 and .NET 10. Retained samples and
   tests should target `net8.0` and, where practical, `net10.0`, so the minimum
   and current LTS environments are both exercised.
@@ -78,6 +81,9 @@ reviewed independently.
   upper version bound.
 - Update retained core samples and tests to exercise the Microsoft.Extensions
   8.0 dependency baseline on .NET 8 and .NET 10.
+- Keep explicit Serilog sample variants for the Serilog `3.1.1` minimum and
+  Serilog `4.4.0`. Both variants must exercise MELT's Serilog test sink and
+  integration assertions.
 - Re-evaluate the `TestLoggerFactory` mixed-version guard against the supported
   8.0-and-later dependency graph. Remove it only if the supported graph can no
   longer produce the mismatch it protects against.
@@ -86,6 +92,8 @@ reviewed independently.
 
 - The core packages build as `netstandard2.0` with Microsoft.Extensions 8.0
   references and their .NET 8 and .NET 10 test matrix passes.
+- The Serilog `3.1.1` and `4.4.0` integration sample variants pass with
+  MELT's Serilog test sink.
 - Package metadata and documentation describe .NET Framework 4.7.2 as
   best-effort compatibility for the core packages, without an active CI claim.
 

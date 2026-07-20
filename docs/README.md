@@ -283,6 +283,11 @@ If you are using [Serilog.Extensions.Logging](https://github.com/serilog/serilog
 
 Simply follow the main instruction as the fact that you are plugging Serilog as the provider does not alter the behaviour.
 
+The `SampleWebApplicationSerilog` sample pins the supported Serilog `3.1.1`
+and Serilog.Extensions.Logging `8.0.0` minimum. The
+`SampleWebApplicationSerilogAlternate` sample pins Serilog `4.4.0` to
+validate the current major line.
+
 ### Full example
 
 See [LoggingTest](https://github.com/alefranz/MELT/blob/v1.1.0/samples/current/serilog/SampleWebApplicationSerilog.IntegrationTests/LoggingTest.cs) or
@@ -306,16 +311,13 @@ However, `MELT` has specific support to allow to write tests against the Serilog
             // ...
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args)
-        {
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UseSerilog(providers: Providers)  // <---
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder
-                        // ...
-                        .UseSerilog(providers: Providers);  // <---
+                    webBuilder.UseStartup<Startup>();
                 });
-        }
     }
     ```
 
