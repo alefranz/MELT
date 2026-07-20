@@ -39,9 +39,7 @@ namespace MELT
             _loggerFactory = loggerFactory;
             _serviceProvider = serviceProvider;
 
-            // Unfortunately there is a breaking change in 3.1 which causes an exception on BeginScope:
-            // System.TypeLoadException : Could not load type 'Microsoft.Extensions.Logging.Abstractions.Internal.NullScope' from assembly 'Microsoft.Extensions.Logging.Abstractions, Version=3.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60'.
-
+            // A consumer can resolve Logging below Logging.Abstractions when it pins packages independently.
             var dependencyVersion = loggerFactory.GetType().Assembly.GetName().Version;
             var abstractionsVersion = typeof(ILoggerFactory).Assembly.GetName().Version;
             if (dependencyVersion.Major < abstractionsVersion.Major)

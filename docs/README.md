@@ -59,10 +59,10 @@ Please refer to the documentation for examples and compatibility details.
     <PackageReference Include="MELT" Version="1.1.0" />
     ```
 
-    > Note: due to a breaking change in `Microsoft.Extensions.Logging` 3.1, if you are testing a project that references **only** `Microsoft.Extensions.Logging.Abstractions` 3.1+, you need to add a reference to `Microsoft.Extensions.Logging` 3.1+ in your test project:
+    > Note: MELT v2 requires `Microsoft.Extensions.Logging` 8.0.0 or later. If your project pins `Microsoft.Extensions.Logging.Abstractions` separately, include a matching or newer `Microsoft.Extensions.Logging` reference in the test project:
     >
     > ```xml
-    > <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.0" />
+    > <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
     > ```
 
 - Get a test logger factory
@@ -270,12 +270,14 @@ See [LoggingTest](https://github.com/alefranz/MELT/blob/v1.1.0/samples/current/S
 
 ## Compatibility
 
-This library is compatible with [Microsoft.Extensions.Logging](https://github.com/aspnet/Extensions/tree/master/src/Logging/Logging.Testing) 2.0+.
-When used for integration tests of ASP.NET Core applications, it supports all the currently supported versions of ASP.NET Core:
+The `MELT`, `MELT.Serilog`, `MELT.Xunit`, and `MELT.Xunit.v3` packages target
+`netstandard2.0` and require
+[Microsoft.Extensions.Logging](https://github.com/dotnet/extensions/tree/main/src/Logging)
+8.0.0 or later. They are actively supported for applications targeting .NET 8
+and later. .NET Framework 4.7.2 is best-effort compatibility for these core
+packages and is not covered by CI.
 
-- 2.1 LTS (now published as 2.3) available for full .NET Framework
-- 8.0
-- 9.0
+The ASP.NET Core helper packages target .NET 8 and .NET 10.
 
 ## Serilog compatibility using Serilog.Extensions.Logging
 
