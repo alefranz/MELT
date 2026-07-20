@@ -21,7 +21,6 @@ updates:
           - "Serilog.Sinks.Console"
     ignore:
       # Published package references define MELT's consumer compatibility floors.
-      - dependency-name: "Microsoft.AspNetCore.Hosting"
       - dependency-name: "Microsoft.AspNetCore.Mvc.Testing"
       - dependency-name: "Microsoft.Extensions.DependencyInjection"
       - dependency-name: "Microsoft.Extensions.DependencyInjection.Abstractions"
