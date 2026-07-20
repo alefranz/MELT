@@ -32,9 +32,9 @@ reviewed independently.
 - Set the MELT Serilog package references to Serilog `3.1.1` and
   Serilog.Extensions.Logging `8.0.0`. Keep Serilog `3.1.1` as the supported
   minimum while validating the latest supported major line separately.
-- Build and test the v2 baseline on .NET 8 and .NET 10. Retained samples and
-  tests should target `net8.0` and, where practical, `net10.0`, so the minimum
-  and current LTS environments are both exercised.
+- Build the core baseline and dedicated samples on .NET 8, while keeping
+  default samples and core test suites on .NET 10. Retain named .NET 9 web
+  sample variants only where they validate framework-specific behavior.
 - Target the ASP.NET Core helper packages for `net8.0` and `net10.0`, with the
   appropriate Microsoft.AspNetCore testing dependency group for each target.
 - Treat .NET Framework 4.7.2 as best-effort compatibility for the
@@ -50,86 +50,38 @@ reviewed independently.
 
 ## Release backlog
 
-### 1. Retire legacy ASP.NET Core 2.1 assets and simplify CI
+### 1. Establish the SDK and runtime validation matrix - Completed
 
 **Scope**
 
-- Remove `samples/2.1/SampleWebApplication2_1` and its `net481` integration
-  test project from the repository, solutions, filters, scripts, CI, and
-  documentation.
-- Remove obsolete ASP.NET Core 2.1 conditional build logic, package references,
-  and compatibility assertions discovered during the v2 target migration.
-- Determine whether `MELT.CI.slnf` is still needed once the full-framework
-  projects are gone. Remove it if it no longer has a distinct CI purpose.
-- Do not add Windows `net481` CI coverage. The core package's .NET Framework
-  compatibility is best effort, and the retired ASP.NET Core 2.1 sample must
-  not define the v2 test matrix.
+- Update `.github/workflows/build.yml` to install the .NET 8, .NET 9, and .NET
+  10 SDKs. Use the .NET 8 target as the minimum core baseline, .NET 9 for
+  explicit compatibility samples, and .NET 10 for the default solution build,
+  test, and pack validation.
+- Move generic retained `net9.0` projects in `test`, `samples/current`,
+  `samples/legacy`, `samples/xunit-2-latest`, and `samples/xunit-3` to
+  `net8.0` or `net10.0` as appropriate. Keep .NET 9 only in clearly named web
+  compatibility sample and integration-test pairs.
+- Keep dedicated .NET 8 samples for the core dependency baseline, and retain
+  .NET 8 / .NET 9 web sample pairs beside the default .NET 10 web samples.
+- Update the build script and CI job names to describe the combined .NET 8,
+  .NET 9, and .NET 10 validation matrix.
+- Schedule a post-November maintenance item to retire the .NET 8 and .NET 9
+  active test lanes and make .NET 10 the minimum active-support baseline.
 
 **Done when**
 
-- `rg 'net481|AspNetCore.*2\\.1|ASP.NET Core 2.1'` finds no active project
-  configuration or obsolete support claim outside the migration notes.
-- The solution and CI no longer need a special full-framework exclusion.
+- CI installs the .NET 8, .NET 9, and .NET 10 SDKs, then builds and tests the
+  complete solution and packs it on push.
+- The named .NET 8, .NET 9, and .NET 10 web sample variants each run their
+  integration tests on the corresponding runtime.
+- No project, workflow, sample, or user-facing documentation presents .NET 9
+  as the default or sole current target.
 
-### 2. Establish the core package compatibility baseline
-
-**Scope**
-
-- Retain `netstandard2.0` for the core MELT, Serilog, and xUnit helper packages.
-- Upgrade the core Microsoft.Extensions.Logging, Logging.Abstractions, and
-  dependency-injection references to a minimum version of `8.0.0`, without an
-  upper version bound.
-- Update retained core samples and tests to exercise the Microsoft.Extensions
-  8.0 dependency baseline on .NET 8 and .NET 10.
-- Keep explicit Serilog sample variants for the Serilog `3.1.1` minimum and
-  Serilog `4.4.0`. Both variants must exercise MELT's Serilog test sink and
-  integration assertions.
-- Re-evaluate the `TestLoggerFactory` mixed-version guard against the supported
-  8.0-and-later dependency graph. Remove it only if the supported graph can no
-  longer produce the mismatch it protects against.
-
-**Done when**
-
-- The core packages build as `netstandard2.0` with Microsoft.Extensions 8.0
-  references and their .NET 8 and .NET 10 test matrix passes.
-- The Serilog `3.1.1` and `4.4.0` integration sample variants pass with
-  MELT's Serilog test sink.
-- Package metadata and documentation describe .NET Framework 4.7.2 as
-  best-effort compatibility for the core packages, without an active CI claim.
-
-### 3. Establish the .NET 8 baseline and .NET 10 validation matrix
+### 2. Validate the modern ASP.NET Core helper packages
 
 **Scope**
 
-- Update `.github/workflows/build.yml` to install supported .NET 8 and .NET 10
-  SDKs. Use .NET 8 to establish the minimum baseline and .NET 10 to validate
-  current-LTS compatibility.
-- Change every retained `net9.0` project in `test` and
-  `samples/current`, `samples/legacy`, `samples/xunit-2-latest`, and
-  `samples/xunit-3` to `net8.0`; multi-target `net8.0;net10.0` where the
-  project can do so without obscuring the sample.
-- Update solution files, scripts, and CI job names so they describe the
-  .NET 8 / .NET 10 matrix, not .NET 9 as the sole baseline.
-- Schedule a small post-November maintenance item to remove .NET 8 from the
-  active test matrix and make .NET 10 the minimum active-support baseline.
-
-**Done when**
-
-- A clean checkout builds, tests, and packs on both the .NET 8 and .NET 10 SDKs
-  on the supported CI platforms.
-- No retained project, workflow, sample, or user-facing documentation presents
-  .NET 9 as the sole current target.
-
-### 4. Modernize the ASP.NET Core helper packages
-
-**Scope**
-
-- Redesign `MELT.AspNetCore` and `MELT.Serilog.AspNetCore` for `net8.0` and
-  `net10.0`.
-- Replace the `Microsoft.AspNetCore.Hosting`, `Microsoft.AspNetCore.Mvc.Testing`,
-  and dependency-injection references pinned at `2.1.0` with matching .NET 8
-  and .NET 10 equivalents. Prefer framework references where appropriate and
-  avoid retaining obsolete transitive dependencies.
 - Update the helper APIs only where the modern ASP.NET Core testing APIs require
   it, recording user-visible breaks in the migration guide.
 - Verify the published package dependency graph contains no ASP.NET Core 2.1,
@@ -138,12 +90,13 @@ reviewed independently.
 
 **Done when**
 
-- The standard logging, NLog, and Serilog integration sample variants pass on
-  both .NET 8 and .NET 10 against packages produced from this branch.
+- The standard logging integration sample passes on .NET 8, .NET 9, and .NET
+  10, while NLog and Serilog integration samples pass on .NET 8 and .NET 10
+  against packages produced from this branch.
 - Package vulnerability scanning and `dotnet list package --vulnerable` report
   no known vulnerabilities in the v2 helper-package dependency graph.
 
-### 5. Refresh development-only dependencies
+### 3. Refresh development-only dependencies
 
 **Scope**
 
@@ -157,17 +110,18 @@ reviewed independently.
 
 **Done when**
 
-- The full test suite passes on the .NET 8 / .NET 10 matrix.
+- The full test suite passes under the combined validation matrix.
 - Production package floors are documented separately from build-only package
   updates.
 
-### 6. Update package metadata, documentation, and migration guidance
+### 4. Update package metadata, documentation, and migration guidance
 
 **Scope**
 
 - Update package descriptions, tags, README content, documentation, and sample
-  labels to distinguish the `netstandard2.0` core packages from the .NET 8 / .NET
-  10 ASP.NET Core helpers and test matrix.
+  labels to distinguish the `netstandard2.0` core packages, the dedicated .NET
+  8 baseline samples, the default .NET 10 samples, and the named .NET 9 web
+  compatibility variants.
 - Document Microsoft.Extensions.Logging 8.0 as the core-package minimum and
   .NET Framework 4.7.2 as best-effort compatibility without CI coverage.
 - Remove wording that calls ASP.NET Core 2.1 LTS or treats .NET 9 as the only
@@ -193,32 +147,41 @@ reviewed independently.
 - The v2 release notes link the Microsoft.Extensions 8.0 minimum to the .NET
   support lifecycle and direct consumers on older dependency lines to 1.x.
 
-### 7. Add ongoing maintenance automation
+### 5. Align maintenance automation with the runtime lanes
 
 **Scope**
 
-- Add a monthly Dependabot configuration for `nuget` and `github-actions`.
-- Group related development dependencies where that keeps update pull requests
-  reviewable, and keep runtime package updates separately visible.
-- Decide whether deterministic restore or dependency lock files are appropriate
-  for this repository; document and implement the decision rather than adding
-  lock files by default.
-- Ensure CI validates Dependabot updates using the same .NET 8 / .NET 10 SDK
-  configuration and test matrix as normal pull requests.
+- Ensure CI validates Dependabot updates using the same combined validation
+  matrix as normal pull requests.
 
 **Done when**
 
-- Dependabot opens monthly update pull requests for both NuGet packages and
-  GitHub Actions.
-- CI has an explicit, reproducible SDK-selection policy for the active
-  support matrix.
+- CI has an explicit, reproducible SDK and runtime selection policy for the
+  active support matrix.
+
+## Post-November 2026 maintenance
+
+### Retire the .NET 8 and .NET 9 active validation lanes
+
+**Scope**
+
+- After November 10, 2026, remove .NET 8 and .NET 9 from the active validation
+  matrix, make .NET 10 the minimum active-support baseline, and update the
+  support-policy documentation.
+
+**Done when**
+
+- CI and its documentation name .NET 10 and later as the active support
+  matrix, without presenting .NET 8 or .NET 9 as actively supported.
 
 ## Release gates
 
-- All packages build and pack on the .NET 8 / .NET 10 CI matrix.
+- Core packages and dedicated .NET 8 samples build and run targeting .NET 8;
+  the default solution builds, tests, and packs targeting .NET 10.
 - Unit tests and all retained current/legacy/xUnit sample tests pass on CI.
 - The ASP.NET Core helper packages are tested through the standard, NLog, and
-  Serilog integration samples on both supported target frameworks.
+  Serilog integration samples on .NET 8 and .NET 10, with the named standard
+  web compatibility variant also tested on .NET 9.
 - Published package assets and dependency graphs are reviewed before release;
   core packages retain `netstandard2.0` with Microsoft.Extensions 8.0 as their
   minimum, and no package references ASP.NET Core 2.1.
@@ -230,11 +193,8 @@ reviewed independently.
 
 ## Proposed delivery order
 
-1. Retire the ASP.NET Core 2.1 assets and remove any now-unnecessary CI filter.
-2. Establish the `netstandard2.0` core package and Microsoft.Extensions 8.0
-   baseline.
-3. Establish the .NET 8 / .NET 10 SDK and target-framework validation matrix.
-4. Modernize the ASP.NET Core helper packages and integration samples.
-5. Refresh build-only packages in a dedicated pull request.
-6. Complete documentation and migration guidance.
-7. Add Dependabot, run release-gate validation, and publish v2.
+1. Establish the SDK and runtime validation matrix.
+2. Modernize the ASP.NET Core helper packages and integration samples.
+3. Refresh build-only packages in a dedicated pull request.
+4. Complete documentation and migration guidance.
+5. Align maintenance automation, run release-gate validation, and publish v2.

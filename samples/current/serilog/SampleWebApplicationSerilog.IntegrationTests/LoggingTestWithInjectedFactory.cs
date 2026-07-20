@@ -73,26 +73,26 @@ namespace SampleWebApplicationSerilog.Tests
     {
         public CustomWebApplicationFactory()
         {
-           Log.Logger = new LoggerConfiguration()
-               .MinimumLevel.Verbose()
-               .Enrich.FromLogContext()
-               .WriteTo.Providers(Program.Providers)
-               .CreateLogger();
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Verbose()
+                .Enrich.FromLogContext()
+                .WriteTo.Providers(Program.Providers)
+                .CreateLogger();
         }
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-           builder.UseSerilogTestLogging(options => options.FilterByNamespace(nameof(SampleWebApplicationSerilog)));
+            builder.UseSerilogTestLogging(options => options.FilterByNamespace(nameof(SampleWebApplicationSerilog)));
         }
 
         protected override void Dispose(bool disposing)
         {
-           if (disposing)
-           {
-               Log.CloseAndFlush();
-           }
+            if (disposing)
+            {
+                Log.CloseAndFlush();
+            }
 
-           base.Dispose(disposing);
+            base.Dispose(disposing);
         }
     }
 }
