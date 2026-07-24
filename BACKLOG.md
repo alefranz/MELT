@@ -96,7 +96,7 @@ reviewed independently.
 - Package vulnerability scanning and `dotnet list package --vulnerable` report
   no known vulnerabilities in the v2 helper-package dependency graph.
 
-### 3. Refresh development-only dependencies
+### 3. Refresh development-only dependencies - Completed
 
 **Scope**
 
