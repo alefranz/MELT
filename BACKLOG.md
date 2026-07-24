@@ -166,6 +166,54 @@ reviewed independently.
 - A shared workflow action installs and reports the SDKs and runtimes used by
   validation, pack, and publish jobs so those lanes cannot diverge.
 
+### 6. Make the tag publishing job resolve repository-local actions - Pending
+
+**Scope**
+
+- Check out the repository before the `publish` job invokes
+  `./.github/actions/setup-melt-dotnet`, or replace that invocation with setup
+  that does not depend on files in the workspace.
+- Validate the complete tag path from SDK setup through artifact download and
+  package push without publishing a real release.
+
+**Done when**
+
+- A tag-triggered workflow can resolve every action used by the `publish` job
+  and reach the NuGet push step with downloaded package artifacts.
+
+### 7. Test the produced packages as consumer dependencies - Pending
+
+**Scope**
+
+- Add a post-pack smoke test that restores representative .NET 8, .NET 9, and
+  .NET 10 consumers from the packages in the workflow artifact rather than
+  from project references.
+- Verify that NuGet selects the expected `netstandard2.0`, `net8.0`, and
+  `net10.0` assets and resolves the intended minimum dependency graph.
+
+**Done when**
+
+- The six v2 packages can be installed together in representative consumers,
+  and the core, ASP.NET Core, Serilog, and xUnit entry points build and run
+  from the packed artifacts.
+
+### 8. Complete an auditable transitive vulnerability gate - Pending
+
+**Scope**
+
+- Run `dotnet list MELT.sln package --vulnerable --include-transitive` against
+  the final restored dependency graph and retain the result with the release
+  validation.
+- Ensure the gate fails or otherwise blocks release when a vulnerable direct
+  or transitive dependency is reported; the current default restore audit is
+  configured for direct dependencies only.
+
+**Done when**
+
+- The final v2 package and sample dependency graphs report no known direct or
+  transitive vulnerabilities, and the result is reproducible during release
+  validation.
+
 ## Post-November 2026 maintenance
 
 ### Retire the .NET 8 and .NET 9 active validation lanes
@@ -204,4 +252,7 @@ reviewed independently.
 2. Modernize the ASP.NET Core helper packages and integration samples.
 3. Refresh build-only packages in a dedicated pull request.
 4. Complete documentation and migration guidance.
-5. Align maintenance automation, run release-gate validation, and publish v2.
+5. Align maintenance automation with the supported runtime lanes.
+6. Repair and validate the tag publishing path.
+7. Test the packed artifacts as consumer dependencies.
+8. Complete the transitive vulnerability gate and publish v2.
