@@ -11,7 +11,7 @@
     <PackageIcon>logo.png</PackageIcon>
     <RepositoryUrl>https://github.com/alefranz/MELT.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>https://github.com/alefranz/MELT/releases</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/alefranz/MELT/blob/main/docs/RELEASE-NOTES-v2.md</PackageReleaseNotes>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>

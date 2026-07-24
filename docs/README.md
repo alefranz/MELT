@@ -35,6 +35,8 @@ Please refer to the documentation for examples and compatibility details.
   - [Assert log entries and scopes](#assert-log-entries-and-scopes)
   - [Full example](#full-example-1)
 - [Compatibility](#compatibility)
+  - [Sample runtime matrix](#sample-runtime-matrix)
+  - [MELT v2 migration and release notes](#melt-v2-migration-and-release-notes)
 - [Serilog compatibility using Serilog.Extensions.Logging](#serilog-compatibility-using-serilogextensionslogging)
   - [Full example](#full-example-2)
 - [Serilog compatibility using Serilog.AspNetCore](#serilog-compatibility-using-serilogaspnetcore)
@@ -56,7 +58,7 @@ Please refer to the documentation for examples and compatibility details.
 - Install the NuGet package [MELT](https://www.nuget.org/packages/MELT/)
 
     ```xml
-    <PackageReference Include="MELT" Version="1.1.0" />
+    <PackageReference Include="MELT" Version="2.0.0" />
     ```
 
     > Note: MELT v2 requires `Microsoft.Extensions.Logging` 8.0.0 or later. If your project pins `Microsoft.Extensions.Logging.Abstractions` separately, include a matching or newer `Microsoft.Extensions.Logging` reference in the test project:
@@ -137,7 +139,7 @@ Assert.Equal("foo", exception.ParamName);
 - Install the NuGet package [MELT.Xunit.v3](https://www.nuget.org/packages/MELT.Xunit.v3/)
 
     ```xml
-    <PackageReference Include="MELT.Xunit.v3" Version="1.1.0" />
+    <PackageReference Include="MELT.Xunit.v3" Version="2.0.0" />
     ```
 
 - Use the `LoggingAssert.Contains(...)` helpers.
@@ -153,7 +155,7 @@ For example, to test that a single log has been emitted and it had a property `n
 - Install the NuGet package [MELT.Xunit](https://www.nuget.org/packages/MELT.Xunit/)
 
     ```xml
-    <PackageReference Include="MELT.Xunit" Version="1.1.0" />
+    <PackageReference Include="MELT.Xunit" Version="2.0.0" />
     ```
 
 - Use the `LoggingAssert.Contains(...)` helpers.
@@ -170,14 +172,14 @@ You can assert againt all the characteristic of a log entry: `EventId`, `Excepti
 
 ### Full example
 
-See [Samples](https://github.com/alefranz/MELT/tree/v1.1.0/samples)
+See [Samples](https://github.com/alefranz/MELT/tree/main/samples)
 
 ## Quickstart for ASP.NET Core integration tests
 
 - Install the NuGet package [MELT.AspNetCore](https://www.nuget.org/packages/MELT.AspNetCore/)
 
     ```xml
-    <PackageReference Include="MELT.AspNetCore" Version="1.1.0" />
+    <PackageReference Include="MELT.AspNetCore" Version="2.0.0" />
     ```
 
 - Use the `UseTestLogging(...)` extension method to add a test logger to the test web host builder, where you can also customize the behaviour.
@@ -265,8 +267,8 @@ Assert.Equal("The answer is 42", log.Message);
 
 ### Full example
 
-See [LoggingTest](https://github.com/alefranz/MELT/blob/v1.1.0/samples/current/SampleWebApplication.IntegrationTests/LoggingTest.cs) or
-[LoggingTestWithInjectedFactory](https://github.com/alefranz/MELT/blob/v1.1.0/samples/current/SampleWebApplication.IntegrationTests/LoggingTestWithInjectedFactory.cs).
+See [LoggingTest](https://github.com/alefranz/MELT/blob/main/samples/current/SampleWebApplication.IntegrationTests/LoggingTest.cs) or
+[LoggingTestWithInjectedFactory](https://github.com/alefranz/MELT/blob/main/samples/current/SampleWebApplication.IntegrationTests/LoggingTestWithInjectedFactory.cs).
 
 ## Compatibility
 
@@ -277,7 +279,25 @@ The `MELT`, `MELT.Serilog`, `MELT.Xunit`, and `MELT.Xunit.v3` packages target
 and later. .NET Framework 4.7.2 is best-effort compatibility for these core
 packages and is not covered by CI.
 
-The ASP.NET Core helper packages target .NET 8 and .NET 10.
+The ASP.NET Core helper packages target .NET 8 and .NET 10. They use the
+corresponding modern ASP.NET Core testing stacks; MELT v2 does not support the
+legacy ASP.NET Core 2.1 helper dependencies.
+
+### Sample runtime matrix
+
+The core packages retain a `netstandard2.0` asset. Dedicated .NET 8 samples
+validate their minimum supported dependency baseline, while the default samples
+and core test suites run on .NET 10. The explicitly named
+`SampleWebApplication.Net9` sample and its integration tests remain only as a
+.NET 9 web compatibility variant; they are not the default target.
+
+### MELT v2 migration and release notes
+
+MELT v2 is the current release line. Applications using a Microsoft.Extensions
+dependency line earlier than 8.0, or legacy ASP.NET Core helpers, should remain
+on MELT 1.x. See the [v2 migration guide](https://github.com/alefranz/MELT/blob/main/docs/MIGRATION-v2.md)
+and [v2 release notes](https://github.com/alefranz/MELT/blob/main/docs/RELEASE-NOTES-v2.md)
+for the breaking support-policy change.
 
 ## Serilog compatibility using Serilog.Extensions.Logging
 
@@ -292,8 +312,8 @@ validate the current major line.
 
 ### Full example
 
-See [LoggingTest](https://github.com/alefranz/MELT/blob/v1.1.0/samples/current/serilog/SampleWebApplicationSerilog.IntegrationTests/LoggingTest.cs) or
-[LoggingTestWithInjectedFactory](https://github.com/alefranz/MELT/blob/v1.1.0/samples/current/serilog/SampleWebApplicationSerilog.IntegrationTests/LoggingTestWithInjectedFactory.cs).
+See [LoggingTest](https://github.com/alefranz/MELT/blob/main/samples/current/serilog/SampleWebApplicationSerilog.IntegrationTests/LoggingTest.cs) or
+[LoggingTestWithInjectedFactory](https://github.com/alefranz/MELT/blob/main/samples/current/serilog/SampleWebApplicationSerilog.IntegrationTests/LoggingTestWithInjectedFactory.cs).
 
 ## Serilog compatibility using Serilog.AspNetCore
 
@@ -326,7 +346,7 @@ However, `MELT` has specific support to allow to write tests against the Serilog
 - Now go back to your integration tests project, and install the NuGet package [MELT.Serilog.AspNetCore](https://www.nuget.org/packages/MELT.Serilog.AspNetCore/)
 
     ```xml
-    <PackageReference Include="MELT.Serilog.AspNetCore" Version="1.1.0" />
+    <PackageReference Include="MELT.Serilog.AspNetCore" Version="2.0.0" />
     ```
 
 - Define a Serilog logger, setting it up to write to the providers' collection we had previously added to `Program.cs`
@@ -480,7 +500,7 @@ Assert.Equal("The answer is {number}", log.OriginalFormat);
 - Install the NuGet package [MELT.Xunit.v3](https://www.nuget.org/packages/MELT.Xunit.v3/)
 
     ```xml
-    <PackageReference Include="MELT.Xunit.v3" Version="1.1.0" />
+    <PackageReference Include="MELT.Xunit.v3" Version="2.0.0" />
     ```
 
 - Use the `LoggingAssert.Contains(...)` helpers.
@@ -504,7 +524,7 @@ Assert.Equal("The answer is {number}", log.OriginalFormat);
 - Install the NuGet package [MELT.Xunit](https://www.nuget.org/packages/MELT.Xunit/)
 
     ```xml
-    <PackageReference Include="MELT.Xunit" Version="1.1.0" />
+    <PackageReference Include="MELT.Xunit" Version="2.0.0" />
     ```
 
 - Use the `LoggingAssert.Contains(...)` helpers.
@@ -529,8 +549,8 @@ You can assert againt all the characteristic of a log entry: `EventId`, `Excepti
 
 ### Full example
 
-See [LoggingTest](https://github.com/alefranz/MELT/blob/v1.1.0/samples/current/serilog/SampleWebApplicationSerilogAlternate.IntegrationTests/LoggingTest.cs) or
-[LoggingTestWithInjectedFactory](https://github.com/alefranz/MELT/blob/v1.1.0/samples/current/serilog/SampleWebApplicationSerilogAlternate.IntegrationTests/LoggingTestWithInjectedFactory.cs).
+See [LoggingTest](https://github.com/alefranz/MELT/blob/main/samples/current/serilog/SampleWebApplicationSerilogAlternate.IntegrationTests/LoggingTest.cs) or
+[LoggingTestWithInjectedFactory](https://github.com/alefranz/MELT/blob/main/samples/current/serilog/SampleWebApplicationSerilogAlternate.IntegrationTests/LoggingTestWithInjectedFactory.cs).
 
 ## NLog compatibility using NLog.Web.AspNetCore
 
@@ -540,8 +560,8 @@ Simply follow the main instruction as the fact that you are plugging NLog as the
 
 ### Full example
 
-See [LoggingTest](https://github.com/alefranz/MELT/blob/v1.1.0/samples/current/NLog/SampleWebApplicationNLog.IntegrationTests/LoggingTest.cs) or
-[LoggingTestWithInjectedFactory](https://github.com/alefranz/MELT/blob/v1.1.0/samples/current/NLog/SampleWebApplicationNLog.IntegrationTests/LoggingTestWithInjectedFactory.cs).
+See [LoggingTest](https://github.com/alefranz/MELT/blob/main/samples/current/NLog/SampleWebApplicationNLog.IntegrationTests/LoggingTest.cs) or
+[LoggingTestWithInjectedFactory](https://github.com/alefranz/MELT/blob/main/samples/current/NLog/SampleWebApplicationNLog.IntegrationTests/LoggingTestWithInjectedFactory.cs).
 
 ## Upgrade from 0.6
 
@@ -560,13 +580,11 @@ Assert.Equal("I'm in the GET scope", scope.Message);
 
 ## Upgrade from 0.4 and below
 
-The library is still backward compatible, however, if you follow the deprecation warnings, you will be able to easily migrate to the new simplified syntax.
-
-> Note: due to a breaking change in `Microsoft.Extensions.Logging` 3.1, if you are testing a project that references **only** `Microsoft.Extensions.Logging.Abstractions` 3.1+, you need to add a reference to `Microsoft.Extensions.Logging` 3.1+ in your test project:
->
-> ```xml
-> <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.0" />
-> ```
+The instructions in this section describe API changes introduced before MELT
+v2. They do not change the v2 requirement for `Microsoft.Extensions.Logging`
+8.0.0 or later. For applications that cannot meet that requirement, use the
+MELT 1.x line instead. See [Migrate to MELT v2](MIGRATION-v2.md) for the
+supported upgrade path.
 
 Here are some common examples:
 

@@ -114,7 +114,7 @@ reviewed independently.
 - Production package floors are documented separately from build-only package
   updates.
 
-### 4. Update package metadata, documentation, and migration guidance
+### 4. Update package metadata, documentation, and migration guidance - Completed
 
 **Scope**
 
