@@ -166,7 +166,7 @@ reviewed independently.
 - A shared workflow action installs and reports the SDKs and runtimes used by
   validation, pack, and publish jobs so those lanes cannot diverge.
 
-### 6. Make the tag publishing job resolve repository-local actions - Pending
+### 6. Make the tag publishing job resolve repository-local actions - Completed
 
 **Scope**
 
@@ -180,6 +180,12 @@ reviewed independently.
 
 - A tag-triggered workflow can resolve every action used by the `publish` job
   and reach the NuGet push step with downloaded package artifacts.
+
+**Completed**
+
+- The `publish` job checks out the repository before invoking the local .NET
+  setup action, allowing tag-triggered runs to continue through artifact
+  download to the NuGet push step.
 
 ### 7. Test the produced packages as consumer dependencies - Pending
 

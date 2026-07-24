@@ -48,6 +48,8 @@ jobs:
     needs: pack
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
     steps:
+    - name: Checkout
+      uses: actions/checkout@v4
     - name: Set up validation matrix
       uses: ./.github/actions/setup-melt-dotnet
     - uses: actions/download-artifact@v4
