@@ -78,7 +78,7 @@ reviewed independently.
 - No project, workflow, sample, or user-facing documentation presents .NET 9
   as the default or sole current target.
 
-### 2. Validate the modern ASP.NET Core helper packages
+### 2. Validate the modern ASP.NET Core helper packages - Completed
 
 **Scope**
 
