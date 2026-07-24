@@ -214,7 +214,7 @@ reviewed independently.
   verifies the selected compile assets and runs the core, Serilog, and xUnit
   entry points.
 
-### 8. Complete an auditable transitive vulnerability gate - Pending
+### 8. Complete an auditable transitive vulnerability gate - Completed
 
 **Scope**
 
@@ -230,6 +230,16 @@ reviewed independently.
 - The final v2 package and sample dependency graphs report no known direct or
   transitive vulnerabilities, and the result is reproducible during release
   validation.
+
+**Completed**
+
+- The pack job scans the final restored `MELT.sln` graph with `dotnet list
+  package --vulnerable --include-transitive`, writes its JSON result to
+  `artifacts/vulnerability-report.json`, and uploads it with the packed
+  packages.
+- The scan script fails the pack job if the command cannot complete, the JSON
+  report contains an error, or any direct or transitive package includes a
+  vulnerability advisory.
 
 ## Post-November 2026 maintenance
 
