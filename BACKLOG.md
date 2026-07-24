@@ -147,7 +147,7 @@ reviewed independently.
 - The v2 release notes link the Microsoft.Extensions 8.0 minimum to the .NET
   support lifecycle and direct consumers on older dependency lines to 1.x.
 
-### 5. Align maintenance automation with the runtime lanes
+### 5. Align maintenance automation with the runtime lanes - Completed
 
 **Scope**
 
@@ -158,6 +158,13 @@ reviewed independently.
 
 - CI has an explicit, reproducible SDK and runtime selection policy for the
   active support matrix.
+
+**Completed**
+
+- The standard pull-request trigger, including Dependabot pull requests, runs
+  one named validation job for the .NET 8, .NET 9, and .NET 10 matrix.
+- A shared workflow action installs and reports the SDKs and runtimes used by
+  validation, pack, and publish jobs so those lanes cannot diverge.
 
 ## Post-November 2026 maintenance
 

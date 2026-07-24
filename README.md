@@ -61,8 +61,9 @@ manageable.
 This library does not commit NuGet lock files. Direct package references specify
 exact versions, while normal restore intentionally exercises each supported
 target's transitive dependency resolution. The regular pull-request workflow,
-including Dependabot pull requests, validates those updates with the same SDK
-matrix as other changes.
+including Dependabot pull requests, runs the same named .NET 8, .NET 9, and
+.NET 10 validation job as other changes. That shared job installs and reports
+the complete SDK and runtime matrix before formatting, building, and testing.
 
 Dependabot does not update consumer-facing package references. Their versions
 define MELT's compatibility floors, so changes to them require a deliberate

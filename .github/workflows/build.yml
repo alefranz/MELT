@@ -6,39 +6,35 @@ on:
       - main
     tags:
       - '**'
+  # This standard PR trigger deliberately includes Dependabot pull requests.
+  # Dependency updates must run the same validation job as every other PR.
   pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
 
 jobs:
-  build:
+  validate:
+    name: Validate .NET 8, .NET 9, and .NET 10
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-    - name: Setup .NET SDKs
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: |
-          8.0.x
-          9.0.x
-          10.0.x
+    - name: Set up validation matrix
+      uses: ./.github/actions/setup-melt-dotnet
     - name: Format, build, and test
       run: pwsh ./build.ps1
   pack:
     runs-on: ubuntu-latest
-    needs: build
+    needs: validate
     if: github.event_name == 'push'
     steps:
     - name: Checkout
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
-    - name: Setup .NET SDKs
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: |
-          8.0.x
-          9.0.x
-          10.0.x
+    - name: Set up validation matrix
+      uses: ./.github/actions/setup-melt-dotnet
     - name: Determine version
       run: echo "VERSION=$(git describe --tags --dirty | sed 's/^v//')" >> $GITHUB_ENV
     - name: Pack
@@ -52,13 +48,8 @@ jobs:
     needs: pack
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
     steps:
-    - name: Setup .NET SDKs
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: |
-          8.0.x
-          9.0.x
-          10.0.x
+    - name: Set up validation matrix
+      uses: ./.github/actions/setup-melt-dotnet
     - uses: actions/download-artifact@v4
       with:
         name: artifacts
