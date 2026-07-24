@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <DefineConstants>$(DefineConstants);HAS_ASPNETCORE</DefineConstants>
+    <RestoreAdditionalProjectSources>$(MeltPackageSource)</RestoreAdditionalProjectSources>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="MELT" Version="$(MeltPackageVersion)" />
+    <PackageReference Include="MELT.AspNetCore" Version="$(MeltPackageVersion)" />
+    <PackageReference Include="MELT.Serilog" Version="$(MeltPackageVersion)" />
+    <PackageReference Include="MELT.Serilog.AspNetCore" Version="$(MeltPackageVersion)" />
+    <PackageReference Include="MELT.Xunit" Version="$(MeltPackageVersion)" Aliases="xunit2" />
+    <PackageReference Include="MELT.Xunit.v3" Version="$(MeltPackageVersion)" Aliases="xunit3" />
+    <Compile Include="../Program.cs" Link="Program.cs" />
+  </ItemGroup>
+</Project>

@@ -187,7 +187,7 @@ reviewed independently.
   setup action, allowing tag-triggered runs to continue through artifact
   download to the NuGet push step.
 
-### 7. Test the produced packages as consumer dependencies - Pending
+### 7. Test the produced packages as consumer dependencies - Completed
 
 **Scope**
 
@@ -202,6 +202,17 @@ reviewed independently.
 - The six v2 packages can be installed together in representative consumers,
   and the core, ASP.NET Core, Serilog, and xUnit entry points build and run
   from the packed artifacts.
+
+**Completed**
+
+- The post-pack `consumer-smoke` workflow job downloads the package artifact
+  and restores executable .NET 8, .NET 9, and .NET 10 consumers with the
+  artifact directory as an additional NuGet source.
+- The .NET 8 and .NET 10 consumers install all six packages; the .NET 9
+  consumer validates the four `netstandard2.0` packages because the ASP.NET
+  Core helpers deliberately target only .NET 8 and .NET 10. The smoke script
+  verifies the selected compile assets and runs the core, Serilog, and xUnit
+  entry points.
 
 ### 8. Complete an auditable transitive vulnerability gate - Pending
 
