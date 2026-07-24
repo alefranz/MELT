@@ -34,7 +34,22 @@
 
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)../logo.png" Pack="true" PackagePath="" />
-    <None Include="$(MSBuildThisFileDirectory)../docs/README.md" Pack="true" PackagePath="" />
+    <None Include="$(BaseIntermediateOutputPath)package-readme/README.md" Pack="true" PackagePath="" />
   </ItemGroup>
+
+  <Target Name="GeneratePackageReadme" BeforeTargets="GenerateNuspec">
+    <ReadLinesFromFile File="$(MSBuildThisFileDirectory)../docs/package-readme.md">
+      <Output TaskParameter="Lines" ItemName="PackageReadmeTemplateLine" />
+    </ReadLinesFromFile>
+    <ItemGroup>
+      <PackageReadmeLine Include="@(PackageReadmeTemplateLine)">
+        <RenderedLine>$([System.String]::Copy('%(Identity)').Replace('__MELT_VERSION__', '$(Version)'))</RenderedLine>
+      </PackageReadmeLine>
+    </ItemGroup>
+    <WriteLinesToFile
+      File="$(BaseIntermediateOutputPath)package-readme/README.md"
+      Lines="@(PackageReadmeLine->'%(RenderedLine)')"
+      Overwrite="true" />
+  </Target>
 
 </Project>

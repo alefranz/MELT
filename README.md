@@ -1,7 +1,7 @@
 # MELT
 
 <!-- markdownlint-disable no-inline-html -->
-<img align="right" width="256" height="256" src="logo_large.png" alt="A stylized 3D tree with golden-yellow spherical foliage on a wooden stump against a purple background" />
+<img align="right" width="256" height="256" src="logo_large.png" alt="A vibrant green tree sprouting from a freshly cut stump that is resting on a melting block of ice, all set within a dark blue circle" />
 <!-- markdownlint-enable no-inline-html -->
 
 _Testing Library for Microsoft Extensions Logging._
@@ -34,19 +34,20 @@ Please refer to the documentation for examples and compatibility details.
 
 ## Documentation
 
-- [MELT Quickstart](docs/README.md#quickstart)
-- [MELT Quickstart for ASP.NET Core integration tests](docs/README.md#quickstart-for-aspnet-core-integration-tests)
-- [Compatibility and sample runtime matrix](docs/README.md#compatibility)
+- [Documentation site](https://alefranz.github.io/MELT/)
+- [MELT Quickstart](docs/guide.md#quickstart)
+- [MELT Quickstart for ASP.NET Core integration tests](docs/guide.md#quickstart-for-aspnet-core-integration-tests)
+- [Compatibility and sample runtime matrix](docs/guide.md#compatibility)
 - [Migrate to MELT v2](docs/MIGRATION-v2.md)
 - [MELT v2 release notes](docs/RELEASE-NOTES-v2.md)
-- [Full MELT Documentation](docs/README.md)
+- [Full MELT Documentation](docs/guide.md)
 
 ## MELT v2 support policy
 
 MELT v2 is the current line for applications using
 `Microsoft.Extensions.Logging` 8.0.0 or later. The core packages target
-`netstandard2.0` and are actively supported on .NET 8 and later. The ASP.NET
-Core helper packages target .NET 8 and .NET 10.
+`netstandard2.0` and are actively supported on .NET 8, .NET 9, and .NET 10.
+The ASP.NET Core helper packages target .NET 8 and .NET 10.
 
 Use MELT 1.x if your application must remain on a Microsoft.Extensions
 dependency line earlier than 8.0 or uses the legacy ASP.NET Core helper stack.
