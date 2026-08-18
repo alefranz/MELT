@@ -168,7 +168,7 @@ reviewed independently.
 - A shared workflow action installs and reports the SDKs and runtimes used by
   validation, pack, and publish jobs so those lanes cannot diverge.
 
-### 6. Make the tag publishing job resolve repository-local actions - Completed
+### 6. Make the tag publishing job resolve repository-local actions - In progress
 
 **Scope**
 
@@ -188,6 +188,14 @@ reviewed independently.
 - The `publish` job checks out the repository before invoking the local .NET
   setup action, allowing tag-triggered runs to continue through artifact
   download to the NuGet push step.
+- The publish command targets the `.nupkg` files downloaded directly into
+  `./artifacts`, without relying on Bash `globstar`.
+
+**Remaining**
+
+- Run the `Build` workflow manually from the v2 branch with **dry_run_publish**
+  enabled. It packs and consumer-tests the packages, then pushes them to a
+  runner-local NuGet feed without publishing a real release.
 
 ### 7. Test the produced packages as consumer dependencies - Completed
 
