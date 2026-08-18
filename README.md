@@ -1,7 +1,7 @@
 # MELT
 
 <!-- markdownlint-disable no-inline-html -->
-<img align="right" width="256" height="256" src="logo_large.png" alt="A stylized 3D tree with golden-yellow spherical foliage on a wooden stump against a purple background" />
+<img align="right" width="256" height="256" src="logo_large.png" alt="A vibrant green tree sprouting from a freshly cut stump that is resting on a melting block of ice, all set within a dark blue circle" />
 <!-- markdownlint-enable no-inline-html -->
 
 _Testing Library for Microsoft Extensions Logging._
@@ -30,10 +30,50 @@ If you like this project please don't forget to **star** it on [GitHub](https://
 
 You can find an explanation on the advantages of using this library and the importance of testing logs on the blog post "[How to test logging when using Microsoft.Extensions.Logging](https://alessio.franceschelli.me/posts/dotnet/how-to-test-logging-when-using-microsoft-extensions-logging/)".
 
-This project supports all currently supported versions of .NET and ASP.NET Core, [including full framework](samples/2.1/SampleWebApplication2_1.IntegrationTests/). Please refer to the documentation for examples and compatibility details.
+Please refer to the documentation for examples and compatibility details.
 
 ## Documentation
 
-- [MELT Quickstart](https://github.com/alefranz/MELT/blob/v1.1.0/docs/README.md#quickstart)
-- [MELT Quickstart for ASP.NET Core integration tests](https://github.com/alefranz/MELT/blob/v1.1.0/docs/README.md#quickstart-for-aspnet-core-integration-tests)
-- [Full MELT Documentation](https://github.com/alefranz/MELT/blob/v1.1.0/docs/README.md)
+- [Documentation site](https://alefranz.github.io/MELT/)
+- [MELT Quickstart](docs/guide.md#quickstart)
+- [MELT Quickstart for ASP.NET Core integration tests](docs/guide.md#quickstart-for-aspnet-core-integration-tests)
+- [Compatibility and sample runtime matrix](docs/guide.md#compatibility)
+- [Migrate to MELT v2](docs/MIGRATION-v2.md)
+- [MELT v2 release notes](docs/RELEASE-NOTES-v2.md)
+- [Full MELT Documentation](docs/guide.md)
+
+## MELT v2 support policy
+
+MELT v2 is the current line for applications using
+`Microsoft.Extensions.Logging` 8.0.0 or later. The core packages target
+`netstandard2.0` and are actively supported on .NET 8, .NET 9, and .NET 10.
+The ASP.NET Core helper packages target .NET 8 and .NET 10.
+
+`MELT.Xunit.v3` supports xUnit.net v3 framework versions 3.x and 4.x. MELT
+keeps `xunit.v3.assert` 3.0.1 as its minimum dependency and validates the same
+logging assertions against both framework lines.
+
+Use the MELT 1.x legacy release line (latest: 1.1.0) if your application must
+remain on a Microsoft.Extensions dependency line earlier than 8.0, including
+classic .NET Framework applications pinned to older Extensions packages, or
+uses the legacy ASP.NET Core helper stack. .NET Framework 4.7.2 applications
+that can use Microsoft.Extensions 8.0.0 or later can instead use the v2 core
+packages on a best-effort basis. See the [v2 migration
+guide](docs/MIGRATION-v2.md) before upgrading.
+
+## Dependency maintenance
+
+Dependabot opens monthly pull requests for NuGet packages and GitHub Actions.
+Development-only and sample-only NuGet dependencies are grouped to keep reviews
+manageable.
+
+This library does not commit NuGet lock files. Direct package references specify
+exact versions, while normal restore intentionally exercises each supported
+target's transitive dependency resolution. The regular pull-request workflow,
+including Dependabot pull requests, runs the same named .NET 8, .NET 9, and
+.NET 10 validation job as other changes. That shared job installs and reports
+the complete SDK and runtime matrix before formatting, building, and testing.
+
+Dependabot does not update consumer-facing package references. Their versions
+define MELT's compatibility floors, so changes to them require a deliberate
+review of the supported targets, dependency graph, and release policy.

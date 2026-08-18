@@ -1,11 +1,13 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Events;
 using Xunit;
 
 namespace SampleWebApplicationSerilog.Tests
 {
+    [Collection("Serilog Test Collection")]
     public class LoggingTestWithInjectedFactory : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly CustomWebApplicationFactory<Startup> _factory;
@@ -15,10 +17,10 @@ namespace SampleWebApplicationSerilog.Tests
             _factory = factory;
             // In this case, the factory will be reused for all tests, so the sink will be shared as well.
             // We can clear the sink before each test execution, as xUnit will not run this tests in parallel.
-            _factory.GetTestLoggerSink().Clear();
+            _factory.GetSerilogTestLoggerSink().Clear();
             // When running on 2.x, the server is not initialized until it is explicitly started or the first client is created.
             // So we need to use:
-            // if (_factory.TryGetTestLoggerSink(out var testLoggerSink)) testLoggerSink.Clear();
+            // if (_factory.TryGetSerilogTestLoggerSink(out var testLoggerSink)) testLoggerSink.Clear();
         }
 
         [Fact]
@@ -30,9 +32,9 @@ namespace SampleWebApplicationSerilog.Tests
             await _factory.CreateDefaultClient().GetAsync("/");
 
             // Assert
-            var log = Assert.Single(_factory.GetTestLoggerSink().LogEntries);
+            var log = Assert.Single(_factory.GetSerilogTestLoggerSink().LogEntries);
             // Assert the message rendered by a default formatter
-            Assert.Equal("Hello World!", log.Message);
+            Assert.Equal("Hello \"World\"!", log.Message);
         }
 
         [Fact]
@@ -44,10 +46,10 @@ namespace SampleWebApplicationSerilog.Tests
             await _factory.CreateDefaultClient().GetAsync("/");
 
             // Assert
-            var log = Assert.Single(_factory.GetTestLoggerSink().LogEntries);
+            var log = Assert.Single(_factory.GetSerilogTestLoggerSink().LogEntries);
             var scope = Assert.Single(log.Scopes);
             // Assert the scope rendered by a default formatter
-            Assert.Equal("I'm in the GET scope", scope.Message);
+            Assert.Equal(new ScalarValue("I'm in the GET scope"), scope);
         }
 
         [Fact]
@@ -59,18 +61,38 @@ namespace SampleWebApplicationSerilog.Tests
             await _factory.CreateDefaultClient().GetAsync("/");
 
             // Assert
-            var scope = Assert.Single(_factory.GetTestLoggerSink().Scopes);
+            var log = Assert.Single(_factory.GetSerilogTestLoggerSink().LogEntries);
+            var scope = Assert.Single(log.Scopes);
             // Assert the scope rendered by a default formatter
-            Assert.Equal("I'm in the GET scope", scope.Message);
+            Assert.Equal(new ScalarValue("I'm in the GET scope"), scope);
         }
     }
 
     public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup>
          where TStartup : class
     {
+        public CustomWebApplicationFactory()
+        {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Verbose()
+                .Enrich.FromLogContext()
+                .WriteTo.Providers(Program.Providers)
+                .CreateLogger();
+        }
+
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder.UseTestLogging(options => options.FilterByNamespace(nameof(SampleWebApplicationSerilog)));
+            builder.UseSerilogTestLogging(options => options.FilterByNamespace(nameof(SampleWebApplicationSerilog)));
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                Log.CloseAndFlush();
+            }
+
+            base.Dispose(disposing);
         }
     }
 }
