@@ -4,6 +4,7 @@ extern alias xunit3;
 using MELT;
 using Microsoft.Extensions.Logging;
 #if HAS_ASPNETCORE
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 #endif
 
@@ -19,5 +20,5 @@ xunit2::Xunit.LoggingAssert.Contains("key", "value", new[] { new KeyValuePair<st
 xunit3::Xunit.LoggingAssert.Contains("key", "value", new[] { new KeyValuePair<string, object>("key", "value") });
 
 #if HAS_ASPNETCORE
-new WebHostBuilder().UseTestLogging().UseSerilogTestLogging();
+WebApplication.CreateBuilder().WebHost.UseTestLogging().UseSerilogTestLogging();
 #endif
