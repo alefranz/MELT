@@ -16,4 +16,9 @@ a promise of ongoing active support for .NET 8 or .NET 9 after their support
 ends. Consumers on Microsoft.Extensions versions earlier than 8.0, or on the
 legacy ASP.NET Core helper stack, should use the MELT 1.x line.
 
+`MELT.Xunit.v3` retains `xunit.v3.assert` 3.0.1 as its minimum dependency and
+is validated with xUnit.net v3 framework versions 3.x and 4.x. This allows
+applications to adopt xUnit 4 without forcing existing xUnit 3 users to
+upgrade.
+
 See [Migrate to MELT v2](MIGRATION-v2.md) for upgrade guidance.

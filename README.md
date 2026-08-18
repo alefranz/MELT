@@ -49,6 +49,10 @@ MELT v2 is the current line for applications using
 `netstandard2.0` and are actively supported on .NET 8, .NET 9, and .NET 10.
 The ASP.NET Core helper packages target .NET 8 and .NET 10.
 
+`MELT.Xunit.v3` supports xUnit.net v3 framework versions 3.x and 4.x. MELT
+keeps `xunit.v3.assert` 3.0.1 as its minimum dependency and validates the same
+logging assertions against both framework lines.
+
 Use MELT 1.x if your application must remain on a Microsoft.Extensions
 dependency line earlier than 8.0 or uses the legacy ASP.NET Core helper stack.
 See the [v2 migration guide](docs/MIGRATION-v2.md) before upgrading.

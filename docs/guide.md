@@ -244,6 +244,12 @@ The `MELT`, `MELT.Serilog`, `MELT.Xunit`, and `MELT.Xunit.v3` packages target
 .NET 9, and .NET 10. .NET Framework 4.7.2 is best-effort compatibility for these core
 packages and is not covered by CI.
 
+`MELT.Xunit.v3` supports xUnit.net v3 framework versions 3.x and 4.x. Its
+minimum `xunit.v3.assert` dependency remains 3.0.1, and dedicated samples run
+the same MELT assertions against both framework lines. Projects using xUnit
+4.x should choose the xUnit package variant appropriate for their runner; MELT
+does not require Microsoft Testing Platform or VSTest specifically.
+
 The ASP.NET Core helper packages target .NET 8 and .NET 10. They use the
 corresponding modern ASP.NET Core testing stacks; MELT v2 does not support the
 legacy ASP.NET Core 2.1 helper dependencies.

@@ -47,6 +47,8 @@ reviewed independently.
 - Document 1.x as the legacy line for consumers using Microsoft.Extensions
   versions earlier than 8.0 or legacy ASP.NET Core helpers. Do not backport the
   v2 target or dependency changes to 1.x.
+- Keep `xunit.v3.assert` 3.0.1 as the `MELT.Xunit.v3` compatibility floor and
+  validate the package against both xUnit.net v3 framework 3.x and 4.x.
 
 ## Release backlog
 
@@ -241,6 +243,28 @@ reviewed independently.
   report contains an error, or any direct or transitive package includes a
   vulnerability advisory.
 
+### 9. Validate xUnit.net v3 framework 4.x compatibility - Completed
+
+**Scope**
+
+- Retain the xUnit.net v3 framework 3.2.2 sample as the compatibility floor
+  validation without raising `MELT.Xunit.v3`'s `xunit.v3.assert` dependency.
+- Add an xUnit.net v3 framework 4.0.0 sample that runs the same MELT assertions
+  under the repository's VSTest-based .NET 10 test flow.
+- Document compatibility with both framework 3.x and 4.x.
+
+**Done when**
+
+- Both xUnit sample projects run as part of solution validation and exercise
+  the same MELT logging assertions.
+
+**Completed**
+
+- `SampleLibraryX3.Tests` continues to test xUnit.net v3 framework 3.2.2.
+- `SampleLibraryXunit4.Tests` links the same test sources and passes all 13
+  tests with `xunit.v3.mtp-off` 4.0.0, the xUnit-provided package for retaining
+  VSTest execution on .NET 10.
+
 ## Post-November 2026 maintenance
 
 ### Retire the .NET 8 and .NET 9 active validation lanes
@@ -261,6 +285,8 @@ reviewed independently.
 - Core packages and dedicated .NET 8 samples build and run targeting .NET 8;
   the default solution builds, tests, and packs targeting .NET 10.
 - Unit tests and all retained current/legacy/xUnit sample tests pass on CI.
+- The shared xUnit sample assertions pass with xUnit.net v3 framework 3.x and
+  4.x without raising the `MELT.Xunit.v3` package's 3.0.1 dependency floor.
 - The ASP.NET Core helper packages are tested through the standard, NLog, and
   Serilog integration samples on .NET 8 and .NET 10, with the named standard
   web compatibility variant also tested on .NET 9.
@@ -282,4 +308,5 @@ reviewed independently.
 5. Align maintenance automation with the supported runtime lanes.
 6. Repair and validate the tag publishing path.
 7. Test the packed artifacts as consumer dependencies.
-8. Complete the transitive vulnerability gate and publish v2.
+8. Complete the transitive vulnerability gate.
+9. Validate xUnit.net v3 framework 4.x compatibility and publish v2.
