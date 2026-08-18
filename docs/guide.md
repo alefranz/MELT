@@ -208,9 +208,6 @@ See [Samples](https://github.com/alefranz/MELT/tree/main/samples)
             // In this case, the factory will be reused for all tests, so the sink will be shared as well.
             // We can clear the sink before each test execution because xUnit will not run these tests in parallel.
             _factory.GetTestLoggerSink().Clear();
-            // When running on 2.x, the server is not initialized until it is explicitly started or the first client is created.
-            // So we need to use:
-            // if (_factory.TryGetTestLoggerSink(out var testLoggerSink)) testLoggerSink.Clear();
         }
     }
     ```
@@ -258,9 +255,16 @@ legacy ASP.NET Core 2.1 helper dependencies.
 
 The core packages retain a `netstandard2.0` asset. Dedicated .NET 8 samples
 validate the minimum supported dependency baseline, while the default samples
-and core test suites run on .NET 10. The explicitly named
-`SampleWebApplication.Net9` sample and its integration tests cover the .NET 9
-web compatibility variant; they are not the default target.
+and core test suites run on .NET 10:
+
+- [.NET 8 core package sample](https://github.com/alefranz/MELT/tree/main/samples/current/SampleLibrary.Net8.Tests)
+- [.NET 8 ASP.NET Core sample](https://github.com/alefranz/MELT/tree/main/samples/current/SampleWebApplication.Net8.IntegrationTests)
+- [.NET 9 ASP.NET Core sample](https://github.com/alefranz/MELT/tree/main/samples/current/SampleWebApplication.Net9.IntegrationTests)
+- [xUnit.net v3 sample](https://github.com/alefranz/MELT/tree/main/samples/xunit-3/SampleLibraryX3.Tests)
+- [xUnit.net v4 sample](https://github.com/alefranz/MELT/tree/main/samples/xunit-4/SampleLibraryXunit4.Tests)
+
+The explicitly named .NET 8 and .NET 9 web samples are compatibility variants;
+they are not the default target.
 
 ### MELT v2 migration and release notes
 
@@ -414,9 +418,6 @@ including Serilog-specific behaviour such as object expansion.
             // In this case, the factory will be reused for all tests, so the sink will be shared as well.
             // We can clear the sink before each test execution, as xUnit will not run this tests in parallel.
             _factory.GetSerilogTestLoggerSink().Clear();
-            // When running on 2.x, the server is not initialized until it is explicitly started or the first client is created.
-            // So we need to use:
-            // if (_factory.TryGetSerilogTestLoggerSink(out var testLoggerSink)) testLoggerSink.Clear();
         }
     }
     ```

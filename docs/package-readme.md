@@ -4,9 +4,9 @@ Testing library for `Microsoft.Extensions.Logging`.
 
 ## Install
 
-```xml
-<PackageReference Include="MELT" Version="__MELT_VERSION__" />
-```
+Install version `__MELT_VERSION__` of the MELT package shown on this NuGet page.
+For package selection and setup instructions, see the
+[MELT documentation](https://alefranz.github.io/MELT/).
 
 MELT v2 requires `Microsoft.Extensions.Logging` 8.0.0 or later. Create a test
 logger factory, pass a logger to the system under test, then assert against the
