@@ -251,6 +251,12 @@ The ASP.NET Core helper packages target .NET 8 and .NET 10. They use the
 corresponding modern ASP.NET Core testing stacks; MELT v2 does not support the
 legacy ASP.NET Core 2.1 helper dependencies.
 
+Use the MELT 1.x legacy release line (latest: 1.1.0) for Microsoft.Extensions
+versions earlier than 8.0, including classic .NET Framework applications pinned
+to older Extensions packages, or for the legacy ASP.NET Core helper stack. A
+.NET Framework 4.7.2 application that can use Microsoft.Extensions 8.0.0 or
+later can instead use the v2 core packages on a best-effort basis.
+
 ### Sample runtime matrix
 
 The core packages retain a `netstandard2.0` asset. Dedicated .NET 8 samples
@@ -269,9 +275,11 @@ they are not the default target.
 ### MELT v2 migration and release notes
 
 MELT v2 is the current release line. Applications using a Microsoft.Extensions
-dependency line earlier than 8.0, or legacy ASP.NET Core helpers, should remain
-on MELT 1.x. See the [v2 migration guide](https://github.com/alefranz/MELT/blob/main/docs/MIGRATION-v2.md)
-and [v2 release notes](https://github.com/alefranz/MELT/blob/main/docs/RELEASE-NOTES-v2.md)
+dependency line earlier than 8.0, including classic .NET Framework applications
+pinned to older Extensions packages, or legacy ASP.NET Core helpers, should use
+the MELT 1.x legacy release line (latest: 1.1.0). See the [v2 migration
+guide](https://github.com/alefranz/MELT/blob/main/docs/MIGRATION-v2.md) and
+[v2 release notes](https://github.com/alefranz/MELT/blob/main/docs/RELEASE-NOTES-v2.md)
 for the breaking support-policy change.
 
 ## Serilog compatibility using Serilog.Extensions.Logging

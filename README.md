@@ -53,9 +53,13 @@ The ASP.NET Core helper packages target .NET 8 and .NET 10.
 keeps `xunit.v3.assert` 3.0.1 as its minimum dependency and validates the same
 logging assertions against both framework lines.
 
-Use MELT 1.x if your application must remain on a Microsoft.Extensions
-dependency line earlier than 8.0 or uses the legacy ASP.NET Core helper stack.
-See the [v2 migration guide](docs/MIGRATION-v2.md) before upgrading.
+Use the MELT 1.x legacy release line (latest: 1.1.0) if your application must
+remain on a Microsoft.Extensions dependency line earlier than 8.0, including
+classic .NET Framework applications pinned to older Extensions packages, or
+uses the legacy ASP.NET Core helper stack. .NET Framework 4.7.2 applications
+that can use Microsoft.Extensions 8.0.0 or later can instead use the v2 core
+packages on a best-effort basis. See the [v2 migration
+guide](docs/MIGRATION-v2.md) before upgrading.
 
 ## Dependency maintenance
 

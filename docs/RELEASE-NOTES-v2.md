@@ -14,7 +14,11 @@ This baseline follows the [.NET support policy](https://dotnet.microsoft.com/pla
 The 8.0 dependency floor establishes initial package compatibility; it is not
 a promise of ongoing active support for .NET 8 or .NET 9 after their support
 ends. Consumers on Microsoft.Extensions versions earlier than 8.0, or on the
-legacy ASP.NET Core helper stack, should use the MELT 1.x line.
+legacy ASP.NET Core helper stack, should use the MELT 1.x legacy release line
+(latest: 1.1.0). This includes classic .NET Framework applications pinned to
+older Microsoft.Extensions packages; .NET Framework 4.7.2 applications that
+can use Microsoft.Extensions 8.0.0 or later may use the v2 core packages on a
+best-effort basis.
 
 `MELT.Xunit.v3` retains `xunit.v3.assert` 3.0.1 as its minimum dependency and
 is validated with xUnit.net v3 framework versions 3.x and 4.x. This allows

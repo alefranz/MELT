@@ -12,9 +12,13 @@ Microsoft.Extensions 8.0 dependency line. The core packages (`MELT`,
 `netstandard2.0` assets. .NET Framework 4.7.2 remains best-effort compatible
 for these core packages, but is not covered by CI.
 
-Stay on MELT 1.x if your application uses Microsoft.Extensions packages before
-8.0, or relies on the legacy ASP.NET Core helper dependencies. MELT v2 no
-longer supports the ASP.NET Core 2.1 testing stack.
+Stay on the MELT 1.x legacy release line (latest: 1.1.0) if your application
+uses Microsoft.Extensions packages before 8.0, including a classic .NET
+Framework application pinned to older Extensions packages, or relies on the
+legacy ASP.NET Core helper dependencies. MELT v2 no longer supports the ASP.NET
+Core 2.1 testing stack. A .NET Framework 4.7.2 application that can use
+Microsoft.Extensions 8.0.0 or later can instead use the v2 core packages on a
+best-effort basis.
 
 ## Upgrade steps
 

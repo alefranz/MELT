@@ -17,6 +17,11 @@ packages target `netstandard2.0`; active support covers .NET 8, .NET 9, and
 .NET 10.
 The ASP.NET Core helper packages target .NET 8 and .NET 10.
 
+For applications on Microsoft.Extensions versions earlier than 8.0, including
+classic .NET Framework applications pinned to older Extensions packages, or
+the legacy ASP.NET Core helper stack, use the MELT 1.x legacy release line
+(latest: 1.1.0).
+
 - [Migrate to MELT v2](MIGRATION-v2.md)
 - [MELT v2 release notes](RELEASE-NOTES-v2.md)
 - [Project repository](https://github.com/alefranz/MELT)

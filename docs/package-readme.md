@@ -19,6 +19,11 @@ The core packages (`MELT`, `MELT.Serilog`, `MELT.Xunit`, and
 .NET 9, and .NET 10. The ASP.NET Core helper packages target .NET 8 and .NET
 10.
 
+Applications using Microsoft.Extensions versions earlier than 8.0, including
+classic .NET Framework applications pinned to older Extensions packages, or
+the legacy ASP.NET Core helper stack should use the MELT 1.x legacy release
+line (latest: 1.1.0).
+
 ## Documentation
 
 [Read the documentation for MELT __MELT_VERSION__](https://github.com/alefranz/MELT/tree/v__MELT_VERSION__/docs/guide.md).
