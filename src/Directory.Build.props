@@ -11,7 +11,7 @@
     <PackageIcon>logo.png</PackageIcon>
     <RepositoryUrl>https://github.com/alefranz/MELT.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>https://github.com/alefranz/MELT/releases</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/alefranz/MELT/blob/main/docs/RELEASE-NOTES-v2.md</PackageReleaseNotes>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
@@ -29,12 +29,27 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.301" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)../logo.png" Pack="true" PackagePath="" />
-    <None Include="$(MSBuildThisFileDirectory)../docs/README.md" Pack="true" PackagePath="" />
+    <None Include="$(BaseIntermediateOutputPath)package-readme/README.md" Pack="true" PackagePath="" />
   </ItemGroup>
+
+  <Target Name="GeneratePackageReadme" BeforeTargets="GenerateNuspec">
+    <ReadLinesFromFile File="$(MSBuildThisFileDirectory)../docs/package-readme.md">
+      <Output TaskParameter="Lines" ItemName="PackageReadmeTemplateLine" />
+    </ReadLinesFromFile>
+    <ItemGroup>
+      <PackageReadmeLine Include="@(PackageReadmeTemplateLine)">
+        <RenderedLine>$([System.String]::Copy('%(Identity)').Replace('__MELT_VERSION__', '$(Version)'))</RenderedLine>
+      </PackageReadmeLine>
+    </ItemGroup>
+    <WriteLinesToFile
+      File="$(BaseIntermediateOutputPath)package-readme/README.md"
+      Lines="@(PackageReadmeLine->'%(RenderedLine)')"
+      Overwrite="true" />
+  </Target>
 
 </Project>

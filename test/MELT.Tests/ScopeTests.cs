@@ -128,13 +128,13 @@ namespace MELT.Tests
             var scopeC = logger.BeginScope("Scope C");
             logger.LogInformation("Message 3");
             // Disposing B also removes C
-            scopeB.Dispose();
+            scopeB!.Dispose();
             logger.LogInformation("Message 4");
             // Disposing C restore B (as well as its parent A)
-            scopeC.Dispose();
+            scopeC!.Dispose();
             logger.LogInformation("Message 5");
             // Disposing A also removes B
-            scopeA.Dispose();
+            scopeA!.Dispose();
             logger.LogInformation("Message 6");
 
             //Assert

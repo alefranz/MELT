@@ -39,10 +39,10 @@ namespace SampleWebApplicationSerilogAlternate
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UseSerilog(providers: Providers)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>()
-                        .UseSerilog(providers: Providers);
+                    webBuilder.UseStartup<Startup>();
                 });
     }
 }

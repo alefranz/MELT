@@ -4,30 +4,16 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Serilog;
-using Serilog.Events;
 
 namespace SampleWebApplicationSerilog
 {
     public class Startup
     {
-        public Startup()
-        {
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-                .Enrich.FromLogContext()
-                .WriteTo.Console()
-                .CreateLogger();
-        }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddLogging(loggingBuilder => loggingBuilder
-                    .ClearProviders()
-                    .AddSerilog(dispose: true));
+            services.AddLogging(loggingBuilder => loggingBuilder.ClearProviders());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

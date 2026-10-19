@@ -21,7 +21,7 @@ namespace MELT
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddLogging(builder => builder.AddTestLogger(sink));
             _serviceProvider = serviceCollection.BuildServiceProvider();
-            _loggerFactory = _serviceProvider.GetService<ILoggerFactory>();
+            _loggerFactory = _serviceProvider.GetRequiredService<ILoggerFactory>();
         }
 
         [Obsolete]
@@ -39,9 +39,7 @@ namespace MELT
             _loggerFactory = loggerFactory;
             _serviceProvider = serviceProvider;
 
-            // Unfortunately there is a breaking change in 3.1 which causes an exception on BeginScope:
-            // System.TypeLoadException : Could not load type 'Microsoft.Extensions.Logging.Abstractions.Internal.NullScope' from assembly 'Microsoft.Extensions.Logging.Abstractions, Version=3.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60'.
-
+            // A consumer can resolve Logging below Logging.Abstractions when it pins packages independently.
             var dependencyVersion = loggerFactory.GetType().Assembly.GetName().Version;
             var abstractionsVersion = typeof(ILoggerFactory).Assembly.GetName().Version;
             if (dependencyVersion.Major < abstractionsVersion.Major)
@@ -84,7 +82,7 @@ namespace MELT
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddLogging(builder => builder.AddTest().SetMinimumLevel(LogLevel.Trace));
             var serviceProvider = serviceCollection.BuildServiceProvider();
-            var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+            var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
             return new TestLoggerFactory(loggerFactory, serviceProvider);
         }
 
@@ -99,7 +97,7 @@ namespace MELT
             serviceCollection.AddLogging(builder => builder.AddTest().SetMinimumLevel(LogLevel.Trace));
             serviceCollection.AddLogging(configure);
             var serviceProvider = serviceCollection.BuildServiceProvider();
-            var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+            var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
             return new TestLoggerFactory(loggerFactory, serviceProvider);
         }
 
@@ -113,7 +111,7 @@ namespace MELT
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddLogging(builder => builder.AddTest(configure).SetMinimumLevel(LogLevel.Trace));
             var serviceProvider = serviceCollection.BuildServiceProvider();
-            var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+            var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
             return new TestLoggerFactory(loggerFactory, serviceProvider);
         }
     }

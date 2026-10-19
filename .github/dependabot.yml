@@ -1,0 +1,42 @@
+version: 2
+updates:
+  - package-ecosystem: nuget
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      development-dependencies:
+        patterns:
+          - "Microsoft.NET.Test.Sdk"
+          - "Microsoft.SourceLink.GitHub"
+          - "coverlet.collector"
+          - "xunit"
+          - "xunit.v3"
+          - "xunit.runner.visualstudio"
+      sample-dependencies:
+        patterns:
+          - "NLog"
+          - "NLog.Web.AspNetCore"
+          - "Serilog.AspNetCore"
+          - "Serilog.Sinks.Console"
+    ignore:
+      # Published package references define MELT's consumer compatibility floors.
+      - dependency-name: "Microsoft.AspNetCore.Mvc.Testing"
+      - dependency-name: "Microsoft.Extensions.DependencyInjection"
+      - dependency-name: "Microsoft.Extensions.DependencyInjection.Abstractions"
+      - dependency-name: "Microsoft.Extensions.Logging"
+      - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
+      - dependency-name: "Serilog"
+      - dependency-name: "Serilog.Extensions.Logging"
+      - dependency-name: "xunit.abstractions"
+      - dependency-name: "xunit.assert"
+      - dependency-name: "xunit.v3.assert"
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      github-actions:
+        patterns:
+          - "*"

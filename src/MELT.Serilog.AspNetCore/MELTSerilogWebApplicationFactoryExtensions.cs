@@ -34,7 +34,7 @@ namespace Microsoft.AspNetCore.Mvc.Testing
         public static bool TryGetTestLoggerSink<TStartup>(this WebApplicationFactory<TStartup> factory, out ISerilogTestLoggerSink? loggerSink)
             where TStartup : class
         {
-            if (MELTWebApplicationFactoryExtensions.TryGetServices(factory, out var services))
+            if (MELTWebApplicationFactoryExtensions.TryGetServices(factory, out var services) && services != null)
             {
                 loggerSink = services.GetService<ISerilogTestLoggerSink>();
                 return loggerSink != null;

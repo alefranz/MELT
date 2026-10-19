@@ -6,66 +6,89 @@ on:
       - main
     tags:
       - '**'
+  # This standard PR trigger deliberately includes Dependabot pull requests.
+  # Dependency updates must run the same validation job as every other PR.
   pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+  workflow_dispatch:
+    inputs:
+      dry_run_publish:
+        description: Push packed packages to a runner-local feed after consumer validation
+        required: true
+        default: true
+        type: boolean
 
 jobs:
-  format:
+  validate:
+    name: Validate .NET 8, .NET 9, and .NET 10
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-    - name: Setup .NET 9.0
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 9.0.x
-    - name: Format
-      run: dotnet format --verify-no-changes MELT.CI.slnf
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: Setup .NET 9.0
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 9.0.x
-    - name: Build
-      run: dotnet build --configuration Release MELT.CI.slnf
-    - name: Test
-      run: dotnet test --no-build --configuration Release MELT.CI.slnf
+    - name: Set up validation matrix
+      uses: ./.github/actions/setup-melt-dotnet
+    - name: Format, build, and test
+      run: pwsh ./build.ps1
   pack:
     runs-on: ubuntu-latest
-    needs: build
-    if: github.event_name == 'push'
+    needs: validate
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     steps:
     - name: Checkout
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
-    - name: Setup .NET 9.0
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 9.0.x
+    - name: Set up validation matrix
+      uses: ./.github/actions/setup-melt-dotnet
     - name: Determine version
       run: echo "VERSION=$(git describe --tags --dirty | sed 's/^v//')" >> $GITHUB_ENV
     - name: Pack
-      run: dotnet pack --output ./artifacts --configuration Release -p:Version=$VERSION MELT.CI.slnf
+      run: dotnet pack --output ./artifacts --configuration Release -p:Version=$VERSION MELT.sln
+    - name: Audit direct and transitive dependencies
+      shell: pwsh
+      run: ./\.github/scripts/test-vulnerable-dependencies.ps1 -ReportPath ./artifacts/vulnerability-report.json
     - uses: actions/upload-artifact@v4
       with:
         name: artifacts
         path: ./artifacts
-  publish:
+  consumer-smoke:
+    name: Test packed packages as consumers
     runs-on: ubuntu-latest
     needs: pack
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     steps:
-    - name: Setup .NET 9.0
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 9.0.x
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Set up validation matrix
+      uses: ./.github/actions/setup-melt-dotnet
     - uses: actions/download-artifact@v4
       with:
         name: artifacts
         path: ./artifacts
+    - name: Restore and run package consumers
+      shell: pwsh
+      run: ./\.github/scripts/test-packed-consumers.ps1 -PackageDirectory ./artifacts
+  publish:
+    runs-on: ubuntu-latest
+    needs: consumer-smoke
+    if: (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) || (github.event_name == 'workflow_dispatch' && inputs.dry_run_publish)
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Set up validation matrix
+      uses: ./.github/actions/setup-melt-dotnet
+    - uses: actions/download-artifact@v4
+      with:
+        name: artifacts
+        path: ./artifacts
+    - name: Dry-run package publishing
+      if: github.event_name == 'workflow_dispatch'
+      run: |
+        mkdir ./dry-run-feed
+        dotnet nuget push ./artifacts/*.nupkg --source ./dry-run-feed --skip-duplicate
+        find ./dry-run-feed -type f -name '*.nupkg' -print | grep -q .
     - name: Publish packages
-      run: dotnet nuget push ./artifacts/**/*.nupkg --source nuget.org --api-key ${{secrets.NUGET_TOKEN}} --skip-duplicate
+      if: github.event_name == 'push'
+      run: dotnet nuget push ./artifacts/*.nupkg --source nuget.org --api-key ${{secrets.NUGET_TOKEN}} --skip-duplicate

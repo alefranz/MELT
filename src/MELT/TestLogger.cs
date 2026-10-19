@@ -15,7 +15,7 @@ namespace MELT
 #pragma warning disable CS0612 // Type or member is obsolete
         private readonly ITestSink _sink;
 
-        private readonly AsyncLocal<TestScope> _currentScope = new AsyncLocal<TestScope>();
+        private readonly AsyncLocal<TestScope?> _currentScope = new AsyncLocal<TestScope?>();
 
         public TestLogger(string name, ITestSink sink)
         {
@@ -26,7 +26,8 @@ namespace MELT
 
         public string Name { get; }
 
-        public IDisposable BeginScope<TState>(TState state)
+        public IDisposable? BeginScope<TState>(TState state)
+            where TState : notnull
         {
 #pragma warning disable CS0612 // Type or member is obsolete
             _sink.BeginScope(new BeginScopeContext(Name, state));
@@ -39,7 +40,7 @@ namespace MELT
 #pragma warning restore CS0612 // Type or member is obsolete
         }
 
-        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
         {
             if (!IsEnabled(logLevel))
             {
@@ -78,14 +79,14 @@ namespace MELT
             private readonly TestLogger _logger;
             private bool _isDisposed;
 
-            internal TestScope(TestLogger logger, object? state, TestScope parent)
+            internal TestScope(TestLogger logger, object? state, TestScope? parent)
             {
                 _logger = logger;
                 State = state;
                 Parent = parent;
             }
 
-            public TestScope Parent { get; }
+            public TestScope? Parent { get; }
 
             public object? State { get; }
 

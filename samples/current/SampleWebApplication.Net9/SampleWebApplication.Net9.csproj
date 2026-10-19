@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\SampleWebApplication\Program.cs" Link="Program.cs" />
+    <Compile Include="..\SampleWebApplication\Startup.cs" Link="Startup.cs" />
+    <Content Include="..\SampleWebApplication\appsettings*.json" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\SampleWebApplication\Properties\launchSettings.json" Link="Properties\launchSettings.json" />
+  </ItemGroup>
+
+</Project>
