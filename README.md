@@ -52,7 +52,7 @@ packages target `netstandard2.0` and are actively supported on .NET 10 and
 both .NET 10 and .NET 11.
 
 `MELT.Xunit.v3` supports xUnit.net v3 framework versions 3.x and 4.x. MELT
-keeps `xunit.v3.assert` 3.0.1 as its minimum dependency and validates the same
+uses `xunit.v3.assert` 3.0.0 as its minimum dependency and validates the same
 logging assertions against both framework lines.
 
 Use the MELT 1.x legacy release line (latest: 1.1.0) if your application must

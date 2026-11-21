@@ -11,6 +11,7 @@ updates:
           - "coverlet.collector"
           - "xunit"
           - "xunit.v3"
+          - "xunit.v3.mtp-off"
           - "xunit.runner.visualstudio"
       sample-dependencies:
         patterns:
@@ -27,7 +28,6 @@ updates:
       - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
       - dependency-name: "Serilog"
       - dependency-name: "Serilog.Extensions.Logging"
-      - dependency-name: "xunit.abstractions"
       - dependency-name: "xunit.assert"
       - dependency-name: "xunit.v3.assert"
 

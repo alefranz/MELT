@@ -20,7 +20,7 @@ MELT v2 targets the actively supported .NET platform:
   Target `net10.0` with `Microsoft.AspNetCore.Mvc.Testing` `10.0.0` (validated
   for both .NET 10 and .NET 11 applications) and remove the legacy ASP.NET Core
   2.1 helper stack.
-- **xUnit v3/v4 support (`MELT.Xunit.v3`):** Retains `xunit.v3.assert` `3.0.1`
+- **xUnit v3/v4 support (`MELT.Xunit.v3`):** Uses `xunit.v3.assert` `3.0.0`
   as its minimum dependency and is validated with xUnit.net v3 framework
   versions 3.x and 4.x.
 
