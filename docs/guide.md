@@ -247,7 +247,7 @@ technically incompatible if your application can resolve
 and not covered by CI.
 
 `MELT.Xunit.v3` supports xUnit.net v3 framework versions 3.x and 4.x. Its
-minimum `xunit.v3.assert` dependency remains 3.0.1, and dedicated samples run
+minimum `xunit.v3.assert` dependency is 3.0.0, and dedicated samples run
 the same MELT assertions against both framework lines. Projects using xUnit
 4.x should choose the xUnit package variant appropriate for their runner; MELT
 does not require Microsoft Testing Platform or VSTest specifically.
