@@ -27,6 +27,6 @@ in v2 should use the MELT 1.x legacy release line (latest: 1.1.0).
 
 ## Documentation
 
-[Read the documentation for MELT __MELT_VERSION__](https://github.com/alefranz/MELT/tree/v__MELT_VERSION__/docs/guide.md).
+[Read the documentation for MELT __MELT_VERSION__](https://github.com/alefranz/MELT/blob/__MELT_COMMIT__/docs/guide.md).
 
 For the latest documentation, visit [alefranz.github.io/MELT](https://alefranz.github.io/MELT/).

@@ -65,6 +65,10 @@ jobs:
         echo "VERSION=$version" >> "$GITHUB_ENV"
     - name: Pack
       run: dotnet pack --output ./artifacts --configuration Release "-p:Version=$VERSION" MELT.sln
+    - name: Verify package artifacts and Source Link
+      run: |
+        commit="$(git rev-parse HEAD)"
+        dotnet run --project test/PackageArtifactVerifier/PackageArtifactVerifier.csproj -- --package-dir ./artifacts --expected-commit "$commit" --require-deterministic-paths
     - name: Audit direct and transitive dependencies
       shell: pwsh
       run: ./\.github/scripts/test-vulnerable-dependencies.ps1 -ReportPath ./artifacts/vulnerability-report.json
