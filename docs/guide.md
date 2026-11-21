@@ -290,19 +290,9 @@ for the breaking support-policy and API changes.
 
 ## Serilog compatibility using Serilog.Extensions.Logging
 
-If you are using [Serilog.Extensions.Logging](https://github.com/serilog/serilog-extensions-logging) the integration is straightforward as this library is fully compliant with `Microsoft.Extensions.Logging`.
+If you are using [Serilog.Extensions.Logging](https://github.com/serilog/serilog-extensions-logging) as a standard `Microsoft.Extensions.Logging` provider (without calling host-level `UseSerilog`), the integration is straightforward as this library is fully compliant with `Microsoft.Extensions.Logging`.
 
-Follow the main instructions: using Serilog as the provider does not alter MELT's behaviour.
-
-The `SampleWebApplicationSerilog` sample pins the supported Serilog `4.2.0`
-and Serilog.Extensions.Logging `10.0.0` minimum. The
-`SampleWebApplicationSerilogAlternate` sample pins Serilog `4.4.0` and
-Serilog.AspNetCore `10.0.0` to validate the current major line.
-
-### Full example
-
-See [LoggingTest](https://github.com/alefranz/MELT/blob/main/samples/current/serilog/SampleWebApplicationSerilog.IntegrationTests/LoggingTest.cs) or
-[LoggingTestWithInjectedFactory](https://github.com/alefranz/MELT/blob/main/samples/current/serilog/SampleWebApplicationSerilog.IntegrationTests/LoggingTestWithInjectedFactory.cs).
+Follow the main `UseTestLogging` / `AddTest` instructions: using Serilog as a logging provider does not alter MELT's behaviour and does not require `MELT.Serilog`.
 
 ## Serilog compatibility using Serilog.AspNetCore
 
@@ -407,10 +397,12 @@ including Serilog-specific behaviour such as object expansion.
 
             protected override void Dispose(bool disposing)
             {
-                if (true)
+                if (disposing)
                 {
                     Log.CloseAndFlush();
                 }
+
+                base.Dispose(disposing);
             }
         }
     }
@@ -538,10 +530,10 @@ You can assert against every characteristic of a log entry: `EventId`,
 `Exception`, `LoggerName`, `LogLevel`, `Message`, `Properties`,
 `OriginalFormat`, and `Scopes`.
 
-### Full example
+### Full examples
 
-See [LoggingTest](https://github.com/alefranz/MELT/blob/main/samples/current/serilog/SampleWebApplicationSerilogAlternate.IntegrationTests/LoggingTest.cs) or
-[LoggingTestWithInjectedFactory](https://github.com/alefranz/MELT/blob/main/samples/current/serilog/SampleWebApplicationSerilogAlternate.IntegrationTests/LoggingTestWithInjectedFactory.cs).
+- `SampleWebApplicationSerilog` (pins the minimum supported `Serilog` `4.2.0` and `Serilog.Extensions.Logging` `10.0.0` with `Serilog.AspNetCore` `9.0.0`): [LoggingTest](https://github.com/alefranz/MELT/blob/main/samples/current/serilog/SampleWebApplicationSerilog.IntegrationTests/LoggingTest.cs) and [LoggingTestWithInjectedFactory](https://github.com/alefranz/MELT/blob/main/samples/current/serilog/SampleWebApplicationSerilog.IntegrationTests/LoggingTestWithInjectedFactory.cs).
+- `SampleWebApplicationSerilogAlternate` (pins `Serilog` `4.4.0` and `Serilog.AspNetCore` `10.0.0` to validate the current major line): [LoggingTest](https://github.com/alefranz/MELT/blob/main/samples/current/serilog/SampleWebApplicationSerilogAlternate.IntegrationTests/LoggingTest.cs) and [LoggingTestWithInjectedFactory](https://github.com/alefranz/MELT/blob/main/samples/current/serilog/SampleWebApplicationSerilogAlternate.IntegrationTests/LoggingTestWithInjectedFactory.cs).
 
 ## NLog compatibility using NLog.Web.AspNetCore
 
