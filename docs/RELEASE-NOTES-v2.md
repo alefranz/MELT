@@ -24,18 +24,22 @@ MELT v2 targets the actively supported .NET platform:
   as its minimum dependency and is validated with xUnit.net v3 framework
   versions 3.x and 4.x.
 
-Consumers on earlier `Microsoft.Extensions` versions (including .NET 8/9 or
-classic .NET Framework applications pinned to older Extensions packages),
-Serilog 3.x, or the legacy ASP.NET Core 2.1 helper stack should remain on the
-MELT 1.x legacy release line (latest: `1.1.0`). .NET Framework 4.7.2+
-applications that can use `Microsoft.Extensions` 10.0.0 or later may use the v2
-core `netstandard2.0` packages on a best-effort basis without CI coverage.
+Consumers pinned to earlier `Microsoft.Extensions` versions (including .NET 8/9
+or classic .NET Framework applications on older Extensions packages), Serilog
+3.x, or the legacy ASP.NET Core 2.1 helper stack should remain on the MELT 1.x
+legacy release line (latest: `1.1.0`). Because the v2 core packages still
+target `netstandard2.0`, an unsupported runtime (.NET 8, .NET 9, or .NET
+Framework 4.7.2+) is not necessarily technically incompatible if it can use
+`Microsoft.Extensions` 10.0.0 or later, though it is outside active support
+and CI coverage. By contrast, `MELT.AspNetCore` and `MELT.Serilog.AspNetCore`
+target `net10.0` and strictly require .NET 10 or later.
 
-## Breaking API and sample removals
+## Breaking API changes and removals
 
-MELT v2 removes all APIs previously marked `[Obsolete]` in 1.x and consolidates
-log capture around a single internal sink store (`ITestLoggerSink` /
-`ISerilogTestLoggerSink`):
+MELT v2 removes all APIs previously marked `[Obsolete]` in 1.x, renames the
+Serilog `TryGet` accessor for consistency, updates repeated builder
+registration semantics, and consolidates log capture around a single internal
+sink store (`ITestLoggerSink` / `ISerilogTestLoggerSink`):
 
 - Removed the legacy sink model (`ITestSink`, `IInternalTestSink`, `TestSink`,
   `WriteContext`, `BeginScopeContext`, and `MELTBuilder`).
@@ -50,6 +54,14 @@ log capture around a single internal sink store (`ITestLoggerSink` /
 - Removed singular/legacy entry aliases (`LogEntry.Format`, `LogEntry.Scope`,
   `SerilogLogEntry(WriteContext)`, and `SerilogLogEntry.Scope`).
 - Removed `MELT.Xunit.LogValuesAssert` in favor of `Xunit.LoggingAssert`.
+- Renamed `MELTSerilogWebApplicationFactoryExtensions.TryGetTestLoggerSink(...)`
+  to `TryGetSerilogTestLoggerSink(...)` to match `GetSerilogTestLoggerSink()`
+  and avoid ambiguity with `MELTWebApplicationFactoryExtensions.TryGetTestLoggerSink(...)`.
+- Changed repeated logger registration semantics: repeated calls to
+  `AddTest(...)` / `AddSerilogTest(...)` (and `UseTestLogging(...)` /
+  `UseSerilogTestLogging(...)`) now replace any previously registered MELT
+  `TestLoggerProvider` and sink so the latest configuration wins instead of
+  leaving multiple provider registrations.
 - Removed the legacy sample projects under `samples/legacy/` and the
   .NET 8/.NET 9 compatibility sample projects.
 

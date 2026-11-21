@@ -77,7 +77,7 @@ Assert.Equal("I'm in the GET scope", scope.Message);
 
 ### Assert log original format
 
-The original format used to generate the log entry, before the message is rendered, is captured in the property `OriginalMessage`.
+The original format used to generate the log entry, before the message is rendered, is captured in the property `OriginalFormat`.
 
 ```csharp
 var log = Assert.Single(loggerFactory.Sink.LogEntries);
@@ -234,14 +234,17 @@ See [LoggingTest](https://github.com/alefranz/MELT/blob/main/samples/current/Sam
 
 ## Compatibility
 
-The `MELT`, `MELT.Serilog`, `MELT.Xunit`, and `MELT.Xunit.v3` packages target
-`netstandard2.0` and require
+The `MELT`, `MELT.Serilog`, `MELT.Xunit`, and `MELT.Xunit.v3` core packages
+target `netstandard2.0` and raise their minimum
 [Microsoft.Extensions.Logging](https://github.com/dotnet/extensions/tree/main/src/Logging)
-10.0.0 or later (`MELT.Serilog` also requires `Serilog` 4.2.0 and
-`Serilog.Extensions.Logging` 10.0.0 or later). They are actively supported for
-applications targeting .NET 10 and .NET 11. .NET Framework 4.7.2+ is best-effort
-compatibility for these core packages when using Microsoft.Extensions 10.0.0 or
-later and is not covered by CI.
+dependency floor to `10.0.0` (`MELT.Serilog` also requires `Serilog` 4.2.0 and
+`Serilog.Extensions.Logging` 10.0.0 or later). They are actively supported and
+CI-validated for applications targeting .NET 10 and .NET 11. Because these core
+packages target `netstandard2.0`, other `netstandard2.0`-compatible runtimes
+(such as .NET 8, .NET 9, or .NET Framework 4.7.2+) are not necessarily
+technically incompatible if your application can resolve
+`Microsoft.Extensions.*` 10.0.0 or later, though those runtimes are unsupported
+and not covered by CI.
 
 `MELT.Xunit.v3` supports xUnit.net v3 framework versions 3.x and 4.x. Its
 minimum `xunit.v3.assert` dependency remains 3.0.1, and dedicated samples run
@@ -249,17 +252,20 @@ the same MELT assertions against both framework lines. Projects using xUnit
 4.x should choose the xUnit package variant appropriate for their runner; MELT
 does not require Microsoft Testing Platform or VSTest specifically.
 
-The ASP.NET Core helper packages target `net10.0` and use the modern ASP.NET
-Core testing stack (`Microsoft.AspNetCore.Mvc.Testing` 10.0.0 or later). They
-are validated on both .NET 10 and .NET 11 applications; MELT v2 does not
-support the legacy ASP.NET Core 2.1 helper dependencies.
+By contrast, the ASP.NET Core helper packages (`MELT.AspNetCore` and
+`MELT.Serilog.AspNetCore`) directly target `net10.0` and use the modern ASP.NET
+Core testing stack (`Microsoft.AspNetCore.Mvc.Testing` 10.0.0 or later), so
+they strictly require .NET 10 or later. They are validated on both .NET 10 and
+.NET 11 applications; MELT v2 does not support the legacy ASP.NET Core 2.1
+helper dependencies.
 
-Use the MELT 1.x legacy release line (latest: 1.1.0) for Microsoft.Extensions
-versions earlier than 10.0 (including .NET 8/9 or classic .NET Framework
-applications pinned to older Extensions packages), Serilog 3.x, the legacy
-ASP.NET Core helper stack, or APIs removed in v2. A .NET Framework 4.7.2+
-application that can use Microsoft.Extensions 10.0.0 or later can instead use
-the v2 core packages on a best-effort basis.
+Use the MELT 1.x legacy release line (latest: 1.1.0) if your application must
+remain on Microsoft.Extensions versions earlier than 10.0 (including .NET 8/9
+or classic .NET Framework applications pinned to older Extensions packages),
+Serilog 3.x, the legacy ASP.NET Core helper stack, or APIs removed in v2. Other
+`netstandard2.0`-compatible runtimes (such as .NET 8, .NET 9, or .NET Framework
+4.7.2+) that can upgrade to Microsoft.Extensions 10.0.0 or later can use the v2
+core packages on an unsupported, best-effort basis without CI coverage.
 
 ### Sample runtime matrix
 

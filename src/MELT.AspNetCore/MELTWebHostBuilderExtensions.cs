@@ -12,6 +12,9 @@ namespace Microsoft.AspNetCore.Hosting
         /// <summary>
         /// Adds a default test logger that collect logs.
         /// </summary>
+        /// <remarks>
+        /// Repeated calls replace the previous MELT test logger provider and sink registration so that the latest configuration takes effect.
+        /// </remarks>
         /// <param name="builder">The <see cref="IWebHostBuilder"/> to add the test logger to.</param>
         /// <returns>A reference to the <paramref name="builder"/> after the operation has completed.</returns>
         public static IWebHostBuilder UseTestLogging(this IWebHostBuilder builder)
@@ -20,6 +23,9 @@ namespace Microsoft.AspNetCore.Hosting
         /// <summary>
         /// Adds a configured test logger that collect logs.
         /// </summary>
+        /// <remarks>
+        /// Repeated calls replace the previous MELT test logger provider and sink registration so that the latest configuration takes effect.
+        /// </remarks>
         /// <param name="builder">The <see cref="IWebHostBuilder"/> to add the test logger to.</param>
         /// <param name="configure">A delegate used to configure the <see cref="TestLoggerOptions"/>.</param>
         /// <returns>A reference to the <paramref name="builder"/> after the operation has completed.</returns>

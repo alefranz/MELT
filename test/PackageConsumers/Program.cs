@@ -115,6 +115,11 @@ using (var factory = baseFactory.WithWebHostBuilder(builder =>
     response.EnsureSuccessStatusCode();
 
     var sink = factory.GetTestLoggerSink();
+    if (!factory.TryGetTestLoggerSink(out var trySink) || !ReferenceEquals(sink, trySink))
+    {
+        throw new InvalidOperationException("MELT.AspNetCore TryGetTestLoggerSink did not return the registered sink.");
+    }
+
     var entry = sink.LogEntries.SingleOrDefault()
         ?? throw new InvalidOperationException("MELT.AspNetCore did not capture an HTTP request log entry.");
     if (entry.Message != "Handled /")
@@ -150,8 +155,17 @@ using (var factory = baseFactory.WithWebHostBuilder(builder =>
         response.EnsureSuccessStatusCode();
 
         var sink = factory.GetSerilogTestLoggerSink();
+        if (!factory.TryGetSerilogTestLoggerSink(out var trySerilogSink) || trySerilogSink is null)
+        {
+            throw new InvalidOperationException("MELT.Serilog.AspNetCore TryGetSerilogTestLoggerSink did not return a sink.");
+        }
+
         var entry = sink.LogEntries.SingleOrDefault()
             ?? throw new InvalidOperationException("MELT.Serilog.AspNetCore did not capture an HTTP request log entry.");
+        if (!trySerilogSink.LogEntries.Any())
+        {
+            throw new InvalidOperationException("MELT.Serilog.AspNetCore TryGetSerilogTestLoggerSink did not expose captured entries.");
+        }
         if (entry.Message != "Handled \"/serilog\"")
         {
             throw new InvalidOperationException($"Unexpected Serilog ASP.NET Core log message: {entry.Message}");

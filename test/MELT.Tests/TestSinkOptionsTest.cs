@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using A.B;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -253,14 +254,26 @@ namespace MELT.Tests
             using var provider = services.BuildServiceProvider();
             var factory = provider.GetRequiredService<ILoggerFactory>();
             var sink = provider.GetRequiredService<ITestLoggerSink>();
+            var firstLogger = factory.CreateLogger("First");
+            var secondLogger = factory.CreateLogger("Second");
 
             // Act
-            factory.CreateLogger("First").LogInformation("From first");
-            factory.CreateLogger("Second").LogInformation("From second");
+            using (firstLogger.BeginScope("Scope from first"))
+            {
+                firstLogger.LogInformation("From first");
+            }
+
+            using (secondLogger.BeginScope("Scope from second"))
+            {
+                secondLogger.LogInformation("From second");
+            }
 
             // Assert
+            Assert.Single(provider.GetServices<ILoggerProvider>().OfType<TestLoggerProvider>());
             var entry = Assert.Single(sink.LogEntries);
             Assert.Equal("From second", entry.Message);
+            var scope = Assert.Single(sink.Scopes);
+            Assert.Equal("Scope from second", scope.Message);
         }
     }
 }

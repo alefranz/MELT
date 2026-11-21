@@ -11,9 +11,13 @@ applications targeting .NET 10 or later and using
 Upgrade to v2 if your application targets .NET 10 or later (actively supported
 and validated on .NET 10 and .NET 11) and can use the Microsoft.Extensions
 10.0 dependency line. The core packages (`MELT`, `MELT.Serilog`, `MELT.Xunit`,
-and `MELT.Xunit.v3`) still ship `netstandard2.0` assets. .NET Framework 4.7.2+
-remains best-effort compatible for these core packages when paired with
-Microsoft.Extensions 10.0.0 or later, but is not covered by CI.
+and `MELT.Xunit.v3`) still ship `netstandard2.0` assets: an unsupported runtime
+(such as .NET 8, .NET 9, or .NET Framework 4.7.2+) is not necessarily
+technically incompatible with these core packages when paired with
+`Microsoft.Extensions.*` 10.0.0 or later, though it is outside MELT v2's
+active support policy and CI coverage. By contrast, `MELT.AspNetCore` and
+`MELT.Serilog.AspNetCore` target `net10.0` and strictly require .NET 10 or
+later.
 
 Stay on the MELT 1.x legacy release line (latest: 1.1.0) if your application
 must remain on Microsoft.Extensions packages earlier than 10.0 (including .NET 8
@@ -38,23 +42,32 @@ failures easier to diagnose:
    as `ITestSink` is removed in v2.
 3. **Verify the test suite still passes on 1.x.**
 4. **Upgrade all MELT packages together to v2 and update framework and dependency baselines:**
-   - Target .NET 10 or later (including ASP.NET Core integration tests, where
-     `MELT.AspNetCore` and `MELT.Serilog.AspNetCore` target `net10.0` and
-     require `Microsoft.AspNetCore.Mvc.Testing` 10.0.0 or later).
+   - Target .NET 10 or later for actively supported runtimes. For ASP.NET Core
+     integration tests, `MELT.AspNetCore` and `MELT.Serilog.AspNetCore`
+     directly target `net10.0` (requiring `Microsoft.AspNetCore.Mvc.Testing`
+     10.0.0 or later) and strictly require .NET 10 or later. (The core
+     `netstandard2.0` packages do not impose a TFM block on other
+     `netstandard2.0`-compatible runtimes that can use `Microsoft.Extensions.*`
+     10.0.0+, though only .NET 10 and .NET 11 are supported and CI-tested.)
    - Update direct `Microsoft.Extensions.*` package references in the test
      project to `10.0.0` or later. A project that separately references
      `Microsoft.Extensions.Logging.Abstractions` should also reference a
      matching or newer `Microsoft.Extensions.Logging` package.
    - If using `MELT.Serilog` or `MELT.Serilog.AspNetCore`, update `Serilog` to
      `4.2.0` or later and `Serilog.Extensions.Logging` to `10.0.0` or later.
+   - If using `MELT.Serilog.AspNetCore`, rename any calls from
+     `TryGetTestLoggerSink(out ISerilogTestLoggerSink?)` to
+     `TryGetSerilogTestLoggerSink(out ISerilogTestLoggerSink?)`.
    - Run the test suite on v2.
 
-## Removed APIs and replacements
+## Removed or renamed APIs and replacements
 
 All APIs marked `[Obsolete]` in MELT 1.x—along with `TestLogger(string, ITestSink)`,
-whose `ITestSink` parameter type was removed—have been removed in MELT v2:
+whose `ITestSink` parameter type was removed—have been removed in MELT v2, and
+the Serilog `TryGetTestLoggerSink` extension has been renamed for symmetry with
+`GetSerilogTestLoggerSink`:
 
-| Removed API in v2 | Replacement |
+| Removed or renamed API in v2 | Replacement |
 | --- | --- |
 | `MELT.ITestSink` | `MELT.ITestLoggerSink` |
 | `MELT.IInternalTestSink` | Removed (internal capture store; use `ITestLoggerSink`) |
@@ -73,6 +86,7 @@ whose `ITestSink` parameter type was removed—have been removed in MELT v2:
 | `MELTWebHostBuilderExtensions.UseTestLogging(IWebHostBuilder, ITestSink)` | `MELTWebHostBuilderExtensions.UseTestLogging(IWebHostBuilder)` / `UseTestLogging(IWebHostBuilder, Action<TestLoggerOptions>)` and `GetTestLoggerSink()` |
 | `MELTWebApplicationFactoryExtensions.TryGetTestSink(...)` | `MELTWebApplicationFactoryExtensions.TryGetTestLoggerSink(...)` |
 | `MELTWebApplicationFactoryExtensions.GetTestSink(...)` | `MELTWebApplicationFactoryExtensions.GetTestLoggerSink(...)` |
+| `MELTSerilogWebApplicationFactoryExtensions.TryGetTestLoggerSink(...)` *(renamed in v2)* | `MELTSerilogWebApplicationFactoryExtensions.TryGetSerilogTestLoggerSink(...)` |
 | `LogEntry.Format` | `LogEntry.OriginalFormat` |
 | `LogEntry.Scope` | `LogEntry.Scopes` |
 | `SerilogLogEntry(WriteContext)` | Created internally by `MELT.Serilog` and accessed through `ISerilogTestLoggerSink.LogEntries` |

@@ -13,6 +13,10 @@ namespace Microsoft.Extensions.Logging
         /// <summary>
         /// Adds a test logger provider to the specified <see cref="ILoggingBuilder"/> with default options.
         /// </summary>
+        /// <remarks>
+        /// Calling <c>AddTest</c> again replaces any previously registered MELT <see cref="TestLoggerProvider"/> and
+        /// <see cref="ITestLoggerSink"/> so that the latest configuration takes effect.
+        /// </remarks>
         /// <param name="builder">The <see cref="ILoggingBuilder"/> to add the provider to.</param>
         /// <returns>The <see cref="ILoggingBuilder"/> for chaining.</returns>
         public static ILoggingBuilder AddTest(this ILoggingBuilder builder)
@@ -21,6 +25,10 @@ namespace Microsoft.Extensions.Logging
         /// <summary>
         /// Adds a test logger provider to the specified <see cref="ILoggingBuilder"/> with custom configuration options.
         /// </summary>
+        /// <remarks>
+        /// Calling <c>AddTest</c> again replaces any previously registered MELT <see cref="TestLoggerProvider"/> and
+        /// <see cref="ITestLoggerSink"/> so that the latest configuration takes effect.
+        /// </remarks>
         /// <param name="builder">The <see cref="ILoggingBuilder"/> to add the provider to.</param>
         /// <param name="configure">An action to configure the <see cref="TestLoggerOptions"/>.</param>
         /// <returns>The <see cref="ILoggingBuilder"/> for chaining.</returns>

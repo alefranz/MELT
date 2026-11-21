@@ -12,6 +12,11 @@ namespace Microsoft.Extensions.Logging
         /// <summary>
         /// Adds a provider for testing logs with the Serilog behaviour to the <see cref="ILoggingBuilder"/>
         /// </summary>
+        /// <remarks>
+        /// Calling <c>AddSerilogTest</c> again, or mixing it with <see cref="MELTLoggingBuilderExtensions.AddTest(ILoggingBuilder)"/>,
+        /// replaces any previously registered MELT <see cref="TestLoggerProvider"/> and underlying sink so that the latest
+        /// configuration takes effect for both <see cref="ITestLoggerSink"/> and <see cref="ISerilogTestLoggerSink"/>.
+        /// </remarks>
         /// <param name="builder">The <see cref="ILoggingBuilder"/> to add it to.</param>
         /// <returns>The <see cref="ILoggingBuilder"/> so that additional calls can be chained.</returns>
         public static ILoggingBuilder AddSerilogTest(this ILoggingBuilder builder)
@@ -20,6 +25,11 @@ namespace Microsoft.Extensions.Logging
         /// <summary>
         /// Adds a provider for testing logs with the Serilog behaviour to the <see cref="ILoggingBuilder"/>
         /// </summary>
+        /// <remarks>
+        /// Calling <c>AddSerilogTest</c> again, or mixing it with <see cref="MELTLoggingBuilderExtensions.AddTest(ILoggingBuilder)"/>,
+        /// replaces any previously registered MELT <see cref="TestLoggerProvider"/> and underlying sink so that the latest
+        /// configuration takes effect for both <see cref="ITestLoggerSink"/> and <see cref="ISerilogTestLoggerSink"/>.
+        /// </remarks>
         /// <param name="builder">The <see cref="ILoggingBuilder"/> to add it to.</param>
         /// <param name="configure">The delegate to configure the <see cref="TestLoggerOptions"/>.</param>
         /// <returns>The <see cref="ILoggingBuilder"/> so that additional calls can be chained.</returns>
