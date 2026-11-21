@@ -29,12 +29,12 @@ namespace Microsoft.AspNetCore.Mvc.Testing
         /// <typeparam name="TStartup">The type of the <see cref="WebApplicationFactory{TStartup}"/>.</typeparam>
         /// <param name="factory">The <see cref="WebApplicationFactory{TStartup}"/> used in the current test.</param>
         /// <param name="loggerSink">The <see cref="ISerilogTestLoggerSink"/> which is capturing logs, if configured.</param>
-        /// <returns>True if the the <see cref="WebApplicationFactory{TStartup}"/> has been configured to use the test logger using builder.UseSerilogTestLogging()
+        /// <returns>True if the <see cref="WebApplicationFactory{TStartup}"/> has been configured to use the test logger using builder.UseSerilogTestLogging()
         /// or builder.ConfigureLogging(logging => logging.AddSerilogTest()).</returns>
-        public static bool TryGetTestLoggerSink<TStartup>(this WebApplicationFactory<TStartup> factory, out ISerilogTestLoggerSink? loggerSink)
+        public static bool TryGetSerilogTestLoggerSink<TStartup>(this WebApplicationFactory<TStartup> factory, out ISerilogTestLoggerSink? loggerSink)
             where TStartup : class
         {
-            if (MELTWebApplicationFactoryExtensions.TryGetServices(factory, out var services))
+            if (MELTWebApplicationFactoryExtensions.TryGetServices(factory, out var services) && services != null)
             {
                 loggerSink = services.GetService<ISerilogTestLoggerSink>();
                 return loggerSink != null;

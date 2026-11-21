@@ -1,0 +1,17 @@
+site_name: MELT
+site_description: Testing library for Microsoft.Extensions.Logging
+site_url: https://alefranz.github.io/MELT/
+repo_url: https://github.com/alefranz/MELT
+repo_name: alefranz/MELT
+exclude_docs: package-readme.md
+
+theme:
+  name: material
+  logo: assets/logo_large.png
+  favicon: assets/logo_large.png
+
+nav:
+  - Home: index.md
+  - Guide: guide.md
+  - Migrate to v2: MIGRATION-v2.md
+  - v2 release notes: RELEASE-NOTES-v2.md

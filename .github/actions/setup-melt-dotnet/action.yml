@@ -1,0 +1,17 @@
+name: Set up MELT .NET validation matrix
+description: Installs and reports the SDKs and runtimes used by MELT validation.
+
+runs:
+  using: composite
+  steps:
+    - name: Install .NET 10 and .NET 11 SDKs
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: |
+          10.0.x
+          11.0.x
+    - name: Report installed .NET SDKs and runtimes
+      shell: bash
+      run: |
+        dotnet --list-sdks
+        dotnet --list-runtimes

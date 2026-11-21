@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace MELT
@@ -8,29 +7,25 @@ namespace MELT
     /// </summary>
     public class BeginScope : IScope
     {
-#pragma warning disable CS0612 // Type or member is obsolete
-        private readonly BeginScopeContext _scope;
-#pragma warning restore CS0612 // Type or member is obsolete
+        private readonly object? _scope;
         private string? _format;
-        private static readonly KeyValuePair<string, object>[] _emptyProperties = new KeyValuePair<string, object>[0];
 
-#pragma warning disable CS0612 // Type or member is obsolete
-        internal BeginScope(BeginScopeContext scope)
-#pragma warning restore CS0612 // Type or member is obsolete
+        internal BeginScope(string loggerName, object? scope)
         {
+            LoggerName = loggerName;
             _scope = scope;
         }
 
         /// <summary>
         /// Gets the name of the logger associated with this scope.
         /// </summary>
-        public string? LoggerName => _scope.LoggerName;
+        public string? LoggerName { get; }
 
         /// <inheritdoc/>
-        public string? Message => _scope.Scope?.ToString();
+        public string? Message => _scope?.ToString();
 
         /// <inheritdoc/>
-        public IEnumerable<KeyValuePair<string, object>> Properties => _scope.Scope as IEnumerable<KeyValuePair<string, object>> ?? _emptyProperties;
+        public IEnumerable<KeyValuePair<string, object>> Properties => _scope as IEnumerable<KeyValuePair<string, object>> ?? Constants.EmptyProperties;
 
         /// <summary>
         /// The original format of the message for this log entry.

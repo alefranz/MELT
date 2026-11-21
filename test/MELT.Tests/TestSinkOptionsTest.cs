@@ -1,5 +1,7 @@
-using System.Collections.Immutable;
+using System;
+using System.Linq;
 using A.B;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Xunit;
 
@@ -25,7 +27,7 @@ namespace MELT.Tests
 
             // Assert
             Assert.NotNull(options.WriteEnabled);
-            Assert.Equal(enabled, options.WriteEnabled!(new WriteContext(logLevel, 0, null, null, null, string.Empty, string.Empty, System.Array.Empty<IScope>())));
+            Assert.Equal(enabled, options.WriteEnabled!(new LogEntry(logLevel, 0, null, null, string.Empty, string.Empty, Array.Empty<Scope>())));
         }
 
         [Theory]
@@ -43,7 +45,7 @@ namespace MELT.Tests
 
             // Assert
             Assert.NotNull(options.WriteEnabled);
-            Assert.Equal(enabled, options.WriteEnabled!(new WriteContext(0, 0, null, null, null, loggerName, string.Empty, System.Array.Empty<IScope>())));
+            Assert.Equal(enabled, options.WriteEnabled!(new LogEntry(0, 0, null, null, loggerName, string.Empty, Array.Empty<Scope>())));
         }
 
         [Theory]
@@ -61,7 +63,7 @@ namespace MELT.Tests
 
             // Assert
             Assert.NotNull(options.BeginEnabled);
-            Assert.Equal(enabled, options.BeginEnabled!(new BeginScopeContext(loggerName, null)));
+            Assert.Equal(enabled, options.BeginEnabled!(new BeginScope(loggerName, null)));
         }
 
         [Theory]
@@ -79,7 +81,7 @@ namespace MELT.Tests
 
             // Assert
             Assert.NotNull(options.WriteEnabled);
-            Assert.Equal(enabled, options.WriteEnabled!(new WriteContext(0, 0, null, null, null, loggerName, string.Empty, System.Array.Empty<IScope>())));
+            Assert.Equal(enabled, options.WriteEnabled!(new LogEntry(0, 0, null, null, loggerName, string.Empty, Array.Empty<Scope>())));
         }
 
         [Theory]
@@ -97,7 +99,7 @@ namespace MELT.Tests
 
             // Assert
             Assert.NotNull(options.BeginEnabled);
-            Assert.Equal(enabled, options.BeginEnabled!(new BeginScopeContext(loggerName, null)));
+            Assert.Equal(enabled, options.BeginEnabled!(new BeginScope(loggerName, null)));
         }
 
         [Theory]
@@ -115,7 +117,7 @@ namespace MELT.Tests
 
             // Assert
             Assert.NotNull(options.WriteEnabled);
-            Assert.Equal(enabled, options.WriteEnabled!(new WriteContext(0, 0, null, null, null, loggerName, string.Empty, System.Array.Empty<IScope>())));
+            Assert.Equal(enabled, options.WriteEnabled!(new LogEntry(0, 0, null, null, loggerName, string.Empty, Array.Empty<Scope>())));
         }
 
         [Theory]
@@ -133,7 +135,145 @@ namespace MELT.Tests
 
             // Assert
             Assert.NotNull(options.BeginEnabled);
-            Assert.Equal(enabled, options.BeginEnabled!(new BeginScopeContext(loggerName, null)));
+            Assert.Equal(enabled, options.BeginEnabled!(new BeginScope(loggerName, null)));
+        }
+
+        [Fact]
+        public void EndToEndFiltering_ShouldApplyChainedFiltersToEntriesAndScopes()
+        {
+            // Arrange
+            using var loggerFactory = TestLoggerFactory.Create(options => options
+                .FilterByNamespace("A.B")
+                .FilterByMinimumLevel(LogLevel.Warning));
+            var matchingLogger = loggerFactory.CreateLogger<C>();
+            var otherLogger = loggerFactory.CreateLogger("Other.Logger");
+
+            // Act
+            using (otherLogger.BeginScope("Ignored scope"))
+            {
+                otherLogger.LogError("Ignored error");
+            }
+
+            using (matchingLogger.BeginScope("Captured scope"))
+            {
+                matchingLogger.LogInformation("Ignored info");
+                matchingLogger.LogWarning("Captured warning {value}", 42);
+            }
+
+            // Assert
+            var scope = Assert.Single(loggerFactory.Sink.Scopes);
+            Assert.Equal("Captured scope", scope.Message);
+            Assert.Equal(typeof(C).FullName, scope.LoggerName);
+
+            var entry = Assert.Single(loggerFactory.Sink.LogEntries);
+            Assert.Equal("Captured warning 42", entry.Message);
+            Assert.Equal("Captured warning {value}", entry.OriginalFormat);
+            Assert.Equal(LogLevel.Warning, entry.LogLevel);
+            var entryScope = Assert.Single(entry.Scopes);
+            Assert.Equal("Captured scope", entryScope.Message);
+        }
+
+        [Fact]
+        public void Clear_ShouldRemoveCapturedEntriesAndScopes_AndAllowSubsequentCapture()
+        {
+            // Arrange
+            using var loggerFactory = TestLoggerFactory.Create();
+            var logger = loggerFactory.CreateLogger("Test");
+
+            using (logger.BeginScope("Scope 1"))
+            {
+                logger.LogInformation("Message 1");
+            }
+
+            // Act
+            loggerFactory.Sink.Clear();
+
+            // Assert
+            Assert.Empty(loggerFactory.Sink.LogEntries);
+            Assert.Empty(loggerFactory.Sink.Scopes);
+
+            using (logger.BeginScope("Scope 2"))
+            {
+                logger.LogInformation("Message 2");
+            }
+
+            var entry = Assert.Single(loggerFactory.Sink.LogEntries);
+            Assert.Equal("Message 2", entry.Message);
+            var scope = Assert.Single(loggerFactory.Sink.Scopes);
+            Assert.Equal("Scope 2", scope.Message);
+        }
+
+        [Fact]
+        public void TestLoggerProvider_ParameterlessConstructor_ShouldCaptureAndClear()
+        {
+            // Arrange
+            using var provider = new TestLoggerProvider();
+            var logger = provider.CreateLogger("Direct");
+
+            // Act
+            using (logger.BeginScope("Direct scope"))
+            {
+                logger.LogInformation("Direct message");
+            }
+
+            // Assert
+            var entry = Assert.Single(provider.Sink.LogEntries);
+            Assert.Equal("Direct", entry.LoggerName);
+            Assert.Equal("Direct message", entry.Message);
+            var entryScope = Assert.Single(entry.Scopes);
+            Assert.Equal("Direct scope", entryScope.Message);
+
+            var scope = Assert.Single(provider.Sink.Scopes);
+            Assert.Equal("Direct scope", scope.Message);
+
+            provider.Sink.Clear();
+            Assert.Empty(provider.Sink.LogEntries);
+            Assert.Empty(provider.Sink.Scopes);
+        }
+
+        [Fact]
+        public void GetTestLoggerSink_ShouldReturnSinkForTestLoggerFactory_AndThrowForOtherFactories()
+        {
+            // Arrange
+            using var testFactory = TestLoggerFactory.Create();
+            using var standardFactory = LoggerFactory.Create(_ => { });
+
+            // Act & Assert
+            Assert.Same(testFactory.Sink, testFactory.GetTestLoggerSink());
+            Assert.Throws<ArgumentException>(() => standardFactory.GetTestLoggerSink());
+        }
+
+        [Fact]
+        public void AddTest_CalledTwice_ShouldReplacePreviousRegistration()
+        {
+            // Arrange
+            var services = new ServiceCollection();
+            services.AddLogging(builder => builder.AddTest(options => options.FilterByLoggerName("First")));
+            services.AddLogging(builder => builder.AddTest(options => options.FilterByLoggerName("Second")));
+
+            using var provider = services.BuildServiceProvider();
+            var factory = provider.GetRequiredService<ILoggerFactory>();
+            var sink = provider.GetRequiredService<ITestLoggerSink>();
+            var firstLogger = factory.CreateLogger("First");
+            var secondLogger = factory.CreateLogger("Second");
+
+            // Act
+            using (firstLogger.BeginScope("Scope from first"))
+            {
+                firstLogger.LogInformation("From first");
+            }
+
+            using (secondLogger.BeginScope("Scope from second"))
+            {
+                secondLogger.LogInformation("From second");
+            }
+
+            // Assert
+            Assert.Single(provider.GetServices<ILoggerProvider>().OfType<TestLoggerProvider>());
+            var entry = Assert.Single(sink.LogEntries);
+            Assert.Equal("From second", entry.Message);
+            var scope = Assert.Single(sink.Scopes);
+            Assert.Equal("Scope from second", scope.Message);
         }
     }
 }

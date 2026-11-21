@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Extensions.Logging;
 
 namespace MELT
@@ -10,40 +9,50 @@ namespace MELT
     /// </summary>
     public class LogEntry
     {
-#pragma warning disable CS0612 // Type or member is obsolete
-        private readonly WriteContext _entry;
         private string? _format;
 
-        internal LogEntry(WriteContext entry)
+        internal LogEntry(
+            LogLevel logLevel,
+            EventId eventId,
+            object? state,
+            Exception? exception,
+            string loggerName,
+            string? message,
+            IReadOnlyList<Scope> scopes)
         {
-            _entry = entry;
-            Properties = _entry.State as IReadOnlyList<KeyValuePair<string, object>> ?? Constants.EmptyProperties;
+            LogLevel = logLevel;
+            EventId = eventId;
+            Exception = exception;
+            LoggerName = loggerName;
+            Message = message;
+            Properties = state as IReadOnlyList<KeyValuePair<string, object>> ?? Constants.EmptyProperties;
+            Scopes = scopes;
         }
 
         /// <summary>
         /// Id of this log entry.
         /// </summary>
-        public EventId EventId => _entry.EventId;
+        public EventId EventId { get; }
 
         /// <summary>
         /// Exception included in this log entry. Null if there was no exception.
         /// </summary>
-        public Exception? Exception => _entry.Exception;
+        public Exception? Exception { get; }
 
         /// <summary>
         /// The name of the logger which captured this log entry.
         /// </summary>
-        public string LoggerName => _entry.LoggerName;
+        public string LoggerName { get; }
 
         /// <summary>
         /// The level used for this log entry.
         /// </summary>
-        public LogLevel LogLevel => _entry.LogLevel;
+        public LogLevel LogLevel { get; }
 
         /// <summary>
         /// The formatted message for this log entry.
         /// </summary>
-        public string? Message => _entry.Message;
+        public string? Message { get; }
 
         /// <summary>
         /// The properties included in this log entry.
@@ -56,21 +65,8 @@ namespace MELT
         public string OriginalFormat => _format ??= Properties.GetOriginalFormat();
 
         /// <summary>
-        /// The format string for this log entry. Prefer using <see cref="OriginalFormat"/>.
-        /// </summary>
-        [Obsolete("The preferred alternative is " + nameof(OriginalFormat) + ".")]
-        public string Format => OriginalFormat;
-
-        /// <summary>
-        /// The inner scope for this log entry.
-        /// </summary>
-        [Obsolete("The recommended alternative is " + nameof(Scopes) + ".")]
-        public Scope Scope => new Scope(_entry.Scope);
-#pragma warning restore CS0612 // Type or member is obsolete
-
-        /// <summary>
         /// The scopes for this log entry.
         /// </summary>
-        public IEnumerable<Scope> Scopes => _entry.Scopes.Select(s => new Scope(s));
+        public IEnumerable<Scope> Scopes { get; }
     }
 }

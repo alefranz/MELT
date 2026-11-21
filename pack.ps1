@@ -20,3 +20,4 @@ if (Test-Path -Path $artifactsPath) {
 New-Item -Path $artifactsPath -ItemType directory > $null
 
 dotnet pack -c Release -o $artifactsPath -p:Version=$Version -p:GITHUB_ACTIONS=true
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

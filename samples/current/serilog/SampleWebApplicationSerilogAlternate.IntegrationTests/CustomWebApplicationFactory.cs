@@ -26,10 +26,12 @@ namespace SampleWebApplicationSerilogAlternate.IntegrationTests
 
         protected override void Dispose(bool disposing)
         {
-            if (true)
+            if (disposing)
             {
                 Log.CloseAndFlush();
             }
+
+            base.Dispose(disposing);
         }
     }
 }
