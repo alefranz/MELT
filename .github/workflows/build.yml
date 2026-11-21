@@ -85,8 +85,12 @@ jobs:
       if: github.event_name == 'workflow_dispatch'
       run: |
         mkdir ./dry-run-feed
-        dotnet nuget push ./artifacts/*.nupkg --source ./dry-run-feed --skip-duplicate
-        find ./dry-run-feed -type f -name '*.nupkg' -print | grep -q .
+        dotnet nuget push "./artifacts/*.nupkg" --source "$PWD/dry-run-feed" --skip-duplicate
+        expected=$(find ./artifacts -maxdepth 1 -type f -name '*.nupkg' | wc -l)
+        pushed=$(find ./dry-run-feed -type f -name '*.nupkg' | sort)
+        printf '%s\n' "$pushed"
+        actual=$(printf '%s\n' "$pushed" | sed '/^$/d' | wc -l)
+        test "$expected" -gt 0 && test "$actual" -eq "$expected"
     - name: Publish packages
       if: github.event_name == 'push'
-      run: dotnet nuget push ./artifacts/*.nupkg --source nuget.org --api-key ${{secrets.NUGET_TOKEN}} --skip-duplicate
+      run: dotnet nuget push "./artifacts/*.nupkg" --source nuget.org --api-key "${{ secrets.NUGET_TOKEN }}" --skip-duplicate
