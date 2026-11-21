@@ -23,10 +23,10 @@ v2](MIGRATION-v2.md).
     <PackageReference Include="MELT" Version="2.0.0" />
     ```
 
-    > Note: MELT v2 requires `Microsoft.Extensions.Logging` 8.0.0 or later. If your project pins `Microsoft.Extensions.Logging.Abstractions` separately, include a matching or newer `Microsoft.Extensions.Logging` reference in the test project:
+    > Note: MELT v2 requires `Microsoft.Extensions.Logging` 10.0.0 or later. If your project pins `Microsoft.Extensions.Logging.Abstractions` separately, include a matching or newer `Microsoft.Extensions.Logging` reference in the test project:
     >
     > ```xml
-    > <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+    > <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.0" />
     > ```
 
 - Get a test logger factory
@@ -237,9 +237,11 @@ See [LoggingTest](https://github.com/alefranz/MELT/blob/main/samples/current/Sam
 The `MELT`, `MELT.Serilog`, `MELT.Xunit`, and `MELT.Xunit.v3` packages target
 `netstandard2.0` and require
 [Microsoft.Extensions.Logging](https://github.com/dotnet/extensions/tree/main/src/Logging)
-8.0.0 or later. They are actively supported for applications targeting .NET 8,
-.NET 9, and .NET 10. .NET Framework 4.7.2 is best-effort compatibility for these core
-packages and is not covered by CI.
+10.0.0 or later (`MELT.Serilog` also requires `Serilog` 4.2.0 and
+`Serilog.Extensions.Logging` 10.0.0 or later). They are actively supported for
+applications targeting .NET 10 and .NET 11. .NET Framework 4.7.2+ is best-effort
+compatibility for these core packages when using Microsoft.Extensions 10.0.0 or
+later and is not covered by CI.
 
 `MELT.Xunit.v3` supports xUnit.net v3 framework versions 3.x and 4.x. Its
 minimum `xunit.v3.assert` dependency remains 3.0.1, and dedicated samples run
@@ -247,40 +249,38 @@ the same MELT assertions against both framework lines. Projects using xUnit
 4.x should choose the xUnit package variant appropriate for their runner; MELT
 does not require Microsoft Testing Platform or VSTest specifically.
 
-The ASP.NET Core helper packages target .NET 8 and .NET 10. They use the
-corresponding modern ASP.NET Core testing stacks; MELT v2 does not support the
-legacy ASP.NET Core 2.1 helper dependencies.
+The ASP.NET Core helper packages target `net10.0` and use the modern ASP.NET
+Core testing stack (`Microsoft.AspNetCore.Mvc.Testing` 10.0.0 or later). They
+are validated on both .NET 10 and .NET 11 applications; MELT v2 does not
+support the legacy ASP.NET Core 2.1 helper dependencies.
 
 Use the MELT 1.x legacy release line (latest: 1.1.0) for Microsoft.Extensions
-versions earlier than 8.0, including classic .NET Framework applications pinned
-to older Extensions packages, or for the legacy ASP.NET Core helper stack. A
-.NET Framework 4.7.2 application that can use Microsoft.Extensions 8.0.0 or
-later can instead use the v2 core packages on a best-effort basis.
+versions earlier than 10.0 (including .NET 8/9 or classic .NET Framework
+applications pinned to older Extensions packages), Serilog 3.x, the legacy
+ASP.NET Core helper stack, or APIs removed in v2. A .NET Framework 4.7.2+
+application that can use Microsoft.Extensions 10.0.0 or later can instead use
+the v2 core packages on a best-effort basis.
 
 ### Sample runtime matrix
 
-The core packages retain a `netstandard2.0` asset. Dedicated .NET 8 samples
-validate the minimum supported dependency baseline, while the default samples
-and core test suites run on .NET 10:
+The default samples and test suites run on .NET 10, while packed-package
+consumer tests validate both .NET 10 and .NET 11:
 
-- [.NET 8 core package sample](https://github.com/alefranz/MELT/tree/main/samples/current/SampleLibrary.Net8.Tests)
-- [.NET 8 ASP.NET Core sample](https://github.com/alefranz/MELT/tree/main/samples/current/SampleWebApplication.Net8.IntegrationTests)
-- [.NET 9 ASP.NET Core sample](https://github.com/alefranz/MELT/tree/main/samples/current/SampleWebApplication.Net9.IntegrationTests)
+- [Core library sample](https://github.com/alefranz/MELT/tree/main/samples/current/SampleLibrary.Tests)
+- [ASP.NET Core integration sample](https://github.com/alefranz/MELT/tree/main/samples/current/SampleWebApplication.IntegrationTests)
+- [xUnit.net v2 latest sample](https://github.com/alefranz/MELT/tree/main/samples/xunit-2-latest/SampleLibraryX.Tests)
 - [xUnit.net v3 sample](https://github.com/alefranz/MELT/tree/main/samples/xunit-3/SampleLibraryX3.Tests)
 - [xUnit.net v4 sample](https://github.com/alefranz/MELT/tree/main/samples/xunit-4/SampleLibraryXunit4.Tests)
-
-The explicitly named .NET 8 and .NET 9 web samples are compatibility variants;
-they are not the default target.
 
 ### MELT v2 migration and release notes
 
 MELT v2 is the current release line. Applications using a Microsoft.Extensions
-dependency line earlier than 8.0, including classic .NET Framework applications
-pinned to older Extensions packages, or legacy ASP.NET Core helpers, should use
-the MELT 1.x legacy release line (latest: 1.1.0). See the [v2 migration
+dependency line earlier than 10.0, Serilog 3.x, legacy ASP.NET Core helpers,
+or removed 1.x APIs should use the MELT 1.x legacy release line (latest: 1.1.0).
+See the [v2 migration
 guide](https://github.com/alefranz/MELT/blob/main/docs/MIGRATION-v2.md) and
 [v2 release notes](https://github.com/alefranz/MELT/blob/main/docs/RELEASE-NOTES-v2.md)
-for the breaking support-policy change.
+for the breaking support-policy and API changes.
 
 ## Serilog compatibility using Serilog.Extensions.Logging
 
@@ -288,10 +288,10 @@ If you are using [Serilog.Extensions.Logging](https://github.com/serilog/serilog
 
 Follow the main instructions: using Serilog as the provider does not alter MELT's behaviour.
 
-The `SampleWebApplicationSerilog` sample pins the supported Serilog `3.1.1`
-and Serilog.Extensions.Logging `8.0.0` minimum. The
-`SampleWebApplicationSerilogAlternate` sample pins Serilog `4.4.0` to
-validate the current major line.
+The `SampleWebApplicationSerilog` sample pins the supported Serilog `4.2.0`
+and Serilog.Extensions.Logging `10.0.0` minimum. The
+`SampleWebApplicationSerilogAlternate` sample pins Serilog `4.4.0` and
+Serilog.AspNetCore `10.0.0` to validate the current major line.
 
 ### Full example
 

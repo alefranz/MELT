@@ -44,22 +44,24 @@ Please refer to the documentation for examples and compatibility details.
 
 ## MELT v2 support policy
 
-MELT v2 is the current line for applications using
-`Microsoft.Extensions.Logging` 8.0.0 or later. The core packages target
-`netstandard2.0` and are actively supported on .NET 8, .NET 9, and .NET 10.
-The ASP.NET Core helper packages target .NET 8 and .NET 10.
+MELT v2 is the current line for applications targeting .NET 10 or later and
+using `Microsoft.Extensions.Logging` 10.0.0 or later (`MELT.Serilog` requires
+`Serilog` 4.2.0 and `Serilog.Extensions.Logging` 10.0.0 or later). The core
+packages target `netstandard2.0` and are actively supported on .NET 10 and
+.NET 11. The ASP.NET Core helper packages target `net10.0` and are validated on
+both .NET 10 and .NET 11.
 
 `MELT.Xunit.v3` supports xUnit.net v3 framework versions 3.x and 4.x. MELT
 keeps `xunit.v3.assert` 3.0.1 as its minimum dependency and validates the same
 logging assertions against both framework lines.
 
 Use the MELT 1.x legacy release line (latest: 1.1.0) if your application must
-remain on a Microsoft.Extensions dependency line earlier than 8.0, including
-classic .NET Framework applications pinned to older Extensions packages, or
-uses the legacy ASP.NET Core helper stack. .NET Framework 4.7.2 applications
-that can use Microsoft.Extensions 8.0.0 or later can instead use the v2 core
-packages on a best-effort basis. See the [v2 migration
-guide](docs/MIGRATION-v2.md) before upgrading.
+remain on a Microsoft.Extensions dependency line earlier than 10.0 (including
+.NET 8/9 or classic .NET Framework applications pinned to older Extensions
+packages), Serilog 3.x, the legacy ASP.NET Core helper stack, or APIs removed
+in v2. .NET Framework 4.7.2+ applications that can use Microsoft.Extensions
+10.0.0 or later can instead use the v2 core packages on a best-effort basis.
+See the [v2 migration guide](docs/MIGRATION-v2.md) before upgrading.
 
 ## Dependency maintenance
 
@@ -70,9 +72,9 @@ manageable.
 This library does not commit NuGet lock files. Direct package references specify
 exact versions, while normal restore intentionally exercises each supported
 target's transitive dependency resolution. The regular pull-request workflow,
-including Dependabot pull requests, runs the same named .NET 8, .NET 9, and
-.NET 10 validation job as other changes. That shared job installs and reports
-the complete SDK and runtime matrix before formatting, building, and testing.
+including Dependabot pull requests, runs the `.NET 10 and .NET 11` validation
+build, packs all packages, audits direct and transitive dependencies, and
+exercises packed package consumers on .NET 10 and .NET 11.
 
 Dependabot does not update consumer-facing package references. Their versions
 define MELT's compatibility floors, so changes to them require a deliberate

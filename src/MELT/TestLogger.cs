@@ -2,44 +2,45 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using Microsoft.Extensions.Logging;
 
 namespace MELT
 {
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    /// <summary>
+    /// An <see cref="ILogger"/> implementation that captures log messages and scopes in a <see cref="TestLoggerSink"/>.
+    /// </summary>
     public class TestLogger : ILogger
     {
-#pragma warning disable CS0612 // Type or member is obsolete
-        private readonly ITestSink _sink;
-
+        private readonly TestLoggerSink _sink;
         private readonly AsyncLocal<TestScope?> _currentScope = new AsyncLocal<TestScope?>();
 
-        public TestLogger(string name, ITestSink sink)
+        internal TestLogger(string name, TestLoggerSink sink)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             _sink = sink ?? throw new ArgumentNullException(nameof(sink));
         }
-#pragma warning restore CS0612 // Type or member is obsolete
 
+        /// <summary>
+        /// Gets the category name of this logger.
+        /// </summary>
         public string Name { get; }
 
+        /// <inheritdoc/>
         public IDisposable? BeginScope<TState>(TState state)
             where TState : notnull
         {
-#pragma warning disable CS0612 // Type or member is obsolete
-            _sink.BeginScope(new BeginScopeContext(Name, state));
+            _sink.BeginScope(new BeginScope(Name, state));
 
             var parent = _currentScope.Value;
             var newScope = new TestScope(this, state, parent);
             _currentScope.Value = newScope;
 
             return newScope;
-#pragma warning restore CS0612 // Type or member is obsolete
         }
 
+        /// <inheritdoc/>
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
         {
             if (!IsEnabled(logLevel))
@@ -53,25 +54,35 @@ namespace MELT
 
             var scopes = GetScopes();
 
-#pragma warning disable CS0612 // Type or member is obsolete
-            _sink.Write(new WriteContext(logLevel, eventId, state, exception, _currentScope.Value?.State, Name, message, scopes));
-#pragma warning restore CS0612 // Type or member is obsolete
+            _sink.Write(new LogEntry(logLevel, eventId, state, exception, Name, message, scopes));
         }
 
-        private IEnumerable<object?> GetScopes()
+        private IReadOnlyList<Scope> GetScopes()
         {
-            var scopes = new Stack<object?>();
-
-            var scope = _currentScope.Value;
-            while (scope != null)
+            var current = _currentScope.Value;
+            if (current == null)
             {
-                scopes.Push(scope.State);
+                return Array.Empty<Scope>();
+            }
+
+            var count = 0;
+            for (var cursor = current; cursor != null; cursor = cursor.Parent)
+            {
+                count++;
+            }
+
+            var scopes = new Scope[count];
+            var scope = current;
+            for (var i = count - 1; i >= 0; i--)
+            {
+                scopes[i] = new Scope(scope!.State);
                 scope = scope.Parent;
             }
 
             return scopes;
         }
 
+        /// <inheritdoc/>
         public bool IsEnabled(LogLevel logLevel) => logLevel != LogLevel.None;
 
         internal class TestScope : IDisposable
@@ -100,5 +111,4 @@ namespace MELT
             }
         }
     }
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

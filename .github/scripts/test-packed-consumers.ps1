@@ -17,21 +17,15 @@ if ($null -eq $meltPackage -or $meltPackage.Name -notmatch '^MELT\.(?<Version>.+
 $packageVersion = $Matches.Version
 $consumersRoot = Join-Path $PSScriptRoot '../../test/PackageConsumers'
 $consumers = @(
-    @{ Name = 'Consumer.Net8'; Framework = 'net8.0'; Packages = @{
-            'MELT' = 'lib/netstandard2.0/MELT.dll'
-            'MELT.Serilog' = 'lib/netstandard2.0/MELT.Serilog.dll'
-            'MELT.Xunit' = 'lib/netstandard2.0/MELT.Xunit.dll'
-            'MELT.Xunit.v3' = 'lib/netstandard2.0/MELT.Xunit.v3.dll'
-            'MELT.AspNetCore' = 'lib/net8.0/MELT.AspNetCore.dll'
-            'MELT.Serilog.AspNetCore' = 'lib/net8.0/MELT.Serilog.AspNetCore.dll'
-        } }
-    @{ Name = 'Consumer.Net9'; Framework = 'net9.0'; Packages = @{
-            'MELT' = 'lib/netstandard2.0/MELT.dll'
-            'MELT.Serilog' = 'lib/netstandard2.0/MELT.Serilog.dll'
-            'MELT.Xunit' = 'lib/netstandard2.0/MELT.Xunit.dll'
-            'MELT.Xunit.v3' = 'lib/netstandard2.0/MELT.Xunit.v3.dll'
-        } }
     @{ Name = 'Consumer.Net10'; Framework = 'net10.0'; Packages = @{
+            'MELT' = 'lib/netstandard2.0/MELT.dll'
+            'MELT.Serilog' = 'lib/netstandard2.0/MELT.Serilog.dll'
+            'MELT.Xunit' = 'lib/netstandard2.0/MELT.Xunit.dll'
+            'MELT.Xunit.v3' = 'lib/netstandard2.0/MELT.Xunit.v3.dll'
+            'MELT.AspNetCore' = 'lib/net10.0/MELT.AspNetCore.dll'
+            'MELT.Serilog.AspNetCore' = 'lib/net10.0/MELT.Serilog.AspNetCore.dll'
+        } }
+    @{ Name = 'Consumer.Net11'; Framework = 'net11.0'; Packages = @{
             'MELT' = 'lib/netstandard2.0/MELT.dll'
             'MELT.Serilog' = 'lib/netstandard2.0/MELT.Serilog.dll'
             'MELT.Xunit' = 'lib/netstandard2.0/MELT.Xunit.dll'

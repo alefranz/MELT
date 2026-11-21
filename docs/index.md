@@ -12,15 +12,17 @@ ASP.NET Core, Serilog, or NLog when they apply to your test suite.
 
 ## Version 2
 
-MELT v2 requires `Microsoft.Extensions.Logging` 8.0.0 or later. The core
-packages target `netstandard2.0`; active support covers .NET 8, .NET 9, and
-.NET 10.
-The ASP.NET Core helper packages target .NET 8 and .NET 10.
+MELT v2 requires `Microsoft.Extensions.Logging` 10.0.0 or later (`MELT.Serilog`
+requires `Serilog` 4.2.0 and `Serilog.Extensions.Logging` 10.0.0 or later). The
+core packages target `netstandard2.0`; active support covers .NET 10 and
+.NET 11.
+The ASP.NET Core helper packages target `net10.0` and are validated on both
+.NET 10 and .NET 11.
 
-For applications on Microsoft.Extensions versions earlier than 8.0, including
-classic .NET Framework applications pinned to older Extensions packages, or
-the legacy ASP.NET Core helper stack, use the MELT 1.x legacy release line
-(latest: 1.1.0).
+For applications on Microsoft.Extensions versions earlier than 10.0 (including
+.NET 8/9 or classic .NET Framework applications pinned to older Extensions
+packages), Serilog 3.x, the legacy ASP.NET Core helper stack, or APIs removed
+in v2, use the MELT 1.x legacy release line (latest: 1.1.0).
 
 - [Migrate to MELT v2](MIGRATION-v2.md)
 - [MELT v2 release notes](RELEASE-NOTES-v2.md)

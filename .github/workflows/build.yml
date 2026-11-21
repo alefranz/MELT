@@ -20,7 +20,7 @@ on:
 
 jobs:
   validate:
-    name: Validate .NET 8, .NET 9, and .NET 10
+    name: Validate .NET 10 and .NET 11
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -34,7 +34,6 @@ jobs:
   pack:
     runs-on: ubuntu-latest
     needs: validate
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -57,7 +56,6 @@ jobs:
     name: Test packed packages as consumers
     runs-on: ubuntu-latest
     needs: pack
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     steps:
     - name: Checkout
       uses: actions/checkout@v4

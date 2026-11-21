@@ -148,15 +148,6 @@ namespace SampleWebApplicationSerilogAlternate.IntegrationTests
             // Assert
             var log = Assert.Single(_factory.GetSerilogTestLoggerSink().LogEntries);
             // Assert specific parameters in the log entry
-            //StructureValue expected = new StructureValue(new[] {
-            //    new LogEventProperty("foo", new ScalarValue("bar")),
-            //    new LogEventProperty("answer", new ScalarValue(42)),
-            //});
-            //LogValuesAssert.Contains("thing", expected, log);
-
-            // or
-            //LogValuesAssert.Contains("thing", "{ foo: \"bar\", answer: 42 }", log);
-
             var thing = Assert.Single(log.Properties, x => x.Key == "thing");
             var value = Assert.IsType<StructureValue>(thing.Value);
             var foo = Assert.Single(value.Properties, x => x.Name == "foo");

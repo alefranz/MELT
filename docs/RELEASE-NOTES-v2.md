@@ -2,27 +2,56 @@
 
 ## Breaking support-policy change
 
-MELT v2 raises the minimum Microsoft.Extensions.Logging dependency line for
-the core packages to 8.0.0. The `MELT`, `MELT.Serilog`, `MELT.Xunit`, and
-`MELT.Xunit.v3` packages continue to target `netstandard2.0`, and v2 actively
-supports applications targeting .NET 8, .NET 9, and .NET 10. The ASP.NET Core helper
-packages target .NET 8 and .NET 10 and use the matching modern ASP.NET Core
-testing stacks.
+MELT v2 targets the actively supported .NET platform:
 
-This baseline follows the [.NET support policy](https://dotnet.microsoft.com/platform/support/policy/dotnet-core). .NET 8 and .NET 9 are supported through November 10, 2026, and .NET 10 LTS is supported through November 14, 2028. After November 10, 2026, active v2 support will move to .NET 10 and later in a v2 maintenance release.
+- **Minimum actively supported runtime:** .NET 10 (LTS), with validation on
+  both .NET 10 and .NET 11 (STS). Following the
+  [.NET support policy](https://dotnet.microsoft.com/platform/support/policy/dotnet-core),
+  .NET 8 and .NET 9 reached end of support on November 10, 2026 and are not
+  actively supported by MELT v2.
+- **Core packages (`MELT`, `MELT.Serilog`, `MELT.Xunit`, `MELT.Xunit.v3`):**
+  Retain `netstandard2.0` and raise the minimum `Microsoft.Extensions.*`
+  dependency floor (`Microsoft.Extensions.DependencyInjection`,
+  `Microsoft.Extensions.Logging`, and
+  `Microsoft.Extensions.Logging.Abstractions`) to `10.0.0`.
+- **Serilog integration (`MELT.Serilog`):** Raises `Serilog.Extensions.Logging`
+  to `10.0.0` and `Serilog` to `4.2.0`.
+- **ASP.NET Core helpers (`MELT.AspNetCore`, `MELT.Serilog.AspNetCore`):**
+  Target `net10.0` with `Microsoft.AspNetCore.Mvc.Testing` `10.0.0` (validated
+  for both .NET 10 and .NET 11 applications) and remove the legacy ASP.NET Core
+  2.1 helper stack.
+- **xUnit v3/v4 support (`MELT.Xunit.v3`):** Retains `xunit.v3.assert` `3.0.1`
+  as its minimum dependency and is validated with xUnit.net v3 framework
+  versions 3.x and 4.x.
 
-The 8.0 dependency floor establishes initial package compatibility; it is not
-a promise of ongoing active support for .NET 8 or .NET 9 after their support
-ends. Consumers on Microsoft.Extensions versions earlier than 8.0, or on the
-legacy ASP.NET Core helper stack, should use the MELT 1.x legacy release line
-(latest: 1.1.0). This includes classic .NET Framework applications pinned to
-older Microsoft.Extensions packages; .NET Framework 4.7.2 applications that
-can use Microsoft.Extensions 8.0.0 or later may use the v2 core packages on a
-best-effort basis.
+Consumers on earlier `Microsoft.Extensions` versions (including .NET 8/9 or
+classic .NET Framework applications pinned to older Extensions packages),
+Serilog 3.x, or the legacy ASP.NET Core 2.1 helper stack should remain on the
+MELT 1.x legacy release line (latest: `1.1.0`). .NET Framework 4.7.2+
+applications that can use `Microsoft.Extensions` 10.0.0 or later may use the v2
+core `netstandard2.0` packages on a best-effort basis without CI coverage.
 
-`MELT.Xunit.v3` retains `xunit.v3.assert` 3.0.1 as its minimum dependency and
-is validated with xUnit.net v3 framework versions 3.x and 4.x. This allows
-applications to adopt xUnit 4 without forcing existing xUnit 3 users to
-upgrade.
+## Breaking API and sample removals
 
-See [Migrate to MELT v2](MIGRATION-v2.md) for upgrade guidance.
+MELT v2 removes all APIs previously marked `[Obsolete]` in 1.x and consolidates
+log capture around a single internal sink store (`ITestLoggerSink` /
+`ISerilogTestLoggerSink`):
+
+- Removed the legacy sink model (`ITestSink`, `IInternalTestSink`, `TestSink`,
+  `WriteContext`, `BeginScopeContext`, and `MELTBuilder`).
+- Removed `TestLogger(string, ITestSink)` (constructor is now internal; use
+  `TestLoggerFactory.Create(...)` or `new TestLoggerProvider().CreateLogger(string)`).
+- Removed factory, builder, provider, and ASP.NET Core compatibility APIs
+  (`TestLoggerFactory(ITestSink)`, `TestLoggerFactory.LogEntries`/`Scopes`,
+  `ITestLoggerFactory.LogEntries`/`Scopes`, `TestLoggerProvider._sink`,
+  `TestLoggerProvider(ITestSink)`, `AddTestLogger(...)`,
+  `UseTestLogging(IWebHostBuilder, ITestSink)`, `TryGetTestSink`, and
+  `GetTestSink`).
+- Removed singular/legacy entry aliases (`LogEntry.Format`, `LogEntry.Scope`,
+  `SerilogLogEntry(WriteContext)`, and `SerilogLogEntry.Scope`).
+- Removed `MELT.Xunit.LogValuesAssert` in favor of `Xunit.LoggingAssert`.
+- Removed the legacy sample projects under `samples/legacy/` and the
+  .NET 8/.NET 9 compatibility sample projects.
+
+See [Migrate to MELT v2](MIGRATION-v2.md) for the two-stage upgrade guide and
+complete removed-API mapping table.

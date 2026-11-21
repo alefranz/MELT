@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -13,27 +12,6 @@ namespace MELT
         private readonly ILoggerFactory _loggerFactory;
         private readonly ServiceProvider _serviceProvider;
 
-        [Obsolete]
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public TestLoggerFactory(ITestSink sink)
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-        {
-            var serviceCollection = new ServiceCollection();
-            serviceCollection.AddLogging(builder => builder.AddTestLogger(sink));
-            _serviceProvider = serviceCollection.BuildServiceProvider();
-            _loggerFactory = _serviceProvider.GetRequiredService<ILoggerFactory>();
-        }
-
-        [Obsolete]
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public IEnumerable<LogEntry> LogEntries => Sink.LogEntries;
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-
-        [Obsolete]
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public IEnumerable<BeginScope> Scopes => Sink.Scopes;
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-
         private TestLoggerFactory(ILoggerFactory loggerFactory, ServiceProvider serviceProvider)
         {
             _loggerFactory = loggerFactory;
@@ -42,7 +20,7 @@ namespace MELT
             // A consumer can resolve Logging below Logging.Abstractions when it pins packages independently.
             var dependencyVersion = loggerFactory.GetType().Assembly.GetName().Version;
             var abstractionsVersion = typeof(ILoggerFactory).Assembly.GetName().Version;
-            if (dependencyVersion.Major < abstractionsVersion.Major)
+            if (dependencyVersion is not null && abstractionsVersion is not null && dependencyVersion.Major < abstractionsVersion.Major)
             {
                 var version = $"{abstractionsVersion.Major}.{abstractionsVersion.Minor}.x";
                 throw new MissingNuGetPackageException($"\nWhen testing a project which reference\nMicrosoft.Extensions.Logging.Abstractions version {version}\n"

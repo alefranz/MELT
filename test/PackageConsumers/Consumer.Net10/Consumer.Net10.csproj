@@ -4,11 +4,12 @@
     <OutputType>Exe</OutputType>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <DefineConstants>$(DefineConstants);HAS_ASPNETCORE</DefineConstants>
     <RestoreAdditionalProjectSources>$(MeltPackageSource)</RestoreAdditionalProjectSources>
   </PropertyGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
     <PackageReference Include="MELT" Version="$(MeltPackageVersion)" />
     <PackageReference Include="MELT.AspNetCore" Version="$(MeltPackageVersion)" />
     <PackageReference Include="MELT.Serilog" Version="$(MeltPackageVersion)" />

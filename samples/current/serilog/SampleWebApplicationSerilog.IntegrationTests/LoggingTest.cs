@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using MELT.Xunit;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Serilog;
