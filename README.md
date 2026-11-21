@@ -73,8 +73,10 @@ This library does not commit NuGet lock files. Direct package references specify
 exact versions, while normal restore intentionally exercises each supported
 target's transitive dependency resolution. The regular pull-request workflow,
 including Dependabot pull requests, runs the `.NET 10 and .NET 11` validation
-build, packs all packages, audits direct and transitive dependencies, and
-exercises packed package consumers on .NET 10 and .NET 11.
+build, packs all packages, validates public API compatibility against the
+`2.0.0` NuGet baseline via .NET SDK Package Validation, audits direct and
+transitive dependencies, and exercises packed package consumers on .NET 10 and
+.NET 11.
 
 Dependabot does not update consumer-facing package references. Their versions
 define MELT's compatibility floors, so changes to them require a deliberate
